@@ -1,0 +1,184 @@
+/* ============ Проверка произношения через микрофон + озвучка ============
+   Использует встроенный в браузер Web Speech API (бесплатно, без ключей).
+   Распознавание речи поддерживается в Chrome (включая Android). В Safari/iOS
+   распознавание через JS не работает — показываем понятное сообщение.
+   Озвучка (speechSynthesis) работает во всех современных браузерах. */
+const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+const MIC_SUPPORTED = !!SpeechRecognitionCtor;
+const EN_SPEECH_LANG = "en-US";
+
+function normalizeForSpeech(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/[’‘`]/g, "'")
+    .replace(/[.,!?;:"“”()«»]/g, "")
+    .replace(/(^|\s)'+|'+(\s|$)/g, "$1$2")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* ---------- озвучка ---------- */
+let EN_VOICE = null;
+function pickEnglishVoice() {
+  if (!window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices() || [];
+  return (
+    voices.find((v) => v.lang === "en-US" && /Google|Natural|Online/i.test(v.name)) ||
+    voices.find((v) => v.lang === "en-US") ||
+    voices.find((v) => /^en[-_]/i.test(v.lang)) ||
+    null
+  );
+}
+if (window.speechSynthesis) {
+  EN_VOICE = pickEnglishVoice();
+  window.speechSynthesis.onvoiceschanged = () => { EN_VOICE = pickEnglishVoice(); };
+}
+function speakEn(text, rate) {
+  if (!window.speechSynthesis || !text) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text));
+    u.lang = EN_SPEECH_LANG;
+    if (EN_VOICE) u.voice = EN_VOICE;
+    u.rate = rate || 0.95;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function speakButtonHtml(text, extraClass) {
+  return `<button class="speak-btn ${extraClass || ""}" data-text="${escapeHtml(text)}" onclick="event.stopPropagation(); speakEn(this.dataset.text)" title="Прослушать">🔊</button>`;
+}
+
+function micButtonHtml(target, extraClass) {
+  return `<button class="mic-btn ${extraClass || ""}" data-target="${escapeHtml(target)}" onclick="handleMicClick(this)" title="Проверить произношение">🎤</button>`;
+}
+
+/* Микрофон как способ ОТВЕТИТЬ в сессии повторения: распознанная речь
+   вписывается в поле ответа (type-answer-input), а не проверяется сама по себе. */
+function micAnswerButtonHtml(lang) {
+  return `<button class="mic-btn" data-lang="${lang}" onclick="handleAnswerMicClick(this)" title="Ответить голосом">🎤</button>`;
+}
+
+function handleAnswerMicClick(btn) {
+  if (!MIC_SUPPORTED) {
+    alert("Распознавание речи не поддерживается в этом браузере. Открой сайт в Chrome (на Android — работает).");
+    return;
+  }
+  const input = document.getElementById("type-answer-input");
+  if (!input) return;
+  if (micActiveBtn === btn) { stopMic(); return; }
+  if (micActiveBtn) stopMic();
+
+  const rec = new SpeechRecognitionCtor();
+  rec.lang = btn.dataset.lang || EN_SPEECH_LANG;
+  rec.interimResults = false;
+  rec.continuous = false;
+  rec.maxAlternatives = 1;
+
+  micRecognition = rec;
+  micActiveBtn = btn;
+  btn.dataset.state = "listening";
+  btn.textContent = "🔴";
+  btn.classList.add("listening");
+
+  rec.onresult = (e) => {
+    const heard = e.results[0][0].transcript;
+    input.value = heard;
+    input.focus();
+  };
+  rec.onerror = () => { resetMicBtn(btn); };
+  rec.onend = () => { resetMicBtn(btn); };
+  try { rec.start(); } catch (e) { resetMicBtn(btn); }
+}
+
+let micActiveBtn = null;
+let micRecognition = null;
+
+function handleMicClick(btn) {
+  if (!MIC_SUPPORTED) {
+    alert("Распознавание речи не поддерживается в этом браузере. Открой сайт в Chrome (на Android — работает).");
+    return;
+  }
+  if (micActiveBtn === btn) { stopMic(); return; }
+  if (micActiveBtn) stopMic();
+  startMicFor(btn);
+}
+
+function startMicFor(btn) {
+  const target = btn.dataset.target || "";
+  const continuous = target.trim().split(/\s+/).length > 3; // длинный текст — слушаем, пока не остановят
+
+  const rec = new SpeechRecognitionCtor();
+  rec.lang = EN_SPEECH_LANG;
+  rec.interimResults = false;
+  rec.continuous = continuous;
+  rec.maxAlternatives = 1;
+
+  let finalTranscript = "";
+
+  micRecognition = rec;
+  micActiveBtn = btn;
+  btn.dataset.state = "listening";
+  btn.textContent = continuous ? "⏹️" : "🔴";
+  btn.classList.add("listening");
+
+  rec.onresult = (e) => {
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalTranscript += (finalTranscript ? " " : "") + e.results[i][0].transcript;
+    }
+    if (!continuous) {
+      finishMic(btn, target, finalTranscript);
+    }
+  };
+  rec.onerror = () => { resetMicBtn(btn); };
+  rec.onend = () => {
+    if (btn.dataset.state === "listening") {
+      if (continuous && finalTranscript) finishMic(btn, target, finalTranscript);
+      else resetMicBtn(btn);
+    }
+  };
+  try { rec.start(); } catch (e) { resetMicBtn(btn); }
+}
+
+function stopMic() {
+  if (micRecognition) { try { micRecognition.stop(); } catch (e) {} }
+}
+
+function resetMicBtn(btn) {
+  btn.textContent = "🎤";
+  btn.classList.remove("listening");
+  btn.dataset.state = "idle";
+  if (micActiveBtn === btn) { micActiveBtn = null; micRecognition = null; }
+}
+
+/* Убираем из целевой фразы служебные пометки вида «to», «a/an» в начале
+   (в словаре Puzzle English слова записаны как «to consider», «a narrative»). */
+function speechTargetWords(target) {
+  return normalizeForSpeech(target).replace(/^(to|a|an)\s+(?=\S)/, "").split(/\s+/).filter(Boolean);
+}
+
+function scorePronunciation(target, heard) {
+  const t = speechTargetWords(target);
+  const h = new Set(normalizeForSpeech(heard).split(/\s+/).filter(Boolean));
+  if (t.length === 0) return 0;
+  if (t.length === 1) return t[0] && h.has(t[0]) ? 100 : 0;
+  let matched = 0;
+  for (const w of t) if (h.has(w)) matched++;
+  return Math.round((matched / t.length) * 100);
+}
+
+function finishMic(btn, target, heard) {
+  btn.dataset.state = "idle";
+  micActiveBtn = null;
+  micRecognition = null;
+  const pct = scorePronunciation(target, heard);
+  const ok = pct >= 80;
+  btn.textContent = ok ? "✅" : "❌";
+  btn.classList.remove("listening");
+  btn.title = heard
+    ? `Услышано: «${heard}»` + (target.trim().split(/\s+/).length > 1 ? ` (совпадение: ${pct}%)` : "")
+    : "Не расслышал — попробуй ещё раз";
+  if (btn.classList.contains("reader-mic-btn") && typeof window.colorReaderPronunciation === "function") {
+    window.colorReaderPronunciation(target, heard);
+  }
+  setTimeout(() => { if (btn.dataset.state === "idle") { btn.textContent = "🎤"; } }, 2200);
+}

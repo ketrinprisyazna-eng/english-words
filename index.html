@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Английские слова — повторение</title>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<div id="app">
+
+  <div class="topbar">
+    <h1>🇬🇧 Английские слова</h1>
+  </div>
+
+  <!-- ===================== ГЛАВНАЯ ===================== -->
+  <div class="view active" id="view-home">
+    <div class="stats-grid">
+      <div class="stat-card streak"><div class="num">📈 <span id="stat-progress-pct">0%</span></div><div class="label">слов пройдено</div></div>
+      <div class="stat-card today"><div class="num" id="stat-today">0</div><div class="label">повторено сегодня</div></div>
+      <div class="stat-card due"><div class="num" id="stat-due">0</div><div class="label">нужно подучить</div></div>
+      <div class="stat-card total"><div class="num" id="stat-total">0</div><div class="label">всего слов</div></div>
+    </div>
+
+    <div id="home-breakdown"></div>
+
+    <div class="section-title">Направление перевода</div>
+    <div class="filter-row" id="dir-toggle">
+      <div class="filter-chip active" data-dir="en-ru">EN → RU</div>
+      <div class="filter-chip" data-dir="ru-en">RU → EN</div>
+      <div class="filter-chip" data-dir="mixed">Смешанно</div>
+    </div>
+
+    <div class="section-title">Начать сессию повторения</div>
+    <div class="session-buttons">
+      <button class="session-btn" id="btn-15">15<small>слов</small></button>
+      <button class="session-btn" id="btn-25">25<small>слов</small></button>
+      <button class="session-btn" id="btn-40">40<small>слов</small></button>
+    </div>
+
+    <div class="section-title">Аккаунт и синхронизация</div>
+    <div class="card" id="account-box">
+      <div style="font-size:13px;color:var(--muted);">Загрузка...</div>
+    </div>
+
+    <div class="section-title">Настройки</div>
+    <div class="card">
+      <div class="settings-row">
+        <button class="small-btn" id="btn-export">⬇️ Экспорт прогресса</button>
+        <label class="small-btn" style="cursor:pointer;">⬆️ Импорт прогресса
+          <input type="file" id="import-file" accept="application/json" style="display:none;">
+        </label>
+        <button class="small-btn" id="btn-reset" style="color:var(--danger);">Сбросить прогресс</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== СЛОВА ===================== -->
+  <div class="view" id="view-words">
+    <input type="search" id="words-search" placeholder="Поиск слова (английский или русский)...">
+    <div class="filter-row" id="words-filters" style="margin-top:10px;">
+      <div class="filter-chip active" data-f="all">Все</div>
+      <div class="filter-chip" data-f="due">Нужно подучить</div>
+      <div class="filter-chip" data-f="new">Новые</div>
+      <div class="filter-chip" data-f="difficult">Сложные</div>
+      <div class="filter-chip" data-f="mastered">Закреплено</div>
+    </div>
+    <div class="filter-row" id="words-src-filters">
+      <div class="filter-chip active" data-src="all">Все источники</div>
+      <div class="filter-chip" data-src="duo">🦉 Duolingo</div>
+      <div class="filter-chip" data-src="puzzle">🧩 Puzzle English</div>
+    </div>
+    <div style="font-size:12.5px;color:var(--muted);margin-bottom:6px;" id="words-count"></div>
+    <div class="card" id="words-list"></div>
+  </div>
+
+  <!-- ===================== АССОЦИАЦИИ ===================== -->
+  <div class="view" id="view-assoc">
+    <input type="search" id="assoc-search" placeholder="Найти слово, чтобы увидеть ассоциацию...">
+    <div class="section-title">Сложные слова и ассоциации</div>
+    <div id="assoc-list"></div>
+  </div>
+
+  <!-- ===================== ТЕКСТЫ ===================== -->
+  <div class="view" id="view-texts">
+    <div id="texts-generate">
+      <div class="card" id="ai-key-card" style="display:none;">
+        <div class="section-title" style="margin-top:0;">ИИ для генерации текстов</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px;">
+          Нужен бесплатный ключ Google Gemini: открой
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>,
+          войди со своим Google-аккаунтом, нажми «Create API key» и вставь ключ сюда. Ключ хранится только в этом браузере, больше нигде.
+          Можно использовать тот же ключ, что и в приложении с испанскими словами.
+        </div>
+        <input type="text" id="ai-key-input" placeholder="Вставь ключ (AIza...)" autocomplete="off">
+        <button class="small-btn learn-btn" style="margin-top:10px;" onclick="saveAiKey()">Сохранить ключ</button>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin-top:0;">Новый текст</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:8px;">Текст составляется из твоих актуальных слов (включая добавленные сегодня) заново при каждом клике.</div>
+        <div class="filter-row" id="gen-level-toggle">
+          <div class="filter-chip active" data-level="A2" onclick="setGenLevel('A2')">A2</div>
+          <div class="filter-chip" data-level="B1" onclick="setGenLevel('B1')">B1</div>
+          <div class="filter-chip" data-level="B2" onclick="setGenLevel('B2')">B2</div>
+        </div>
+        <div class="filter-row" id="gen-lang-toggle">
+          <div class="filter-chip active" data-lang="en" onclick="setGenLang('en')">Сначала EN</div>
+          <div class="filter-chip" data-lang="ru" onclick="setGenLang('ru')">Сначала RU</div>
+        </div>
+        <button class="reveal-btn" style="margin-top:12px;" onclick="generateNewText()" id="generate-text-btn">🤖 Сгенерировать текст</button>
+        <div style="font-size:11.5px;color:var(--muted);margin-top:8px;" id="ai-key-status"></div>
+      </div>
+      <div class="card" style="margin-top:14px;">
+        <div class="section-title" style="margin-top:0;">Перевести текст</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:8px;">Вставь текст на английском или русском — определю язык и переведу на другой.</div>
+        <textarea id="translate-input" placeholder="Текст на английском или русском..."></textarea>
+        <button class="reveal-btn" style="margin-top:10px;" onclick="translateOwnText()" id="translate-btn">🌐 Перевести</button>
+        <div id="translate-result"></div>
+      </div>
+    </div>
+    <div id="text-reader" class="reader" style="display:none;">
+      <div class="reader-head">
+        <button class="icon-btn" id="reader-back">←</button>
+        <div class="lang-toggle">
+          <button id="lang-en-btn" class="active">EN</button>
+          <button id="lang-ru-btn">RU</button>
+        </div>
+      </div>
+      <h3 id="reader-title" style="margin:6px 0 12px;"></h3>
+      <div class="reader-body" id="reader-body"></div>
+      <div class="word-translate-popup" id="word-translate-popup" style="display:none;"></div>
+      <div class="reader-mic" id="reader-mic"></div>
+      <div class="reader-meta" id="reader-meta"></div>
+      <button class="small-btn learn-btn" style="margin-top:14px;" onclick="toggleReaderTranslation()" id="reader-translate-btn">🌐 Перевести текст</button>
+      <button class="small-btn" style="margin-top:14px;" onclick="speakReaderText()" id="reader-speak-btn">🔊 Прослушать</button>
+      <div class="reader-translate-box" id="reader-translate-box" style="display:none;"></div>
+      <button class="small-btn" style="margin-top:10px;" onclick="regenerateText()">🔄 Другой текст</button>
+    </div>
+  </div>
+
+  <!-- ===================== УРОКИ: DUOLINGO + PUZZLE ENGLISH ===================== -->
+  <div class="view" id="view-duo">
+    <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px;">
+      Слова из Duolingo и Puzzle English, а также конспекты уроков: новые слова (сначала «Изучить», потом «Проверить себя») и грамматические правила с объяснением «почему так».
+    </div>
+    <div id="sources-list"></div>
+    <div class="section-title">Конспекты уроков</div>
+    <div id="duo-list"></div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home"><span class="ico">🏠</span>Главная</button>
+  <button class="nav-btn" id="nav-words"><span class="ico">📚</span>Слова</button>
+  <button class="nav-btn" id="nav-assoc"><span class="ico">🧠</span>Ассоциации</button>
+  <button class="nav-btn" id="nav-texts"><span class="ico">📖</span>Тексты</button>
+  <button class="nav-btn" id="nav-duo"><span class="ico">🦉</span>Уроки</button>
+</div>
+
+<!-- ===================== СЕССИЯ ПОВТОРЕНИЯ (оверлей) ===================== -->
+<div class="session-overlay" id="session-overlay" style="display:none;">
+  <div class="session-top">
+    <button class="close-x" id="session-close">✕</button>
+    <div class="session-progress">
+      <div class="progressbar-outer"><div class="progressbar-inner" id="session-progress-bar" style="width:0%"></div></div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;" id="session-progress-text">0 / 0</div>
+    </div>
+  </div>
+  <div id="flash-area" style="flex:1;display:flex;"></div>
+</div>
+
+<!-- ===================== ВХОД / СИНХРОНИЗАЦИЯ (оверлей) ===================== -->
+<div class="session-overlay" id="login-modal" style="display:none; align-items:center; justify-content:center;">
+  <div class="card" style="max-width:360px; width:100%;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <h3 style="margin:0;font-size:17px;">Вход / регистрация</h3>
+      <button class="icon-btn" id="login-close">✕</button>
+    </div>
+    <div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">
+      Тот же email и пароль, что и в приложении с испанскими словами. Прогресс по английскому хранится отдельно и общий для компьютера и телефона.
+    </div>
+    <input type="text" id="login-email" placeholder="Email" style="margin-bottom:8px;" autocomplete="username">
+    <input type="password" id="login-password" placeholder="Пароль (минимум 6 символов)" style="margin-bottom:10px;" autocomplete="current-password">
+    <div id="login-error" style="color:var(--danger); font-size:12.5px; margin-bottom:10px;"></div>
+    <div class="settings-row">
+      <button class="reveal-btn" id="login-submit" style="flex:1;">Войти</button>
+      <button class="small-btn" id="register-submit" style="flex:1;">Зарегистрироваться</button>
+    </div>
+  </div>
+</div>
+
+<script src="words.js?v=1"></script>
+<script src="assoc.js?v=1"></script>
+<script src="duo.js?v=1"></script>
+<script src="mic.js?v=1"></script>
+<script src="app.js?v=1"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=1"></script>
+<script src="sync.js?v=1"></script>
+</body>
+</html>
