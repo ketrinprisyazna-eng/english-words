@@ -336,3 +336,33 @@ a { color: var(--accent); }
 .word-row > div:first-child { flex: 1; min-width: 0; }
 .word-row .speak-btn { width: 32px; height: 32px; font-size: 14px; }
 .assoc-detail .speak-btn { width: 28px; height: 28px; font-size: 13px; vertical-align: middle; margin-left: 6px; }
+
+/* ===== Правила ===== */
+.bottom-nav .nav-btn { flex: 1; min-width: 0; padding: 6px 2px; font-size: 10.5px; }
+.rule-card { margin-bottom: 12px; padding: 14px; }
+.rule-head { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.rule-icon { font-size: 24px; line-height: 1.2; }
+.rule-title { font-weight: 700; font-size: 15px; }
+.rule-hook { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+.rule-meta { text-align: center; font-weight: 700; color: var(--accent); font-size: 17px; flex-shrink: 0; }
+.rule-meta small { display: block; font-size: 10.5px; font-weight: 500; color: var(--muted); }
+.rule-card.open .rule-hook { color: var(--text); }
+.rule-body { margin-top: 12px; padding: 10px 12px; background: var(--accent-light); border-radius: 12px; font-size: 13.5px; line-height: 1.55; }
+.rule-group { margin-top: 14px; }
+.rule-group-label { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.rule-group-hook { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+.rule-count { font-weight: 500; color: var(--muted); font-size: 12px; }
+.rule-words { display: flex; flex-wrap: wrap; gap: 6px; }
+.rule-word { font-size: 12.5px; background: var(--bg); border: 1px solid var(--border); padding: 4px 9px; border-radius: 999px; cursor: pointer; }
+.rule-word.learning { border-color: var(--accent); }
+.rule-word.mastered { border-color: var(--primary); background: var(--primary-light); }
+.rule-legend { font-size: 11.5px; color: var(--muted); margin-top: 10px; }
+.verb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.verb-table td { padding: 5px 4px; border-bottom: 1px solid var(--border); }
+.verb-table td span { cursor: pointer; color: var(--muted); }
+.verb-table td span.in-dict { color: var(--text); font-weight: 700; background: var(--primary-light); border-radius: 5px; padding: 0 3px; }
+.verb-table td.verb-ru { color: var(--muted); font-size: 12px; text-align: right; }
+.rule-chip { display: inline-block; font-size: 10.5px; color: var(--accent); background: var(--accent-light); border-radius: 6px; padding: 1px 6px; margin: 3px 4px 0 0; cursor: pointer; }
+.rule-hint { margin-top: 12px; padding: 9px 12px; background: var(--accent-light); border-radius: 12px; font-size: 13px; text-align: left; line-height: 1.45; }
+.rule-hint-title { font-weight: 700; color: var(--accent); margin-bottom: 3px; }
+.rule-hint-more { font-size: 11.5px; color: var(--muted); margin-top: 4px; }

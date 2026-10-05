@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Английские слова — повторение</title>
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 <div id="app">
@@ -72,6 +72,13 @@
     </div>
     <div style="font-size:12.5px;color:var(--muted);margin-bottom:6px;" id="words-count"></div>
     <div class="card" id="words-list"></div>
+  </div>
+
+  <!-- ===================== ПРАВИЛА ===================== -->
+  <div class="view" id="view-rules">
+    <input type="search" id="rules-search" placeholder="Найти правило или слово...">
+    <div style="font-size:12.5px;color:var(--muted);margin:10px 0 6px;" id="rules-summary"></div>
+    <div id="rules-list"></div>
   </div>
 
   <!-- ===================== АССОЦИАЦИИ ===================== -->
@@ -153,6 +160,7 @@
 <div class="bottom-nav">
   <button class="nav-btn active" id="nav-home"><span class="ico">🏠</span>Главная</button>
   <button class="nav-btn" id="nav-words"><span class="ico">📚</span>Слова</button>
+  <button class="nav-btn" id="nav-rules"><span class="ico">📐</span>Правила</button>
   <button class="nav-btn" id="nav-assoc"><span class="ico">🧠</span>Ассоциации</button>
   <button class="nav-btn" id="nav-texts"><span class="ico">📖</span>Тексты</button>
   <button class="nav-btn" id="nav-duo"><span class="ico">🦉</span>Уроки</button>
@@ -190,11 +198,12 @@
   </div>
 </div>
 
-<script src="words.js?v=1"></script>
+<script src="words.js?v=2"></script>
 <script src="assoc.js?v=1"></script>
 <script src="duo.js?v=1"></script>
+<script src="rules.js?v=2"></script>
 <script src="mic.js?v=1"></script>
-<script src="app.js?v=1"></script>
+<script src="app.js?v=2"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>

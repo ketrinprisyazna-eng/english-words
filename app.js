@@ -285,7 +285,7 @@ function getAssociation(en, ru) {
 }
 
 /* ============ Навигация ============ */
-const views = ["home", "words", "assoc", "texts", "duo"];
+const views = ["home", "words", "rules", "assoc", "texts", "duo"];
 function showView(name) {
   views.forEach((v) => {
     document.getElementById("view-" + v).classList.toggle("active", v === name);
@@ -296,6 +296,7 @@ function showView(name) {
   if (name === "assoc") renderAssocList();
   if (name === "texts") renderTexts();
   if (name === "duo") renderDuo();
+  if (name === "rules") renderRules();
 }
 
 /* ============ Главная ============ */
@@ -439,6 +440,7 @@ function renderCard() {
         ${!isRuToEn || revealed ? transcriptionHtml(w) : ""}
         ${revealed ? `<div class="ru-word">${escapeHtml(targetText)}</div>` : ""}
         ${feedbackHtml}
+        ${revealed ? ruleHintHtml(w) : ""}
         ${assocHtml}
       </div>
       ${!revealed ? `
@@ -526,6 +528,7 @@ function renderLearnCard() {
         <div class="es-word">${escapeHtml(w.en)}</div>
         ${transcriptionHtml(w)}
         <div class="ru-word">${escapeHtml(w.ru)}</div>
+        ${ruleHintHtml(w)}
         ${assocHtml}
       </div>
       <button class="reveal-btn" onclick="nextCard()">Далее</button>
@@ -576,6 +579,7 @@ function renderWords() {
         <div class="es">${escapeHtml(w.en)}${srcBadgeHtml(w)}</div>
         ${w.tr ? `<div class="transcription">[${escapeHtml(w.tr)}]</div>` : ""}
         <div class="ru">${escapeHtml(w.ru)}</div>
+        ${ruleChipsHtml(w)}
       </div>
       <div class="box-dots">${dots}</div>
       ${speakButtonHtml(w.en)}
@@ -1088,6 +1092,207 @@ function renderDuoDay(day) {
   </div>`;
 }
 
+/* ============ Правила ============ */
+// ключ для сравнения слов словаря с правилами: нижний регистр, без «to/a/an» в начале
+function ruleKey(s) { return String(s).trim().toLowerCase().replace(/[’‘`]/g, "'").replace(/^(to|a|an)\s+(?=\S)/, ""); }
+
+let RULE_INDEX = null; // { byRule: {id: {groups:[{label, words:[w]}], verbRows, words:[w]}}, byWord: {normKey: [ruleId]} }
+function buildRuleIndex() {
+  if (RULE_INDEX) return RULE_INDEX;
+  const byKey = new Map();
+  const byExact = new Map();
+  for (const w of WORDS_DATA) {
+    byExact.set(normKey(w.en), w);
+    const k = ruleKey(w.en);
+    if (!byKey.has(k)) byKey.set(k, w);
+  }
+  const find = (s) => byExact.get(normKey(s)) || byKey.get(ruleKey(s)) || null;
+  const byRule = {};
+  const byWord = {};
+  const addWordRule = (w, id) => {
+    const k = normKey(w.en);
+    if (!byWord[k]) byWord[k] = [];
+    if (!byWord[k].includes(id)) byWord[k].push(id);
+  };
+
+  for (const rule of RULES) {
+    const entry = { groups: [], verbGroups: [], words: [] };
+    const seen = new Set();
+    const take = (w) => { if (!w || seen.has(w.en)) return false; seen.add(w.en); entry.words.push(w); addWordRule(w, rule.id); return true; };
+
+    if (rule.irregular) {
+      // неправильные глаголы: строка таблицы попадает в правило, если в словаре есть хоть одна её форма
+      const formOwner = new Map(); // форма → строка
+      for (const g of IRREGULAR_VERBS) for (const v of g.verbs) {
+        const forms = [v[0], ...v[1].split("/").map((s) => s.trim()), v[2]];
+        for (const f of forms) if (!formOwner.has(f)) formOwner.set(f, v);
+      }
+      const rowWords = new Map(); // строка → [слова словаря]
+      for (const w of WORDS_DATA) {
+        const k = ruleKey(w.en);
+        let row = formOwner.get(k);
+        if (!row) {
+          // «given up», «woke up», «fell down»: первое слово — 2-я/3-я форма неправильного глагола
+          const first = k.split(/\s+/)[0];
+          const r = formOwner.get(first);
+          if (r && first !== r[0] && k.split(/\s+/).length <= 3) row = r;
+        }
+        if (row) { if (!rowWords.has(row)) rowWords.set(row, []); rowWords.get(row).push(w); }
+      }
+      for (const g of IRREGULAR_VERBS) {
+        const rows = g.verbs.filter((v) => rowWords.has(v)).map((v) => ({ verb: v, words: rowWords.get(v) }));
+        if (!rows.length) continue;
+        rows.forEach((r) => r.words.forEach(take));
+        entry.verbGroups.push({ label: g.group, hook: g.hook, rows });
+      }
+    }
+
+    for (const g of rule.groups || []) {
+      const words = [];
+      for (const s of g.words) { const w = find(s); if (w && !words.includes(w)) { words.push(w); take(w); } }
+      entry.groups.push({ label: g.label, words, auto: !!g.auto });
+    }
+
+    if (rule.pattern) {
+      const exclude = new Set((rule.exclude || []).map((s) => s.toLowerCase()));
+      const extra = WORDS_DATA.filter((w) => rule.pattern.test(w.en) && !exclude.has(w.en.toLowerCase()) && !seen.has(w.en));
+      extra.forEach(take);
+      if (extra.length) {
+        const autoGroup = entry.groups.find((g) => g.auto);
+        if (autoGroup) autoGroup.words.push(...extra);
+        else entry.groups.push({ label: "Ещё из твоего словаря", words: extra });
+      }
+    }
+    entry.groups = entry.groups.filter((g) => g.words.length);
+    byRule[rule.id] = entry;
+  }
+  RULE_INDEX = { byRule, byWord };
+  return RULE_INDEX;
+}
+function rulesForWord(w) { return (buildRuleIndex().byWord[normKey(w.en)] || []).map((id) => RULES.find((r) => r.id === id)).filter(Boolean); }
+function ruleShortTitle(rule) { return rule.title.split(":")[0]; }
+function irregularRowFor(w) {
+  const entry = buildRuleIndex().byRule["irregular"];
+  if (!entry) return null;
+  for (const g of entry.verbGroups) for (const r of g.rows) if (r.words.includes(w)) return r.verb;
+  return null;
+}
+function verbFormsHtml(v) {
+  return `<b>${escapeHtml(v[0])}</b> – <b>${escapeHtml(v[1])}</b> – <b>${escapeHtml(v[2])}</b>`;
+}
+// подсказка правила на карточке: первое (главное) правило слова + его запоминалка
+function ruleHintHtml(w) {
+  const rules = rulesForWord(w);
+  if (!rules.length) return "";
+  const rule = rules[0];
+  const v = rule.id === "irregular" ? irregularRowFor(w) : null;
+  const text = v ? `${verbFormsHtml(v)} (${escapeHtml(v[3])})` : escapeHtml(rule.hook);
+  const more = rules.length > 1 ? `<div class="rule-hint-more">Ещё: ${rules.slice(1).map((r) => r.icon + " " + escapeHtml(ruleShortTitle(r))).join(" · ")}</div>` : "";
+  return `<div class="rule-hint"><div class="rule-hint-title">${rule.icon} ${escapeHtml(ruleShortTitle(rule))}</div><div>${text}</div>${more}</div>`;
+}
+function ruleChipsHtml(w) {
+  return rulesForWord(w).map((r) => `<span class="rule-chip" onclick="event.stopPropagation(); openRule('${r.id}')">${r.icon} ${escapeHtml(ruleShortTitle(r))}</span>`).join("");
+}
+
+let openRuleId = null;
+let rulesSearch = "";
+function openRule(id) {
+  openRuleId = id;
+  rulesSearch = "";
+  const input = document.getElementById("rules-search");
+  if (input) input.value = "";
+  showView("rules");
+  const el = document.getElementById("rule-" + id);
+  if (el) el.scrollIntoView({ block: "start" });
+}
+function toggleRule(id) {
+  openRuleId = openRuleId === id ? null : id;
+  renderRules();
+  if (openRuleId) {
+    const el = document.getElementById("rule-" + id);
+    if (el) el.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+}
+function ruleWordsList(id) { return buildRuleIndex().byRule[id].words; }
+function learnRuleWords(id) {
+  const words = ruleWordsList(id);
+  const fresh = words.filter((w) => getProgress(w.en).total === 0);
+  const list = (fresh.length ? fresh : words).slice(0, BATCH_SIZE).map((w) => w.en);
+  startLearnForWords(list);
+}
+function checkRuleWords(id) {
+  const now = Date.now();
+  const words = ruleWordsList(id);
+  const due = words.filter((w) => isDue(getProgress(w.en), now));
+  const list = shuffleArray(due.length ? due : words).slice(0, BATCH_SIZE).map((w) => w.en);
+  startSessionForWords(list);
+}
+function ruleWordChipHtml(w) {
+  const p = getProgress(w.en);
+  const cls = p.box >= 4 ? "mastered" : p.total > 0 ? "learning" : "";
+  return `<span class="rule-word ${cls}" data-text="${escapeHtml(w.en)}" onclick="speakEn(this.dataset.text)" title="${escapeHtml(w.ru)}"><b>${escapeHtml(w.en)}</b> — ${escapeHtml(w.ru)}</span>`;
+}
+function renderRuleBody(rule, entry) {
+  const verbHtml = entry.verbGroups.map((g) => `
+    <div class="rule-group">
+      <div class="rule-group-label">${escapeHtml(g.label)}</div>
+      <div class="rule-group-hook">💡 ${escapeHtml(g.hook)}</div>
+      <table class="verb-table">
+        ${g.rows.map((r) => {
+          const have = new Set(r.words.map((w) => ruleKey(w.en).split(/\s+/)[0]));
+          const cell = (f) => f.split("/").map((x) => x.trim()).map((x) => `<span class="${have.has(x) ? "in-dict" : ""}" data-text="${escapeHtml(x)}" onclick="speakEn(this.dataset.text)">${escapeHtml(x)}</span>`).join(" / ");
+          return `<tr><td>${cell(r.verb[0])}</td><td>${cell(r.verb[1])}</td><td>${cell(r.verb[2])}</td><td class="verb-ru">${escapeHtml(r.verb[3])}</td></tr>`;
+        }).join("")}
+      </table>
+    </div>`).join("");
+  const groupsHtml = entry.groups.map((g) => `
+    <div class="rule-group">
+      <div class="rule-group-label">${escapeHtml(g.label)} <span class="rule-count">${g.words.length}</span></div>
+      <div class="rule-words">${g.words.map(ruleWordChipHtml).join("")}</div>
+    </div>`).join("");
+  return `
+    <div class="rule-body">${escapeHtml(rule.body).replace(/\n/g, "<br>")}</div>
+    ${verbHtml}
+    ${groupsHtml}
+    ${rule.irregular ? `<div class="rule-legend">Выделены формы, которые уже есть в твоём словаре. Нажми на слово — оно прозвучит.</div>` : `<div class="rule-legend">🟢 закреплено · 🔵 учится. Нажми на слово — оно прозвучит.</div>`}
+    <div class="settings-row" style="margin-top:12px;">
+      <button class="small-btn learn-btn" onclick="learnRuleWords('${rule.id}')">📖 Изучить</button>
+      <button class="small-btn" onclick="checkRuleWords('${rule.id}')">✍️ Проверить себя</button>
+    </div>`;
+}
+function renderRules() {
+  const el = document.getElementById("rules-list");
+  if (!el) return;
+  const idx = buildRuleIndex();
+  const q = rulesSearch.trim().toLowerCase();
+  let rules = RULES.filter((r) => idx.byRule[r.id].words.length);
+  if (q) {
+    rules = rules.filter((r) =>
+      r.title.toLowerCase().includes(q) || r.hook.toLowerCase().includes(q) ||
+      idx.byRule[r.id].words.some((w) => w.en.toLowerCase().includes(q) || w.ru.toLowerCase().includes(q)));
+  }
+  const covered = Object.keys(idx.byWord).length;
+  document.getElementById("rules-summary").textContent =
+    `${RULES.length} правил · в них ${covered} из ${WORDS_DATA.length} твоих слов`;
+  if (!rules.length) { el.innerHTML = `<div class="empty-state">Ничего не найдено</div>`; return; }
+  el.innerHTML = rules.map((r) => {
+    const entry = idx.byRule[r.id];
+    const open = openRuleId === r.id || (q && rules.length <= 3);
+    const mastered = entry.words.filter((w) => getProgress(w.en).box >= 4).length;
+    return `<div class="card rule-card ${open ? "open" : ""}" id="rule-${r.id}">
+      <div class="rule-head" onclick="toggleRule('${r.id}')">
+        <div class="rule-icon">${r.icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="rule-title">${escapeHtml(r.title)}</div>
+          <div class="rule-hook">${escapeHtml(r.hook)}</div>
+        </div>
+        <div class="rule-meta">${entry.words.length}<small>слов</small>${mastered ? `<small style="color:var(--primary-dark)">✓ ${mastered}</small>` : ""}</div>
+      </div>
+      ${open ? renderRuleBody(r, entry) : ""}
+    </div>`;
+  }).join("");
+}
+
 /* ============ helpers ============ */
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -1128,6 +1333,7 @@ function resetProgress() {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nav-home").addEventListener("click", () => showView("home"));
   document.getElementById("nav-words").addEventListener("click", () => showView("words"));
+  document.getElementById("nav-rules").addEventListener("click", () => showView("rules"));
   document.getElementById("nav-assoc").addEventListener("click", () => showView("assoc"));
   document.getElementById("nav-texts").addEventListener("click", () => showView("texts"));
   document.getElementById("nav-duo").addEventListener("click", () => showView("duo"));
@@ -1165,6 +1371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     wordsSearch = e.target.value; renderWords();
   });
   document.getElementById("assoc-search").addEventListener("input", renderAssocList);
+  document.getElementById("rules-search").addEventListener("input", (e) => { rulesSearch = e.target.value; renderRules(); });
 
   document.getElementById("lang-en-btn").addEventListener("click", () => setTextLang("en"));
   document.getElementById("lang-ru-btn").addEventListener("click", () => setTextLang("ru"));
