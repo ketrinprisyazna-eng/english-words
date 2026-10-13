@@ -69,7 +69,52 @@ const RULES = [
     hook: "Прошлое = глагол + ED. После T и D слышно «-ИД»: visitED [визитид].",
     body: "kick → kicked [кикт] — после глухих звуков читается «т».\nname → named [неймд] — после звонких «д».\nvisit → visited [визитид] — после t/d «ид».\nПравописание: y → ied (fry → fried, worry → worried); короткое слово удваивает букву (can → canned).",
     groups: [
-      { label: "Из твоего словаря", words: ["kicked", "named", "located", "visited", "expired", "fried", "organized", "allowed", "closed", "involved", "guided", "canned", "dedicated", "employed", "married", "get married", "married to", "grilled", "prepared", "engaged", "advanced", "complicated", "crowded", "whipped cream", "fried", "expired", "be involved in", "an unemployed"] },
+      { label: "Из твоего словаря", words: ["kicked", "named", "located", "visited", "expired", "fried", "organized", "allowed", "closed", "involved", "guided", "canned", "dedicated", "employed", "married", "get married", "married to", "grilled", "prepared", "engaged", "advanced", "complicated", "crowded", "whipped cream", "fried", "expired", "be involved in", "an unemployed", "divorced"] },
+    ],
+  },
+  {
+    id: "present-simple", icon: "🐍", title: "Present Simple: HE / SHE / IT + S",
+    hook: "He, She, It — «змеиный клуб» 🐍: им нужен звук S. He workS, she goES, it haS.",
+    body: "Present Simple — то, что бывает регулярно: I work every day, she works every day.\nДобавляй -S только к he/she/it (и к одному человеку/предмету: my friend dances).\n-ES после s, sh, ch, x, o: goes, does, watches.  Согласная + Y → -IES: try → tries.\nHAVE для he/she/it — HAS: She has a cat.",
+    groups: [
+      { label: "Формы с -S из словаря", words: ["goes", "does", "has", "has got", "doesn't", "is", "is from", "this is"] },
+    ],
+  },
+  {
+    id: "do-does-did", icon: "🙋", title: "DO / DOES / DID — вопросы и «не»",
+    hook: "DO, DOES, DID — «помощники»: забирают себе время и -S, а главный глагол остаётся «голым». Does she like? (не likes), I didn't go (не went).",
+    body: "Вопрос: DO/DOES/DID + кто + глагол: Do you speak? Does he work? Did you see?\nОтрицание: DON'T / DOESN'T / DIDN'T + глагол: I don't know, she doesn't drink, we didn't go.\nС am/is/are, can, will помощник НЕ нужен: Is she here? Can you swim?",
+    groups: [
+      { label: "Помощники", words: ["do", "does", "did", "don't", "doesn't", "didn't", "did not"] },
+      { label: "В готовых фразах", words: ["do you have", "do you need", "do you mind if", "what do you do", "why don't", "don't worry", "I don't think so"] },
+    ],
+  },
+  {
+    id: "continuous", icon: "⏳", title: "Present Continuous: прямо СЕЙЧАС = AM/IS/ARE + -ING",
+    hook: "Сейчас, в процессе = AM/IS/ARE + глагол-ING: I am eating. Без am/is/are -ING не работает (не «I eating»).",
+    body: "I am reading — я читаю (прямо сейчас).  Is he still sleeping? — он ещё спит?\nМаркеры: now, right now, at the moment, still, Look!\nСравни: I work every day (регулярно, Simple) — I am working now (сейчас, Continuous).",
+    groups: [
+      { label: "Маркеры «сейчас»", words: ["now", "right now", "at the moment", "still", "today", "these days"] },
+      { label: "В готовых фразах", words: ["how are you doing", "how's it going", "lying down", "going to"] },
+    ],
+  },
+  {
+    id: "past-simple", icon: "⏮️", title: "Past Simple: прошлое",
+    hook: "Прошлое: правильные +ED, неправильные — 2-я форма. С вопросом и «не» — DID + голый глагол: Did you go? I didn't go.",
+    body: "I watched, she went, they drank.\nBE в прошлом: I / he / she / it — WAS, you / we / they — WERE.  Weren't = were not — «не были».\nHAVE в прошлом — HAD: They had cows — у них БЫЛИ коровы.\nМаркеры: yesterday, last night, last Friday, two days ago, in the past, as a child.",
+    groups: [
+      { label: "Маркеры прошлого", words: ["yesterday", "last night", "last", "ago", "the day before yesterday", "in the past", "as a child", "afterward"] },
+      { label: "WAS / WERE / DID / HAD", words: ["was", "were", "wasn't", "weren't", "there was", "there were", "did", "didn't", "did not", "had"] },
+    ],
+  },
+  {
+    id: "future", icon: "🔮", title: "Будущее: WILL или GOING TO",
+    hook: "WILL — решил прямо сейчас / обещаю / предсказываю (I'll call you!). GOING TO — уже запланировал (I'm going to visit Paris — билеты куплены).",
+    body: "will + голый глагол: I will go, she won't come (won't = will not).\nam/is/are + going to + глагол: We are going to study.\nСокращения: I'll, you'll, it'll.\nМаркеры: tomorrow, next week, soon, in the future.",
+    groups: [
+      { label: "WILL / WON'T / 'LL", words: ["will", "won't", "it'll", "they'll", "we'll", "she'll", "he'll", "you'll"] },
+      { label: "GOING TO и планы", words: ["going to", "to be going to", "be about to", "about to", "plan to", "can't wait"] },
+      { label: "Маркеры будущего", words: ["tomorrow", "tomorrow night", "the day after tomorrow", "next time", "in the future", "soon", "see you soon", "see you tomorrow", "later", "see you later"] },
     ],
   },
   {
@@ -87,6 +132,7 @@ const RULES = [
     groups: [
       { label: "Меняют гласную / форму", words: ["man", "men", "woman", "women", "child", "children", "grandchildren", "foot", "feet", "tooth", "teeth", "mouse", "mice", "person", "people", "salesperson", "salespeople"] },
       { label: "-F → -VES", words: ["knife", "knives", "shelf", "shelves", "leaves", "life", "wife"] },
+      { label: "Не меняются: одна овца — sheep, много — sheep", words: ["sheep", "fish", "deer"] },
       { label: "Всегда во множественном (две половинки)", words: ["pants", "jeans", "shorts", "scissors", "glasses", "sunglasses", "pajamas", "headphones", "tights", "clothes", "stairs", "groceries"] },
     ],
   },
@@ -105,7 +151,7 @@ const RULES = [
   {
     id: "compare", icon: "📏", title: "Сравнение: -ER / -EST и MORE / MOST",
     hook: "Короткое слово — хвостик (-ER, -EST), длинное — «подпорка» (MORE, THE MOST).",
-    body: "big → bigger → the biggest;  near → nearer → the nearest.\nexpensive → more expensive → the most expensive.\n«Чем» = THAN: bigger than me.\nИсключения (как стишок): good-better-best, bad-worse-worst, far-farther-farthest, little-less-least, much/many-more-most.",
+    body: "big → bigger → the biggest;  near → nearer → the nearest.\nexpensive → more expensive → the most expensive.\n«Чем» = THAN: bigger than me.  На -Y: easy → easier → the easiest, funny → funnier.\nПеред -EST всегда THE: the richest man.\nИсключения (как стишок): good-better-best, bad-worse-worst, far-farther-farthest, little-less-least, much/many-more-most.",
     groups: [
       { label: "Исключения", words: ["better", "best", "like best", "best of all", "worse", "worst", "farther", "farthest", "less", "least", "at least", "more", "most", "the most", "more often"] },
       { label: "С хвостиком -ER / -EST", words: ["nearest", "latest", "than"] },
@@ -114,7 +160,7 @@ const RULES = [
   {
     id: "contractions", icon: "✂️", title: "Сокращения: апостроф = съеденная буква",
     hook: "Апостроф (') стоит там, где «съели» букву: do nOt → don't (съели O), I Am → I'm (съели A).",
-    body: "NOT → N'T: isn't, don't, can't. Исключение: will not → WON'T.\nam/is/are → 'M/'S/'RE: I'm, it's, you're.\nwill → 'LL: I'll, it'll.  would → 'D: I'd like.\n'S после имени — «чей»: driver's license (права водителя).",
+    body: "NOT → N'T: isn't, don't, can't. Исключение: will not → WON'T.\nam/is/are → 'M/'S/'RE: I'm, it's, you're.\nwill → 'LL: I'll, it'll.  would → 'D: I'd like.\n'S после имени — «чей»: driver's license (права водителя).\nУ множественного на -s апостроф ставят ПОСЛЕ s: my classmates' scores — баллы одноклассников. А у обычного множественного числа апострофа нет: movies (не movie's)!",
     pattern: /['’]/,
     groups: [
       { label: "NOT → N'T", words: ["isn't", "aren't", "wasn't", "weren't", "don't", "doesn't", "didn't", "haven't", "hasn't", "can't", "couldn't", "shouldn't", "won't", "isn't it", "why don't", "don't care", "don't worry", "don't forget to", "can't wait", "I don't think so"] },
@@ -173,10 +219,10 @@ const RULES = [
     hook: "UP — до конца, OUT — наружу, OFF — прочь/выкл, ON — на/вкл, DOWN — вниз, BACK — назад, AWAY — прочь.",
     body: "Глагол + маленькое слово = новый смысл. Догадаться помогает частица:\nclean UP — убрать ДО КОНЦА,  find OUT — выяснить (вытащить НАРУЖУ),\nturn OFF — выключить,  turn ON — включить,  sit DOWN — сесть ВНИЗ,  throw AWAY — выбросить ПРОЧЬ.",
     groups: [
-      { label: "UP — вверх / до конца", words: ["hurry up", "clean up", "grow up", "stand up", "wake up", "woke up", "give up", "given up", "pick up", "look up", "set up", "sign up", "make up", "follow up", "end up", "hang up", "ramp up", "break up"] },
+      { label: "UP — вверх / до конца", words: ["hurry up", "clean up", "grow up", "stand up", "wake up", "woke up", "give up", "given up", "pick up", "look up", "set up", "sign up", "make up", "follow up", "end up", "hang up", "ramp up", "break up", "hold up"] },
       { label: "OUT — наружу / полностью", words: ["look out", "find out", "fill out", "work out", "take out", "check out", "hang out", "hung out", "go out", "stressed out", "bring out"] },
       { label: "OFF — прочь / выключить", words: ["take off", "turn off", "get off", "fall off", "hop off", "see off", "set off"] },
-      { label: "ON — на / включить", words: ["turn on", "put on", "try on", "get on", "hop on", "click on", "depend on", "settle on", "copy somebody on"] },
+      { label: "ON — на / включить", words: ["turn on", "put on", "try on", "get on", "hop on", "click on", "depend on", "settle on", "copy somebody on", "hang on"] },
       { label: "DOWN — вниз", words: ["sit down", "sat down", "fall down", "fell down", "lie down", "lying down", "write down", "put down", "cut down on"] },
       { label: "BACK — назад,  AWAY — прочь", words: ["come back", "get back", "give back", "throw away", "put away", "get away", "stay away from"] },
       { label: "Другие частицы", words: ["come over", "go over", "carry over", "stop over", "turn in", "check in", "come in", "muscle in", "turn into", "get into", "get along", "get around", "look after", "look for", "look at", "deal with", "put together", "get together", "gotten together", "come from", "leave for"] },
@@ -203,12 +249,13 @@ const RULES = [
   {
     id: "take-have-go", icon: "🚶", title: "TAKE / HAVE / GO + действие",
     hook: "TAKE — «совершить» (take a walk), HAVE — «провести» (have fun), GO + -ING — «пойти заниматься» (go shopping). HOME — без TO!",
-    body: "take a walk — прогуляться, take a nap — вздремнуть, take a bath — принять ванну.\nhave fun — веселиться, have a seat — присесть.\ngo shopping, go swimming, go fishing — активные занятия: go + -ING.\ngo home, get home — без to (home уже значит «домой»).",
+    body: "take a walk — прогуляться, take a nap — вздремнуть, take a bath — принять ванну.\nhave fun — веселиться, have a seat — присесть.\ngo shopping, go swimming, go fishing — активные занятия: go + -ING.\ngo home, get home — без to (home уже значит «домой»). Так же downtown и there: take you downtown, go there.\ntake a class / a course — посещать занятия, проходить курс (не «watch classes»).",
     groups: [
       { label: "TAKE", words: ["take a walk", "take a nap", "take a bath", "take a tour", "take a flight", "take notes", "take care", "take care of"] },
       { label: "HAVE", words: ["have fun", "have a seat", "have a good day", "have a headache"] },
       { label: "GO + -ING", words: ["go shopping", "go swimming", "go fishing"] },
-      { label: "HOME без TO", words: ["go home", "get home", "stay home", "at home", "from home"] },
+      { label: "HOME, DOWNTOWN, THERE — без TO", words: ["go home", "get home", "stay home", "at home", "from home", "downtown", "there", "here"] },
+      { label: "TAKE + занятия: take a class (посещать занятие)", words: ["class", "course", "exam", "lesson"] },
       { label: "GO + TO", words: ["go to", "go to bed", "go to sleep", "go to the bathroom"] },
     ],
   },
@@ -219,7 +266,7 @@ const RULES = [
     groups: [
       { label: "Без TO", words: ["can", "could", "can't", "couldn't", "cannot", "must", "must not", "should", "shouldn't", "may", "might", "will", "won't", "had better", "would like", "would you like"] },
       { label: "С TO", words: ["have to", "need to", "able to", "be able to", "would like to", "would you like to", "want to", "try to", "plan to"] },
-      { label: "Будущее и «раньше»", words: ["going to", "to be going to", "used to", "never used to", "be about to", "about to"] },
+      { label: "Раньше было (а теперь нет)", words: ["used to", "never used to"] },
     ],
   },
   {
@@ -237,18 +284,20 @@ const RULES = [
     groups: [
       { label: "Считаемое", words: ["many", "how many", "too many", "so many", "few", "a few"] },
       { label: "Несчитаемое", words: ["much", "how much", "how much is", "too much", "so much", "very much", "a little", "less"] },
+      { label: "EACH / EVERY + единственное число (every day, не every days)", words: ["each", "every", "every day", "everyone", "everybody", "everything"] },
       { label: "Подходит всегда", words: ["a lot of", "a lot", "lots of", "tons of", "some", "any", "some of", "any of", "all of", "none", "none of", "a bit"] },
     ],
   },
   {
     id: "at-on-in", icon: "🎯", title: "AT / ON / IN — точка, поверхность, внутри",
     hook: "AT — точка 📍 (at 5, at home), ON — поверхность и дни 📅 (on Monday, on TV), IN — внутри и большие отрезки 📦 (in June, in the evening).",
-    body: "Время: at 7 o'clock, at night;  on Monday, on my birthday;  in the morning, in June, in 2020.\nМесто: at home / at work / at school (точка на карте);  on the ground (на поверхности);  in bed, in the mountains (внутри).\nСостояния — тоже IN: in love, in pain, in trouble, in a hurry.",
+    body: "Время: at 7 o'clock, at night;  on Monday, on my birthday;  in the morning, in June, in 2020.\nМесто: at home / at work / at school (точка на карте);  on the ground (на поверхности);  in bed, in the mountains (внутри).\nСостояния — тоже IN: in love, in pain, in trouble, in a hurry.\nТранспорт — BY: by bus, by train (но on foot — пешком). Города и страны — IN: in Spain, in London.",
     groups: [
       { label: "AT — точка", words: ["at home", "at work", "at school", "at night", "at the moment", "at least", "at all"] },
       { label: "ON — поверхность, день, «на чём-то»", words: ["on foot", "on TV", "on stage", "on time", "on the ground", "on vacation", "on sale", "on mute", "on your own"] },
       { label: "IN — внутри, отрезок времени", words: ["in the evening", "in the afternoon", "in the future", "in the past", "in the mountains", "in the rain", "in bed", "in here", "in front of", "in person", "in pairs"] },
       { label: "IN — состояние", words: ["in love", "in pain", "in trouble", "in a hurry", "in contact", "in the loop", "in general"] },
+      { label: "BY — способ и транспорт (by bus, by car), но ON foot", words: ["by", "by hand", "by accident", "on foot"] },
     ],
   },
   {
@@ -278,7 +327,7 @@ const RULES = [
     hook: "Глагол + ER = «тот, кто это делает»: drive → driver, swim → swimmer, teach → teacher. Иногда это прибор: charge → charger.",
     body: "-ER / -OR: driver, actor.  -IST — профессия «по науке»: dentist, artist, tourist.  -IAN: musician, politician, comedian.\nКороткое слово удваивает букву: run → runner, swim → swimmer, win → winner.",
     groups: [
-      { label: "Человек: глагол + ER/OR", words: ["driver", "runner", "painter", "swimmer", "worker", "coworker", "writer", "singer", "player", "teacher", "traveler", "visitor", "beginner", "owner", "waiter", "photographer", "winner", "instructor", "trainer", "robber", "director", "actor", "manager", "speaker", "volunteer", "customer", "server", "passenger", "tutor", "lawyer"] },
+      { label: "Человек: глагол + ER/OR", words: ["driver", "runner", "painter", "swimmer", "worker", "coworker", "writer", "singer", "player", "teacher", "traveler", "visitor", "beginner", "owner", "waiter", "photographer", "winner", "instructor", "trainer", "robber", "director", "actor", "manager", "speaker", "volunteer", "customer", "server", "passenger", "tutor", "lawyer", "barber"] },
       { label: "Прибор: глагол + ER", words: ["charger", "printer", "heater", "mixer", "blender", "freezer", "dishwasher", "computer", "stapler", "eraser", "folder", "binder", "planner", "container", "scooter", "speaker"] },
       { label: "-IST / -IAN", words: ["artist", "dentist", "therapist", "tourist", "receptionist", "musician", "politician", "comedian"] },
     ],
@@ -329,25 +378,27 @@ const RULES = [
   {
     id: "articles", icon: "🅰️", title: "A / AN / THE",
     hook: "A — «какой-то один», THE — «тот самый» (оба знаем какой). AN — перед гласным ЗВУКОМ: an apple, an hour.",
-    body: "a cat — какая-то кошка.  the cat — та самая (наша) кошка.\nAN смотрит на звук, а не на букву: an hour (h молчит), но a university [ю].\nTHE — у единственных в мире: the sun, the moon, the sky, the internet.",
+    body: "a cat — какая-то кошка.  the cat — та самая (наша) кошка.\nAN смотрит на звук, а не на букву: an hour (h молчит), но a university [ю].\nTHE — у единственных в мире: the sun, the moon, the sky, the internet.\nПрофессия — всегда с A: She is a doctor.  A/AN не бывает у множественного (books) и неисчисляемых (water, money).\nСтраны без THE: in Spain, но the United States, the UK.",
     groups: [
       { label: "Сами артикли", words: ["a", "an", "the"] },
+      { label: "A + профессия: I am A teacher (по-русски артикля нет!)", words: ["teacher", "doctor", "nurse", "lawyer", "student", "engineer", "barber", "firefighter", "waiter", "chef", "writer"] },
       { label: "THE — единственный / тот самый", words: ["the sun", "the moon", "the sky", "the internet", "the news", "the truth", "the flu", "the mail", "the rest", "the bar", "the whole time", "the day after tomorrow", "the day before yesterday"] },
     ],
   },
   {
     id: "perfect", icon: "✅", title: "Present Perfect: HAVE + 3-я форма",
     hook: "I HAVE SEEN — «я видел» (важно, ЧТО сделано, а не когда). Маркеры: ever, never, already, yet, just, since.",
-    body: "Have you ever been to London? — Ты когда-нибудь был в Лондоне?\nI have never seen it — я никогда этого не видел.\nhave got = have — «у меня есть» (британский вариант): I've got a car.",
+    body: "Have you ever been to London? — Ты когда-нибудь был в Лондоне?\nI have never seen it — я никогда этого не видел.\nhave got = have — «у меня есть» (британский вариант): I've got a car.\n«Я являюсь … с тех пор» = HAVE BEEN: I've been a reliable employee since I began. Просто I've — это «у меня есть»!\nFOR — сколько времени (for two years), SINCE — с какого момента (since 2020, since I began).",
     groups: [
       { label: "Маркеры", words: ["ever", "never", "already", "yet", "just", "just now", "since", "hardly ever"] },
       { label: "HAVE / HAS", words: ["have", "has", "haven't", "hasn't", "have got", "has got", "been", "been to", "gone", "seen", "done"] },
+      { label: "FOR (сколько) / SINCE (с какого момента)", words: ["for a while", "since", "how long", "already", "yet"] },
     ],
   },
   {
     id: "wh", icon: "❓", title: "Вопросительные слова: всё на WH (кроме HOW)",
     hook: "Что-где-когда-кто-почему начинаются на WH: what, where, when, who, why. HOW — «как» — единственный без W впереди.",
-    body: "HOW + слово = «насколько»: how much/many (сколько), how old (сколько лет), how long (как долго), how often (как часто).\nWHAT + слово = «какой»: what time, what color, what kind of.",
+    body: "HOW + слово = «насколько»: how much/many (сколько), how old (сколько лет), how long (как долго), how often (как часто).\nWHAT + слово = «какой»: what time, what color, what kind of.\nВнутри фразы порядок обычный (без do и перестановки): I know where they are. Do you know what time it is?",
     groups: [
       { label: "WH-", words: ["what", "where", "when", "who", "why", "which", "whose", "who is", "where is"] },
       { label: "HOW + …", words: ["how", "how much", "how many", "how old", "how long", "how often", "how big", "how about", "how about you", "how are you"] },
@@ -404,11 +455,11 @@ const RULES = [
     hook: "Длинное слово — часто два коротких: tooth+brush = зубная щётка, rain+coat = дождевик. Разбей — и перевод готов.",
     body: "Главное слово — второе: a BOOKstore — это store (магазин), какой? — книжный.\nbreak+fast = «прервать пост» → завтрак.  week+end = конец недели → выходные.\n-ACHE = боль: head+ache — головная боль.  GRAND- = через поколение: grand+mother — бабушка, GREAT-GRAND- — прабабушка.",
     groups: [
-      { label: "Дом и вещи", words: ["bedroom", "bathroom", "classroom", "restroom", "living room", "dining room", "backyard", "bookshelf", "toothbrush", "toothpaste", "paintbrush", "keyboard", "whiteboard", "notebook", "textbook", "workbook", "cookbook", "suitcase", "backpack", "sunglasses", "headphones", "raincoat", "swimsuit", "wheelchair", "earring", "firework", "campfire", "snowboard", "skateboard", "football", "basketball", "baseball", "volleyball", "playground", "newspaper", "postcard", "password", "website", "webcam", "inbox", "online", "dishwasher", "teaspoon", "cupcake", "cheeseburger", "seafood", "homework", "housework"] },
+      { label: "Дом и вещи", words: ["bedroom", "bathroom", "classroom", "restroom", "living room", "dining room", "backyard", "bookshelf", "toothbrush", "toothpaste", "paintbrush", "keyboard", "whiteboard", "notebook", "textbook", "workbook", "cookbook", "suitcase", "backpack", "sunglasses", "headphones", "raincoat", "swimsuit", "wheelchair", "earring", "firework", "campfire", "snowboard", "skateboard", "football", "basketball", "baseball", "volleyball", "playground", "newspaper", "postcard", "password", "website", "webcam", "inbox", "online", "dishwasher", "teaspoon", "cupcake", "cheeseburger", "seafood", "homework", "housework", "haircut", "underwear", "checkout", "baby clothes"] },
       { label: "Время и места", words: ["weekend", "weekday", "birthday", "afternoon", "midnight", "tonight", "lunchtime", "sunset", "sunscreen", "thunderstorm", "highway", "crosswalk", "downtown", "downstairs", "upstairs", "hometown", "bookstore", "airport", "airplane", "airline", "deadline", "breakfast", "goodbye"] },
       { label: "-ACHE = боль", words: ["headache", "toothache", "stomachache", "have a headache"] },
       { label: "GRAND- / GREAT-GRAND- — поколения", words: ["grandmother", "grandfather", "grandparents", "grandson", "granddaughter", "grandchildren", "grandma", "grandpa", "great-grandmother", "great-grandparent"] },
-      { label: "Люди и чувства", words: ["boyfriend", "girlfriend", "businessman", "businesswoman", "coworker", "classmate", "roommate", "homesick", "feedback", "highlight", "underline"] },
+      { label: "Люди и чувства", words: ["firefighter", "boyfriend", "girlfriend", "businessman", "businesswoman", "coworker", "classmate", "roommate", "homesick", "feedback", "highlight", "underline"] },
     ],
   },
   {
@@ -438,6 +489,103 @@ const RULES = [
     body: "paint → painting (картина), build → building (здание), meet → meeting (встреча), end → ending (концовка), feel → feeling (чувство).\nНемая E исчезает: shave → shaving.  Короткое слово удваивает букву: begin → beginNing.",
     groups: [
       { label: "Из твоего словаря", words: ["drawing", "painting", "building", "apartment building", "meeting", "ending", "beginning", "feeling", "writing", "meaning", "cycling", "sightseeing", "clothing", "shaving", "engineering", "a storing", "including"] },
+    ],
+  },
+  {
+    id: "verb-to-ing", icon: "🎯", title: "Глагол + TO или + -ING",
+    hook: "Смотрю в БУДУЩЕЕ (хочу, планирую, решил, надеюсь) → TO. Говорю про сам ПРОЦЕСС (наслаждаюсь, заканчиваю, избегаю) → -ING.",
+    body: "want TO go, need TO pay, plan TO travel, forget TO buy, remember TO call.\nenjoy readING, finish workING, avoid eatING, mind waitING.\nlike / love / hate / start / begin — можно и так, и так: I like to swim = I like swimming.\nПосле предлога — всегда -ING: good at swimming, thanks for coming.",
+    groups: [
+      { label: "+ TO (будущее, цель)", words: ["want", "want to", "need", "need to", "would like to", "would you like to", "plan to", "try to", "decide", "hope", "agree", "forget", "don't forget to", "remember", "learn", "happy to", "able to"] },
+      { label: "+ -ING (процесс)", words: ["enjoy", "finish", "avoid", "suggest", "practice", "do you mind if", "keep"] },
+      { label: "Можно и так, и так", words: ["like", "like to", "love", "love to", "hate", "begin", "start", "continue", "stop"] },
+    ],
+  },
+  {
+    id: "adverb-position", icon: "📌", title: "Где стоят ALWAYS, USUALLY, NEVER и ENOUGH",
+    hook: "ALWAYS / USUALLY / NEVER — перед глаголом, но после AM/IS/ARE: I always eat / I am always late. ENOUGH — после прилагательного (big enough), TOO — перед (too big).",
+    body: "She usually eats here.  He is never late.  They have just finished.\nENOUGH — «достаточно»: The oven isn't big enough.  Но с существительным — перед: enough money.\nTOO — «слишком»: too hot, too much, too many.  too + прилагательное + to = слишком…, чтобы: too kind to hurt anybody.",
+    groups: [
+      { label: "Как часто? (перед глаголом)", words: ["always", "usually", "often", "sometimes", "never", "normally", "regularly", "hardly ever", "ever", "already", "just", "also"] },
+      { label: "ENOUGH / TOO", words: ["enough", "too", "way too", "too much", "too many"] },
+    ],
+  },
+  {
+    id: "be-required", icon: "🧍", title: "Глагол BE там, где в русском пусто",
+    hook: "По-русски «Я учитель», «Я на работе», «Мне 20» — без глагола. По-английски глагол обязателен: I AM a teacher, I AM at work, I AM 20 years old.",
+    body: "I am, you are, he/she/it is, we/they are.  Сокращения: I'm, you're, she's.\nВозраст — через BE: I'm 30 years old (не «I have 30»).\nСостояния — тоже BE: I am hungry (мне есть хочется), I am cold (мне холодно), I am afraid (мне страшно).",
+    groups: [
+      { label: "Формы BE", words: ["am", "is", "are", "be", "I'm good", "it's", "they're", "we're", "you're"] },
+      { label: "Где по-русски глагола нет", words: ["years old", "how old", "hungry", "thirsty", "afraid", "ready", "at work", "at home", "it's cold", "it's hot"] },
+    ],
+  },
+  {
+    id: "see-watch-look", icon: "👀", title: "SEE, LOOK или WATCH",
+    hook: "SEE — вижу (глаза сами), LOOK AT — смотрю НА (направил взгляд), WATCH — смотрю, как что-то идёт (фильм, матч, ТВ). Со звуком так же: HEAR — слышу, LISTEN TO — слушаю.",
+    body: "I see a bird. — Я вижу птицу.  Look at me! — Посмотри на меня!\nWe watched movies last Friday. — Мы смотрели фильмы (не «saw films»).\nLOOK + прилагательное = «выглядеть»: These pants look great on me.",
+    groups: [
+      { label: "Видеть и смотреть", words: ["see", "saw", "seen", "look", "look at", "watch", "look for", "look after", "look up", "look out"] },
+      { label: "Слышать и слушать", words: ["hear", "heard", "listen", "listen to"] },
+    ],
+  },
+  {
+    id: "other", icon: "➗", title: "ANOTHER, OTHER, OTHERS, THE OTHER",
+    hook: "ANOTHER = AN + OTHER — «ещё один» (любой). THE OTHER — «тот, второй» (из двух). OTHERS — «другие» (без существительного).",
+    body: "Can I have another cup? — Можно ещё чашку?\nOne hand… the other hand — одна рука… другая рука.\nother people = others — другие люди.  each other — друг друга.",
+    groups: [
+      { label: "Из словаря", words: ["another", "other", "others", "each other", "on the other hand"] },
+    ],
+  },
+  {
+    id: "linking", icon: "🪢", title: "Слова-связки: но, поэтому, потом, кроме того",
+    hook: "Связки склеивают фразы в рассказ: BUT — но, SO — поэтому, BECAUSE — потому что, THEN — потом, ALSO — также.",
+    body: "I was tired, SO I went to bed.  I went to bed BECAUSE I was tired.\nBECAUSE + целая фраза, BECAUSE OF + слово: because of the rain.\nПорядок событий: first → then → later / afterward → finally.\nIN SPITE OF + слово (несмотря на), ALTHOUGH + фраза (хотя).",
+    groups: [
+      { label: "Но / хотя", words: ["but", "although", "however", "though", "in spite of", "nevertheless", "whereas", "on the other hand", "instead", "instead of", "except", "except that"] },
+      { label: "Поэтому / потому что / чтобы", words: ["so", "because", "because of", "in order to", "in case", "if"] },
+      { label: "Порядок: сначала → потом", words: ["first of all", "then", "later", "afterward", "finally", "before", "after", "while", "until", "until then", "since"] },
+      { label: "Добавить: ещё, кстати", words: ["also", "as well", "besides", "actually", "by the way", "anyway", "for example", "such as", "beyond that", "not to mention"] },
+    ],
+  },
+  {
+    id: "relative", icon: "👆", title: "WHO, WHICH, THAT, WHOSE = «который»",
+    hook: "«Который» тройной: WHO — о людях, WHICH — о вещах, THAT — подходит всегда. WHOSE — «чей».",
+    body: "The man WHO lives here… — Человек, который здесь живёт…\nThe book WHICH / THAT I read… — Книга, которую я прочитал…\nWHATEVER — «всё, что» / «что угодно»: She reads whatever he writes.",
+    groups: [
+      { label: "Из словаря", words: ["who", "which", "that", "whose", "whatever", "where"] },
+    ],
+  },
+  {
+    id: "tag-questions", icon: "🔁", title: "«…, не так ли?» — хвостики-вопросы",
+    hook: "Повтори глагол наоборот: «плюс» → хвостик с минусом, «минус» → с плюсом. It IS cold, ISN'T it? They AREN'T here, ARE they?",
+    body: "You like coffee, DON'T you?  She can swim, CAN'T she?\nThe children aren't in the cafeteria, ARE THEY? — Дети не в столовой, не так ли?\nВ хвостике только местоимение: the children → they, Ben → he.",
+    groups: [
+      { label: "Из словаря", words: ["isn't it", "is it", "right", "that's right", "really"] },
+    ],
+  },
+  {
+    id: "too-either", icon: "🤝", title: "«Тоже»: TOO или EITHER",
+    hook: "В «да»-фразе — TOO (I like it too → Me too!). В «нет»-фразе — EITHER (I don't like it either → Me neither!).",
+    body: "I'm tired. — Me too. (я тоже)\nI'm not hungry. — Me neither. (я тоже нет)\nBOTH — оба,  EITHER — любой из двух,  NEITHER — ни один из двух.",
+    groups: [
+      { label: "Из словаря", words: ["too", "me too", "also", "as well", "either", "neither", "me neither", "both"] },
+    ],
+  },
+  {
+    id: "imperative", icon: "📢", title: "Просьбы и команды: глагол в начале",
+    hook: "Команда = глагол первым, без «you»: Come here! Запрет = DON'T + глагол: Don't worry! «Давай вместе» = LET'S: Let's go!",
+    body: "Sit down, please.  Wash your mouth with water.  Don't forget to call!\nВежливее — с please или Could you…?: Could you help me?",
+    groups: [
+      { label: "Из словаря", words: ["come here", "come in", "have a seat", "sit down", "stand up", "hurry up", "look out", "wait", "take care", "don't worry", "don't forget to", "let's", "let's go", "excuse me", "please", "have a good day", "get well soon", "have fun"] },
+    ],
+  },
+  {
+    id: "place-preps", icon: "📦", title: "Где? Предлоги места и порядок слов",
+    hook: "Предлог стоит ПЕРЕД предметом: inside the box — «внутри коробки». Порядок фразы: КТО → ДЕЛАЕТ → ЧТО → ГДЕ → КОГДА.",
+    body: "What's inside that plastic container? — Что внутри того пластикового контейнера?\nПрилагательное — перед существительным: a plastic container, curly hair, baby clothes.\nПорядок: I (кто) watched (делал) movies (что) at home (где) last Friday (когда).",
+    groups: [
+      { label: "Предлоги места", words: ["inside", "outside", "under", "above", "behind", "between", "next to", "near", "nearby", "in front of", "across from", "across", "along", "through", "toward", "around", "over", "far away"] },
+      { label: "Здесь / там / наверху", words: ["here", "there", "over there", "right here", "in here", "upstairs", "downstairs", "downtown"] },
     ],
   },
   {

@@ -1,0 +1,282 @@
+// Ошибки из Duolingo («Тренировка → Ошибки») с разбором: что не так и почему.
+// Duolingo хранит твой ответ и правильный вариант только для недавних ошибок;
+// у старых (2025 год) сохранилось лишь само задание — их разбираем по заданию.
+//
+// Формат: { id, date, type, prompt, yours, correct, why: [пункты объяснения], rules: [id правил из rules.js], words: [слова для повторения] }
+// type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
+const MISTAKES = [
+  {
+    id: "m2026-10-13-1", date: "2026-10-13", type: "to-en",
+    prompt: "Трансфер может отвезти вас в центр города.",
+    yours: "transfer can take you in downtown",
+    correct: "A shuttle can take you downtown.",
+    why: [
+      "«Трансфер» (автобус из аэропорта) по-английски — SHUTTLE. Transfer — это «пересадка» или «перевод денег».",
+      "DOWNTOWN уже значит «в центр города» — предлог не нужен, как с home: go home, take you downtown.",
+      "Перед одной вещью нужен артикль: A shuttle.",
+    ],
+    rules: ["take-have-go", "articles"], words: ["shuttle", "downtown"],
+  },
+  {
+    id: "m2026-10-13-2", date: "2026-10-13", type: "gap",
+    prompt: "Don't these pants look _ on me?",
+    yours: "bored",
+    correct: "Don't these pants look great on me?",
+    why: [
+      "LOOK + прилагательное = «выглядеть»: look great on me — «отлично на мне смотрятся».",
+      "BORED — «мне скучно» (так чувствует человек). Брюки скучать не могут 🙂 — по смыслу подходит только great.",
+    ],
+    rules: ["see-watch-look", "ed-ing"], words: ["look", "bored", "pants"],
+  },
+  {
+    id: "m2026-10-12-1", date: "2026-10-12", type: "to-en",
+    prompt: "Мы смотрели фильмы в прошлую пятницу.",
+    yours: "we saw the film's last Friday",
+    correct: "We watched movies last Friday.",
+    why: [
+      "Фильм, ТВ, матч «смотрят» — WATCH (следят за тем, что идёт). SEE — просто «видеть».",
+      "Множественное число пишется БЕЗ апострофа: movies, films. Апостроф — только в сокращениях (it's) и в «чей» (Anna's).",
+      "THE не нужен: речь о фильмах вообще, а не о каких-то конкретных, известных обоим.",
+      "Last Friday — без предлога: last/next/this + день → никаких on.",
+    ],
+    rules: ["see-watch-look", "contractions", "past-simple"], words: ["watch", "movie", "last"],
+  },
+  {
+    id: "m2026-10-12-2", date: "2026-10-12", type: "to-ru",
+    prompt: "Weren't those leather purses so pretty?",
+    yours: "Разве те кожаные сумочки не красивыми",
+    correct: "Разве те кожаные сумочки не были такими красивыми?",
+    why: [
+      "WEREN'T = were not — «не были». Это прошлое время, его нельзя потерять в переводе.",
+      "SO + прилагательное = «такой …»: so pretty — «такие красивые».",
+    ],
+    rules: ["past-simple", "contractions"], words: ["weren't", "purse", "pretty", "leather"],
+  },
+  {
+    id: "m2026-10-09-1", date: "2026-10-09", type: "to-en",
+    prompt: "Я надежный сотрудник с самого начала!",
+    yours: "I've reliable employee since I began",
+    correct: "I've been a reliable employee since I began!",
+    why: [
+      "I'VE = I have — «у меня есть». «Я являюсь … с тех пор, как» = I HAVE BEEN (Present Perfect от be).",
+      "SINCE (с какого-то момента) — сигнал Present Perfect: I've been … since I began.",
+      "Перед ролью или профессией — артикль A: a reliable employee.",
+    ],
+    rules: ["perfect", "articles"], words: ["reliable", "employee", "since", "been"],
+  },
+  {
+    id: "m2026-10-09-2", date: "2026-10-09", type: "to-ru",
+    prompt: "Look at these tiny baby clothes!",
+    yours: "Посмотри на эту крошечную одежду",
+    correct: "Посмотри на эту крошечную одежду для младенцев!",
+    why: [
+      "Слово BABY потерялось. В английском существительное может стоять перед другим как прилагательное: baby clothes — «детская одежда, одежда для малышей».",
+      "Переводи все слова: если перед существительным стоит ещё одно — это его описание.",
+    ],
+    rules: ["compounds", "place-preps"], words: ["tiny", "baby", "clothes"],
+  },
+  {
+    id: "m2026-10-09-3", date: "2026-10-09", type: "to-en",
+    prompt: "Многие студенты в наши дни посещают занятия онлайн.",
+    yours: "Many students watch classes online",
+    correct: "Many students take classes online these days.",
+    why: [
+      "«Посещать занятия, учиться на курсе» — TAKE a class / TAKE classes. Watch — «смотреть», это пассивно.",
+      "«В наши дни» — THESE DAYS, ставится в конце фразы (время — в конец).",
+    ],
+    rules: ["take-have-go", "place-preps"], words: ["class", "these days", "online"],
+  },
+  {
+    id: "m2026-10-09-4", date: "2026-10-09", type: "to-en",
+    prompt: "Что внутри того пластикового контейнера?",
+    yours: "What's that container inside",
+    correct: "What's inside that plastic container?",
+    why: [
+      "INSIDE — предлог, он стоит ПЕРЕД тем, внутри чего: inside that container.",
+      "Порядок вопроса: What's + inside + that + plastic + container.",
+      "Не потеряй прилагательное: plastic container — «пластиковый контейнер» (прилагательное перед существительным).",
+    ],
+    rules: ["place-preps"], words: ["inside", "plastic", "container"],
+  },
+  {
+    id: "m2026-10-08-1", date: "2026-10-08", type: "to-en",
+    prompt: "Тот адвокат помог Эми, когда её отец умер.",
+    yours: "That lower helped Amy when her father died.",
+    correct: "That lawyer helped Amy when her father died.",
+    why: [
+      "LAWYER [лойэ] — адвокат: LAW (закон) + -YER = «человек закона». LOWER — «ниже».",
+      "Всё остальное верно! 💪 Запомни корень: law — закон → lawyer — юрист.",
+    ],
+    rules: ["er-person"], words: ["lawyer"],
+  },
+  {
+    id: "m2026-10-08-2", date: "2026-10-08", type: "to-en",
+    prompt: "Тот парикмахер умеет стричь кудрявые волосы.",
+    yours: "That barber knows how to cut hair",
+    correct: "That barber knows how to cut curly hair.",
+    why: [
+      "Потерялось слово «кудрявые» — CURLY (curl — локон + Y).",
+      "KNOWS HOW TO = «умеет» — ты построила верно!",
+    ],
+    rules: ["y-adjectives"], words: ["curly", "barber", "know how", "haircut"],
+  },
+  {
+    id: "m2026-10-08-3", date: "2026-10-08", type: "to-en",
+    prompt: "Бабушка приходила в гости на ужин по воскресеньям.",
+    yours: "Grandma came for dinner on Sundays",
+    correct: "Grandma came over for dinner on Sundays.",
+    why: [
+      "«Прийти в гости, заглянуть к кому-то домой» — COME OVER. Просто came — «пришла» (куда угодно).",
+      "ON Sundays — дни недели с ON, а -S значит «каждое воскресенье».",
+    ],
+    rules: ["phrasal", "at-on-in"], words: ["come over", "grandma"],
+  },
+  {
+    id: "m2026-10-08-4", date: "2026-10-08", type: "to-en",
+    prompt: "Сара читает всё, что тот автор пишет!",
+    yours: "Sara reads always that author writes",
+    correct: "Sara reads whatever that author writes!",
+    why: [
+      "«Всё, что / что угодно» — WHATEVER. ALWAYS — «всегда» (про время).",
+      "Reads — с -S, потому что Sara = she. Это у тебя правильно 👍",
+    ],
+    rules: ["relative", "some-any-no-every", "present-simple"], words: ["whatever", "always"],
+  },
+  {
+    id: "m2026-10-07-1", date: "2026-10-07", type: "to-en",
+    prompt: "Да, я сегодня на работе.",
+    yours: "yes today I at work",
+    correct: "Yes, I'm at work today.",
+    why: [
+      "Пропущен глагол! По-русски «я на работе» без глагола, а в английском нужен AM: I am (I'm) at work.",
+      "Время (today) — обычно в конце: I'm at work today.",
+    ],
+    rules: ["be-required", "at-on-in", "place-preps"], words: ["at work", "today"],
+  },
+  {
+    id: "m2026-10-06-1", date: "2026-10-06", type: "to-en",
+    prompt: "Лиза может починить что угодно!",
+    yours: "Lisa can fixing anything!",
+    correct: "Lisa can repair anything!",
+    why: [
+      "После CAN глагол «голый»: can fix / can repair. Никаких -ing и to.",
+      "fix и repair — оба «чинить», подходят оба.",
+    ],
+    rules: ["modals"], words: ["can", "repair", "fix", "anything"],
+  },
+  {
+    id: "m2026-10-05-1", date: "2026-10-05", type: "to-en",
+    prompt: "Дети пили сок.",
+    yours: "Children drinks juice.",
+    correct: "Children drank juice.",
+    why: [
+      "«Пили» — прошлое. DRINK → DRANK → DRUNK (семья «И–А–У»: sing–sang–sung).",
+      "Children — это «они» (много детей), поэтому -S к глаголу не добавляется даже в настоящем: children drink.",
+    ],
+    rules: ["irregular", "present-simple", "plural"], words: ["drank", "children", "juice"],
+  },
+  {
+    id: "m2026-10-04-1", date: "2026-10-04", type: "to-ru",
+    prompt: "They had cows, sheep, and horses.",
+    yours: "У них коровы овцы и лошади",
+    correct: "У них были коровы, овцы и лошади.",
+    why: [
+      "HAD — прошлое от have: «у них БЫЛИ». Время нужно сохранить.",
+      "SHEEP — одинаково в единственном и множественном: one sheep, three sheep.",
+    ],
+    rules: ["past-simple", "irregular", "plural"], words: ["had", "sheep", "cow", "horse"],
+  },
+  {
+    id: "m2026-10-04-2", date: "2026-10-04", type: "gap",
+    prompt: "Are there any _ in the village?",
+    yours: "quizzes",
+    correct: "Are there any shops in the village?",
+    why: [
+      "Смотри на смысл: «В деревне есть какие-нибудь …?» — магазины (shops), а не контрольные (quizzes).",
+      "ARE THERE ANY + множественное число — «есть ли какие-нибудь…».",
+    ],
+    rules: ["there-is", "much-many"], words: ["village", "shop", "any"],
+  },
+  {
+    id: "m2026-10-04-3", date: "2026-10-04", type: "to-ru",
+    prompt: "Wash your mouth with water and salt.",
+    yours: "Прополощите рот с солью водой",
+    correct: "Прополощите рот водой с солью.",
+    why: [
+      "Переводи по смыслу, а не слово в слово: water and salt — «вода с солью» → «водой с солью».",
+      "Фраза начинается с глагола (Wash…) — это просьба/совет, по-русски «Прополощите».",
+    ],
+    rules: ["imperative"], words: ["wash", "mouth", "salt"],
+  },
+  {
+    id: "m2026-10-04-4", date: "2026-10-04", type: "to-ru",
+    prompt: "Did you see your classmates' scores?",
+    yours: "Вы видели своих одноклассников баллы",
+    correct: "Вы видели баллы своих одноклассников?",
+    why: [
+      "CLASSMATES' SCORES — «баллы одноклассников». В английском «чей» стоит ПЕРЕД вещью, в русском — ПОСЛЕ: Anna's book → книга Анны.",
+      "Апостроф после S (classmates') — значит одноклассников много.",
+      "DID you see? — вопрос в прошлом: «Вы видели?».",
+    ],
+    rules: ["contractions", "do-does-did"], words: ["classmate", "score"],
+  },
+  {
+    id: "m2025-02-01-1", date: "2025-02-01", type: "listen",
+    prompt: "The monster was too kind to hurt anybody.",
+    yours: "",
+    correct: "Монстр был слишком добрым, чтобы кого-то обидеть.",
+    why: [
+      "TOO + прилагательное + TO + глагол = «слишком…, чтобы»: too kind to hurt.",
+      "ANYBODY — «кого-нибудь, кого-либо».",
+    ],
+    rules: ["adverb-position", "some-any-no-every"], words: ["too", "anybody", "hurt", "monster"],
+  },
+  {
+    id: "m2025-02-01-2", date: "2025-02-01", type: "listen",
+    prompt: "Is Ben awake, or is he still sleeping?",
+    yours: "",
+    correct: "Бен проснулся, или он ещё спит?",
+    why: [
+      "AWAKE — «не спит, проснулся».  STILL — «всё ещё».",
+      "IS SLEEPING — Present Continuous: спит прямо сейчас.",
+    ],
+    rules: ["continuous"], words: ["awake", "still"],
+  },
+  {
+    id: "m2025-02-01-3", date: "2025-02-01", type: "to-en",
+    prompt: "Дети не в столовой, не так ли?",
+    yours: "",
+    correct: "The children aren't in the cafeteria, are they?",
+    why: [
+      "«…, не так ли?» — хвостик-вопрос: минус в фразе (aren't) → плюс в хвостике (are they?).",
+      "В хвостике — местоимение: the children → they.",
+      "«Не в столовой» — нужен глагол BE: aren't in the cafeteria.",
+    ],
+    rules: ["tag-questions", "be-required"], words: ["cafeteria", "aren't"],
+  },
+  {
+    id: "m2025-02-01-4", date: "2025-02-01", type: "to-ru",
+    prompt: "I'm here to pick up a prescription for medicine.",
+    yours: "",
+    correct: "Я здесь, чтобы забрать рецепт на лекарство.",
+    why: [
+      "TO + глагол в начале цели = «чтобы»: I'm here to pick up… — я здесь, чтобы забрать…",
+      "PICK UP — «забрать» (фразовый глагол).",
+      "PRESCRIPTION — рецепт врача. Не путай с receipt (чек) и recipe (рецепт блюда)!",
+    ],
+    rules: ["phrasal", "false-friends"], words: ["pick up", "prescription", "medicine"],
+  },
+  {
+    id: "m2025-02-01-5", date: "2025-02-01", type: "to-en",
+    prompt: "Их собака начинает лаять в семь утра!",
+    yours: "",
+    correct: "Their dog starts barking at seven in the morning!",
+    why: [
+      "«Их» перед вещью — THEIR (их собака). THEM — «их» в смысле «кого?» (I see them).",
+      "Dog = it → starts с -S.",
+      "START + -ING или + TO: starts barking = starts to bark.",
+      "Точное время — AT seven; часть дня — IN the morning.",
+    ],
+    rules: ["pronouns", "present-simple", "verb-to-ing", "at-on-in"], words: ["their", "start", "dog"],
+  },
+];

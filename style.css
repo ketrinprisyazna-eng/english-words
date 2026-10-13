@@ -366,3 +366,49 @@ a { color: var(--accent); }
 .rule-hint { margin-top: 12px; padding: 9px 12px; background: var(--accent-light); border-radius: 12px; font-size: 13px; text-align: left; line-height: 1.45; }
 .rule-hint-title { font-weight: 700; color: var(--accent); margin-bottom: 3px; }
 .rule-hint-more { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+
+/* ===== Тренажёры на главной ===== */
+.trainer-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.trainer-btn {
+  border: none; background: var(--card); box-shadow: var(--shadow); border-radius: 14px;
+  padding: 12px 8px; cursor: pointer; font-size: 20px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: var(--text);
+}
+.trainer-btn span { font-size: 12.5px; font-weight: 600; display: flex; flex-direction: column; align-items: center; }
+.trainer-btn small { font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+
+/* ===== Ошибки ===== */
+.mistake-card { margin-bottom: 10px; padding: 14px; cursor: pointer; }
+.mistake-meta { font-size: 11.5px; color: var(--muted); }
+.mistake-prompt { font-weight: 700; font-size: 14.5px; margin: 4px 0 6px; }
+.mistake-line { font-size: 13.5px; margin-top: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.mistake-line.bad { color: var(--danger); text-decoration: line-through; text-decoration-thickness: 1px; }
+.mistake-line.good { color: var(--primary-dark); font-weight: 600; }
+.mistake-line.muted { color: var(--muted); font-style: italic; }
+.inline-speak .speak-btn { width: 26px; height: 26px; font-size: 12px; }
+.mistake-more { font-size: 12px; color: var(--accent); margin-top: 8px; }
+.mistake-why { margin-top: 12px; padding: 10px 12px; background: var(--warn-light); border-radius: 12px; font-size: 13.5px; line-height: 1.5; }
+.mistake-why ul { margin: 4px 0 0; padding-left: 18px; }
+.mistake-why li { margin-bottom: 4px; }
+.mistake-rule { margin-top: 6px; padding: 9px 12px; background: var(--accent-light); border-radius: 12px; font-size: 13px; line-height: 1.45; cursor: pointer; }
+
+/* ===== Фразовые глаголы ===== */
+.particle-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.particle-pill { font-size: 12px; background: var(--accent-light); color: var(--text); padding: 4px 9px; border-radius: 999px; }
+.particle-pill b { color: var(--accent); margin-right: 3px; }
+.ph-card { margin-bottom: 8px; padding: 12px 14px; }
+.ph-card-head { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.ph-card-head > div:first-child { flex: 1; min-width: 0; }
+.ph-ex { font-size: 13px; margin-top: 8px; padding-left: 10px; border-left: 3px solid var(--border); cursor: pointer; }
+.ph-ex .muted, .ph-explain .muted { color: var(--muted); font-size: 12.5px; }
+.ph-hl { color: var(--accent); }
+.ph-sentence { font-size: 19px; font-weight: 600; margin: 10px 0 6px; line-height: 1.4; }
+.ph-hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.ph-explain { margin-top: 12px; padding: 10px 12px; background: var(--accent-light); border-radius: 12px; font-size: 13.5px; text-align: left; line-height: 1.45; }
+.particle-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 14px; }
+.particle-btn {
+  border: 2px solid var(--border); background: var(--card); color: var(--text); border-radius: 12px;
+  padding: 12px; font-size: 17px; font-weight: 700; cursor: pointer; text-transform: uppercase;
+}
+.particle-btn.right { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
+.particle-btn.wrong { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }

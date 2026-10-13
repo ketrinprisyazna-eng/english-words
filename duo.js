@@ -10,4 +10,20 @@
 //   newWords: ["word", "phrase"],            // ровно как в words.js
 //   rules: [{ title: "...", explanation: "..." }],
 // }
-const DUO_LOG = [];
+const DUO_LOG = [
+  {
+    id: "2026-10-13", date: "2026-10-13", source: "duo",
+    lessons: [{ skill: "Новые слова из Duolingo", lessonNum: "выучены с 5 по 13 октября" }],
+    newWords: ["percent", "cash register", "underwear", "afterward", "selfie", "checkout", "sleeve", "quality", "thrown", "cotton", "tiny", "successful", "barber", "marriage", "niece", "lesbian", "gay", "divorced", "spouse", "haircut", "a blind", "nephew", "firefighter", "retire"],
+    rules: [
+      {
+        title: "Семья: niece / nephew, spouse, divorced",
+        explanation: "niece [нис] — племянница (рифмуется с piece — «маленький кусочек семьи»), nephew [нэфью] — племянник.\nspouse — супруг или супруга (одно слово для обоих).\nmarriage — брак, married — женат/замужем, divorced — в разводе: I am divorced / She got divorced.",
+      },
+      {
+        title: "thrown — третья форма от throw",
+        explanation: "throw — threw — thrown (семья «-EW / -OWN», как know — knew — known).\nThe ball was thrown — мяч был брошен.",
+      },
+    ],
+  },
+];

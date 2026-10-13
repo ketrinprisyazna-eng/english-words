@@ -285,11 +285,12 @@ function getAssociation(en, ru) {
 }
 
 /* ============ Навигация ============ */
-const views = ["home", "words", "rules", "assoc", "texts", "duo"];
+const views = ["home", "words", "rules", "assoc", "texts", "duo", "phrasal"];
 function showView(name) {
   views.forEach((v) => {
     document.getElementById("view-" + v).classList.toggle("active", v === name);
-    document.getElementById("nav-" + v).classList.toggle("active", v === name);
+    const nav = document.getElementById("nav-" + v);
+    if (nav) nav.classList.toggle("active", v === name);
   });
   if (name === "home") renderHome();
   if (name === "words") renderWords();
@@ -297,6 +298,8 @@ function showView(name) {
   if (name === "texts") renderTexts();
   if (name === "duo") renderDuo();
   if (name === "rules") renderRules();
+  if (name === "phrasal") renderPhrasalPage();
+  window.scrollTo(0, 0);
 }
 
 /* ============ Главная ============ */
@@ -308,6 +311,11 @@ function renderHome() {
   document.getElementById("stat-today").textContent = t.reviewed;
   document.getElementById("stat-due").textContent = countDue();
   document.getElementById("stat-total").textContent = WORDS_DATA.length;
+
+  const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  setText("phrasal-count", typeof PHRASALS !== "undefined" ? `${PHRASALS.length} ${plural(PHRASALS.length, "сочетание", "сочетания", "сочетаний")}` : "");
+  setText("home-mistakes-count", typeof MISTAKES !== "undefined" ? `${MISTAKES.length} с разбором` : "");
+  setText("home-rules-count", typeof RULES !== "undefined" ? `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")}` : "");
 
   const mastered = countMastered();
   const learning = countLearning();
@@ -405,6 +413,10 @@ function renderCard() {
     renderLearnCard();
     return;
   }
+  if (SESSION.mode === "phrasal") {
+    renderPhrasalCard();
+    return;
+  }
 
   const w = currentWord();
   const dir = currentDir();
@@ -462,6 +474,7 @@ function renderCard() {
   }
 }
 function checkTyped() {
+  if (SESSION && SESSION.mode === "phrasal") { checkPhrasalGap(); return; }
   const input = document.getElementById("type-answer-input");
   const value = input ? input.value.trim() : "";
   const item = currentItem();
@@ -495,6 +508,8 @@ function nextCard() {
   SESSION.typedChecked = false;
   SESSION.typedValue = "";
   SESSION.typedCorrect = null;
+  SESSION.chosen = null;
+  SESSION.options = null;
   renderCard();
 }
 function toggleAssocInSession() {
@@ -543,6 +558,7 @@ let wordsSrcFilter = "all";
 let wordsSearch = "";
 function srcBadgeHtml(w) {
   if (w.src === "puzzle") return `<span class="src-badge puzzle">PE</span>`;
+  if (w.src === "extra") return `<span class="src-badge">доп.</span>`;
   if (w.src === "both") return `<span class="src-badge">Duo</span><span class="src-badge puzzle">PE</span>`;
   return "";
 }
@@ -1039,6 +1055,9 @@ function formatDateRu(dateStr) {
 }
 function renderDuo() {
   renderSources();
+  const mc = document.getElementById("mistakes-count");
+  if (mc) mc.textContent = typeof MISTAKES !== "undefined" ? `(${MISTAKES.length})` : "";
+  if (duoTab === "mistakes") renderMistakes();
   const el = document.getElementById("duo-list");
   if (typeof DUO_LOG === "undefined" || DUO_LOG.length === 0) {
     el.innerHTML = `<div class="empty-state">Пока нет разборов уроков. Попроси «пройди урок дуолинго» или «пройди урок Puzzle English» — и конспект появится здесь.</div>`;
@@ -1258,6 +1277,7 @@ function renderRuleBody(rule, entry) {
     <div class="settings-row" style="margin-top:12px;">
       <button class="small-btn learn-btn" onclick="learnRuleWords('${rule.id}')">📖 Изучить</button>
       <button class="small-btn" onclick="checkRuleWords('${rule.id}')">✍️ Проверить себя</button>
+      ${rule.id === "phrasal" ? `<button class="small-btn" onclick="showView('phrasal')">🧩 Тренажёр с предложениями</button>` : ""}
     </div>`;
 }
 function renderRules() {
@@ -1273,7 +1293,7 @@ function renderRules() {
   }
   const covered = Object.keys(idx.byWord).length;
   document.getElementById("rules-summary").textContent =
-    `${RULES.length} правил · в них ${covered} из ${WORDS_DATA.length} твоих слов`;
+    `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")} · в них ${covered} из ${WORDS_DATA.length} твоих слов`;
   if (!rules.length) { el.innerHTML = `<div class="empty-state">Ничего не найдено</div>`; return; }
   el.innerHTML = rules.map((r) => {
     const entry = idx.byRule[r.id];
@@ -1293,7 +1313,240 @@ function renderRules() {
   }).join("");
 }
 
+/* ============ Ошибки из Duolingo ============ */
+const MISTAKE_TYPES = { "to-en": "Перевод на английский", "to-ru": "Перевод на русский", gap: "Вставить слово", listen: "Аудирование" };
+let duoTab = "lessons";
+let openMistakeId = null;
+function setDuoTab(tab) {
+  duoTab = tab;
+  document.querySelectorAll("#duo-tabs .filter-chip").forEach((el) => el.classList.toggle("active", el.dataset.tab === tab));
+  document.getElementById("duo-tab-lessons").style.display = tab === "lessons" ? "" : "none";
+  document.getElementById("duo-tab-mistakes").style.display = tab === "mistakes" ? "" : "none";
+  if (tab === "mistakes") renderMistakes();
+}
+function toggleMistake(id) {
+  openMistakeId = openMistakeId === id ? null : id;
+  renderMistakes();
+}
+function mistakeWords(m) {
+  return (m.words || []).map((s) => WORDS_DATA.find((w) => normKey(w.en) === normKey(s)) || WORDS_DATA.find((w) => ruleKey(w.en) === ruleKey(s))).filter(Boolean);
+}
+function practiceMistakeWords(id) {
+  const list = id ? MISTAKES.filter((m) => m.id === id) : MISTAKES;
+  const words = [...new Set(list.flatMap(mistakeWords).map((w) => w.en))];
+  if (!words.length) { alert("В этих ошибках нет слов из твоего словаря."); return; }
+  startSessionForWords(words.slice(0, 40));
+}
+function renderMistakes() {
+  const el = document.getElementById("mistakes-list");
+  if (!el) return;
+  if (typeof MISTAKES === "undefined" || !MISTAKES.length) {
+    el.innerHTML = `<div class="empty-state">Ошибок пока нет. Попроси «разбери мои ошибки в дуолинго» — и они появятся здесь с объяснением.</div>`;
+    return;
+  }
+  const items = [...MISTAKES].sort((a, b) => (a.date < b.date ? 1 : -1));
+  // какие правила встречаются в ошибках чаще всего — это «слабые места»
+  const freq = {};
+  for (const m of items) for (const r of m.rules || []) freq[r] = (freq[r] || 0) + 1;
+  const weak = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 5)
+    .map(([id, n]) => { const r = RULES.find((x) => x.id === id); return r ? `<span class="rule-chip" onclick="openRule('${id}')">${r.icon} ${escapeHtml(ruleShortTitle(r))} ×${n}</span>` : ""; }).join("");
+  const head = `<div class="card" style="margin-bottom:12px;">
+      <div style="font-weight:700;font-size:14px;">🎯 Твои слабые места</div>
+      <div style="font-size:12.5px;color:var(--muted);margin:4px 0 6px;">Правила, на которых ты ошибаешься чаще всего. Нажми — откроется правило.</div>
+      <div>${weak}</div>
+      <button class="small-btn learn-btn" style="margin-top:10px;" onclick="practiceMistakeWords()">✍️ Повторить слова из всех ошибок</button>
+    </div>`;
+  el.innerHTML = head + items.map((m) => {
+    const open = openMistakeId === m.id;
+    const rulesHtml = (m.rules || []).map((id) => {
+      const r = RULES.find((x) => x.id === id);
+      if (!r) return "";
+      return `<div class="mistake-rule" onclick="event.stopPropagation(); openRule('${id}')">
+        <div class="rule-hint-title">${r.icon} ${escapeHtml(r.title)}</div>
+        <div>${escapeHtml(r.hook)}</div>
+      </div>`;
+    }).join("");
+    const words = mistakeWords(m);
+    return `<div class="card mistake-card ${open ? "open" : ""}" onclick="toggleMistake('${m.id}')">
+      <div class="mistake-meta">${formatDateRu(m.date)} · ${MISTAKE_TYPES[m.type] || ""}</div>
+      <div class="mistake-prompt">${escapeHtml(m.prompt)}</div>
+      ${m.yours ? `<div class="mistake-line bad">✗ ${escapeHtml(m.yours)}</div>` : `<div class="mistake-line muted">Твой ответ Duolingo не сохранил</div>`}
+      <div class="mistake-line good">✓ ${escapeHtml(m.correct)} <span class="inline-speak">${m.type === "to-en" || m.type === "gap" ? speakButtonHtml(m.correct) : speakButtonHtml(m.prompt)}</span></div>
+      ${open ? `
+        <div class="mistake-why">
+          <div class="rule-group-label">Почему так</div>
+          <ul>${m.why.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
+        </div>
+        ${rulesHtml ? `<div class="rule-group-label" style="margin-top:10px;">📐 Правило</div>${rulesHtml}` : ""}
+        ${words.length ? `<div class="rule-words" style="margin-top:10px;">${words.map(ruleWordChipHtml).join("")}</div>
+          <button class="small-btn" style="margin-top:10px;" onclick="event.stopPropagation(); practiceMistakeWords('${m.id}')">✍️ Повторить эти слова</button>` : ""}
+      ` : `<div class="mistake-more">Нажми, чтобы увидеть объяснение ›</div>`}
+    </div>`;
+  }).join("");
+}
+
+/* ============ Тренажёр фразовых глаголов ============ */
+const PARTICLE_OPTIONS = ["up", "out", "off", "on", "down", "back", "away", "over", "in", "for", "after", "at", "with", "into", "along", "around", "together", "from", "of", "to"];
+let phrasalSearch = "";
+function phrasalWord(ph) { return WORDS_DATA.find((w) => normKey(w.en) === normKey(ph.en)) || null; }
+// "{gave up}" → предложение с пропуском и правильный ответ
+function phrasalGap(sentence) {
+  const parts = [];
+  const gapped = sentence.replace(/\{([^}]+)\}/g, (_, g) => { parts.push(g); return "____"; });
+  return { gapped, answer: parts.join(" "), plain: sentence.replace(/[{}]/g, "") };
+}
+function phrasalHighlight(sentence) {
+  return escapeHtml(sentence).replace(/\{([^}]+)\}/g, "<b class=\"ph-hl\">$1</b>");
+}
+function particleOf(ph) { return ph.p; }
+function phrasalBase(ph) {
+  // глагол без частицы: give up → give, cut down on → cut … on
+  return ph.en.split(" ").map((x) => (x === ph.p ? "___" : x)).join(" ");
+}
+function buildPhrasalQueue(kind) {
+  const now = Date.now();
+  const scored = PHRASALS.map((ph) => ({ ph, p: getProgress(ph.en) }));
+  scored.sort((a, b) => {
+    if (a.p.lastWrong !== b.p.lastWrong) return a.p.lastWrong ? -1 : 1;
+    const ad = isDue(a.p, now), bd = isDue(b.p, now);
+    if (ad !== bd) return ad ? -1 : 1;
+    return a.p.box - b.p.box;
+  });
+  const pool = shuffleArray(scored.slice(0, 20)).slice(0, 10);
+  return pool.map((x) => ({ ph: x.ph, kind: kind === "mix" ? (Math.random() < 0.5 ? "gap" : "particle") : kind, ex: x.ph.ex[Math.floor(Math.random() * x.ph.ex.length)] }));
+}
+function startPhrasalSession(kind) {
+  SESSION = {
+    mode: "phrasal", queue: buildPhrasalQueue(kind), idx: 0, correctCount: 0, revealed: false,
+    typedChecked: false, typedValue: "", typedCorrect: null, chosen: null, options: null,
+  };
+  document.getElementById("session-overlay").style.display = "flex";
+  renderCard();
+}
+function particleOptionsFor(ph) {
+  const others = shuffleArray(PARTICLE_OPTIONS.filter((x) => x !== ph.p && ["up", "out", "off", "on", "down", "back", "away", "over", "in", "for"].includes(x))).slice(0, 3);
+  return shuffleArray([ph.p, ...others]);
+}
+function renderPhrasalCard() {
+  const item = currentItem();
+  const ph = item.ph;
+  const g = phrasalGap(item.ex[0]);
+  const revealed = SESSION.revealed;
+  const meaning = PARTICLE_MEANING[ph.p] ? `<b>${ph.p.toUpperCase()}</b> — ${escapeHtml(PARTICLE_MEANING[ph.p])}` : "";
+  let body = "";
+  if (item.kind === "particle") {
+    if (!SESSION.options) SESSION.options = particleOptionsFor(ph);
+    body = `
+      <div class="dir-badge learn-badge">⚡ Какая частица?</div>
+      <div class="es-word">${escapeHtml(revealed ? ph.en : phrasalBase(ph))}</div>
+      <div class="ru-word">${escapeHtml(ph.ru)}</div>
+      <div class="particle-options">${SESSION.options.map((o) => {
+        let cls = "";
+        if (revealed) cls = o === ph.p ? "right" : o === SESSION.chosen ? "wrong" : "";
+        return `<button class="particle-btn ${cls}" ${revealed ? "disabled" : ""} onclick="choosePhrasalParticle('${o}')">${o}</button>`;
+      }).join("")}</div>`;
+  } else {
+    body = `
+      <div class="dir-badge learn-badge">✍️ Впиши сочетание</div>
+      <div class="ph-sentence">${revealed ? phrasalHighlight(item.ex[0]) : escapeHtml(g.gapped)}</div>
+      <div class="ru-word" style="font-size:15px;">${escapeHtml(item.ex[1])}</div>
+      <div class="ph-hint">💡 ${escapeHtml(ph.ru)}</div>`;
+  }
+  let feedback = "";
+  if (revealed) {
+    const ok = SESSION.typedCorrect;
+    const said = item.kind === "particle" ? SESSION.chosen : SESSION.typedValue;
+    feedback = ok
+      ? `<div class="typed-feedback good">✅ Верно!</div>`
+      : `<div class="typed-feedback bad">❌ ${said ? `Твой ответ: «${escapeHtml(said)}»` : "Пропущено"}. Правильно: <b>${escapeHtml(item.kind === "particle" ? ph.p : g.answer)}</b></div>`;
+    const other = ph.ex.filter((e) => e !== item.ex);
+    feedback += `<div class="ph-explain">
+      ${meaning ? `<div>${meaning}</div>` : ""}
+      <div style="margin-top:6px;">${phrasalHighlight(item.ex[0])} <span class="muted">— ${escapeHtml(item.ex[1])}</span></div>
+      ${other.map((e) => `<div style="margin-top:4px;">${phrasalHighlight(e[0])} <span class="muted">— ${escapeHtml(e[1])}</span></div>`).join("")}
+    </div>`;
+  }
+  document.getElementById("flash-area").innerHTML = `
+    <div class="flash-wrap">
+      <div class="flashcard">
+        ${speakButtonHtml(revealed ? g.plain : ph.en, "card-speak-btn")}
+        ${body}
+        ${feedback}
+      </div>
+      ${!revealed && item.kind === "gap" ? `
+        <div class="type-answer-row">
+          <input type="text" id="type-answer-input" class="type-answer-input" placeholder="Например: give up" autocomplete="off" autocapitalize="off" spellcheck="false">
+          ${micAnswerButtonHtml("en-US")}
+          <button class="check-btn" onclick="checkTyped()">Проверить</button>
+        </div>` : ""}
+      ${revealed ? `<button class="reveal-btn" onclick="nextCard()">Далее</button>` : ""}
+    </div>`;
+  if (!revealed && item.kind === "gap") { const input = document.getElementById("type-answer-input"); if (input) input.focus(); }
+}
+function finishPhrasalAnswer(correct) {
+  const item = currentItem();
+  SESSION.typedCorrect = correct;
+  SESSION.revealed = true;
+  registerReview(item.ph.en, correct);
+  if (correct) SESSION.correctCount++;
+  else if (SESSION.queue.filter((x) => x.ph === item.ph).length < 2) {
+    const at = Math.min(SESSION.queue.length, SESSION.idx + 4);
+    SESSION.queue.splice(at, 0, { ph: item.ph, kind: item.kind === "gap" ? "particle" : "gap", ex: item.ex });
+  }
+  renderCard();
+  speakEn(phrasalGap(item.ex[0]).plain);
+}
+function choosePhrasalParticle(o) {
+  if (SESSION.revealed) return;
+  SESSION.chosen = o;
+  finishPhrasalAnswer(o === currentItem().ph.p);
+}
+function checkPhrasalGap() {
+  const input = document.getElementById("type-answer-input");
+  const value = input ? input.value.trim() : "";
+  const item = currentItem();
+  const norm = (s) => normalizeAnswer(s, true).replace(/\s+/g, " ");
+  const v = norm(value);
+  const g = phrasalGap(item.ex[0]);
+  const ok = !!v && (v === norm(g.answer) || v === norm(item.ph.en));
+  SESSION.typedValue = value;
+  SESSION.typedChecked = true;
+  finishPhrasalAnswer(ok);
+}
+function renderPhrasalPage() {
+  const legend = document.getElementById("particle-legend");
+  if (legend && !legend.innerHTML) {
+    legend.innerHTML = ["up", "out", "off", "on", "down", "back", "away", "over", "in"].map((p) =>
+      `<span class="particle-pill"><b>${p.toUpperCase()}</b> ${escapeHtml(PARTICLE_MEANING[p])}</span>`).join("");
+  }
+  const el = document.getElementById("phrasal-list");
+  const q = phrasalSearch.trim().toLowerCase();
+  const items = PHRASALS.filter((ph) => !q || ph.en.includes(q) || ph.ru.toLowerCase().includes(q));
+  const groups = {};
+  for (const ph of items) (groups[ph.p] = groups[ph.p] || []).push(ph);
+  el.innerHTML = Object.entries(groups).map(([p, list]) => `
+    <div class="section-title">${p.toUpperCase()}${PARTICLE_MEANING[p] ? ` — ${escapeHtml(PARTICLE_MEANING[p])}` : ""}</div>
+    ${list.map((ph) => {
+      const pr = getProgress(ph.en);
+      const dots = Array.from({ length: 5 }, (_, i) => `<span class="dot ${i < pr.box ? "on" : ""}"></span>`).join("");
+      return `<div class="card ph-card">
+        <div class="ph-card-head">
+          <div><b>${escapeHtml(ph.en)}</b>${ph.extra ? ` <span class="src-badge puzzle">новое</span>` : ""} — ${escapeHtml(ph.ru)}</div>
+          <div class="box-dots">${dots}</div>
+          ${speakButtonHtml(ph.en)}
+        </div>
+        ${ph.ex.map((e) => `<div class="ph-ex" data-text="${escapeHtml(e[0].replace(/[{}]/g, ""))}" onclick="speakEn(this.dataset.text)">${phrasalHighlight(e[0])}<div class="muted">${escapeHtml(e[1])}</div></div>`).join("")}
+      </div>`;
+    }).join("")}`).join("") || `<div class="empty-state">Ничего не найдено</div>`;
+}
+
 /* ============ helpers ============ */
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -1372,6 +1625,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById("assoc-search").addEventListener("input", renderAssocList);
   document.getElementById("rules-search").addEventListener("input", (e) => { rulesSearch = e.target.value; renderRules(); });
+  document.getElementById("phrasal-search").addEventListener("input", (e) => { phrasalSearch = e.target.value; renderPhrasalPage(); });
+  document.querySelectorAll("#duo-tabs .filter-chip").forEach((el) => el.addEventListener("click", () => setDuoTab(el.dataset.tab)));
 
   document.getElementById("lang-en-btn").addEventListener("click", () => setTextLang("en"));
   document.getElementById("lang-ru-btn").addEventListener("click", () => setTextLang("ru"));
