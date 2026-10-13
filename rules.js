@@ -589,6 +589,41 @@ const RULES = [
     ],
   },
   {
+    id: "negative-questions", icon: "🤨", title: "«Разве…?» — вопрос с отрицанием",
+    hook: "DOESN'T / DON'T / ISN'T / WEREN'T в начале вопроса = «Разве…?». Doesn't this coat look too big? — Разве оно не слишком большое?",
+    body: "Строится как обычный вопрос, только помощник с N'T: Doesn't it…? Don't you…? Weren't they…?\nТак спрашивают, когда ждут согласия: «ну правда же…?».\nОтвечают по факту: Yes, it does — да (большое).  No, it doesn't — нет (не большое).",
+    groups: [
+      { label: "Из словаря", words: ["doesn't", "don't", "isn't", "aren't", "weren't", "wasn't", "didn't", "isn't it", "why don't"] },
+    ],
+  },
+  {
+    id: "materials", icon: "🧶", title: "Из чего сделано: cotton shirt, leather bag",
+    hook: "Материал ставится прямо ПЕРЕД вещью и не меняется: a cotton shirt, leather purses. Или: It's MADE OF cotton.",
+    body: "a cotton shirt — хлопковая рубашка, a leather purse — кожаная сумочка, a plastic container — пластиковый контейнер.\nИсключение: wood → WOODEN (деревянный), wool → woolen (можно и просто wool).\nMADE OF — «сделано из»: The ring is made of gold.",
+    groups: [
+      { label: "Материалы", words: ["cotton", "leather", "plastic", "wool", "silver", "gold", "wood", "wooden", "paper", "glass", "diamond"] },
+      { label: "Как сказать", words: ["made of", "quality"] },
+    ],
+  },
+  {
+    id: "polite-requests", icon: "🙏", title: "Вежливо: Could you…? Would you like…? Can I…?",
+    hook: "COULD YOU + глагол? — «Не могли бы вы…?» (самое вежливое). WOULD YOU LIKE…? — «Не хотите ли…?». I'D LIKE — «Я бы хотел(а)» (вместо грубого I want).",
+    body: "Could you put the change in my wallet? — Не могли бы вы положить сдачу в мой кошелёк?\nCan you help me? — попроще, между друзьями.  Can I try this on? — Можно примерить?\nI'd like a coffee, please. — Мне кофе, пожалуйста.  Do you mind if I sit here? — Вы не против, если я сяду?",
+    groups: [
+      { label: "Из словаря", words: ["could", "can", "would like", "would you like", "would you like to", "would like to", "I'd like", "do you mind if", "please", "excuse me", "thank you", "thanks in advance"] },
+    ],
+  },
+  {
+    id: "shopping", icon: "🛍️", title: "В магазине: примерка, размер, скидки, касса",
+    hook: "TRY ON — примерить, FIT — подходит по размеру, LOOK GOOD ON me — идёт мне. 20 PERCENT OFF — скидка 20%, CHECKOUT — касса.",
+    body: "Can I try it on? — Можно примерить?  It doesn't fit — не подходит по размеру.  It looks great on you — тебе очень идёт.\nIt's on sale — со скидкой.  half price — за полцены.  PERCENT не меняется: 50 percent.\nКасса — checkout / cash register; чек — receipt; сдача — change; вернуть деньги — refund.",
+    groups: [
+      { label: "Примерка и размер", words: ["try on", "fitting room", "size", "fit", "tight", "medium", "large", "small", "sleeve", "look"] },
+      { label: "Цена и скидки", words: ["price", "price tag", "cost", "cheap", "expensive", "affordable", "discount", "percent", "on sale", "half price", "coupon"] },
+      { label: "Оплата", words: ["checkout", "cash register", "pay", "with cash", "with a card", "credit card", "debit card", "change", "receipt", "refund", "return", "wallet", "purse"] },
+    ],
+  },
+  {
     id: "false-friends", icon: "🎭", title: "Ложные друзья переводчика",
     hook: "Похоже на русское — значит другое! magazine — ЖУРНАЛ (не магазин), receipt — ЧЕК (не рецепт).",
     body: "magazine — журнал (магазин = store/shop).\nreceipt — чек; recipe — рецепт (блюда); prescription — рецепт врача.\nactually — на самом деле (не «актуально»).\ncabinet — шкафчик;  artist — художник;  mayor — мэр (не майор);  list — список (не лист).",
