@@ -11,13 +11,50 @@
 // }
 const DUO_LOG = [
   {
+    id: "duo-unit-flight", date: "2026-10-16", source: "duo",
+    lessons: [
+      { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду со скидкой ✓" },
+      { skill: "Уточни детали перелёта", lessonNum: "раздел пройден ✓" },
+    ],
+    newWords: ["security", "spare", "visa", "abroad", "baggage", "front door", "embassy", "reservations", "transportation", "get in", "citizen", "canceled"],
+    rules: [
+      {
+        title: "«Разве не…?» с модальными: Shouldn't we…? Can't I…? Couldn't they…?",
+        explanation:
+          "Shouldn't we look for a cheaper ticket? — Не поискать ли нам билет подешевле?\n" +
+          "Can't I order a vegetarian meal instead? — Нельзя ли мне вместо этого заказать вегетарианское блюдо?\n" +
+          "Couldn't they change my flight for free? — Разве они не могли бы поменять мой рейс бесплатно?\n\n" +
+          "Модальный глагол + N'T в начале вопроса = мягкое предложение или «разве нельзя…?». После него — голый глагол.",
+      },
+      {
+        title: "Где / как / что + TO: where to meet, how to get",
+        explanation:
+          "I told her where to meet us. — Я сказал ей, где нам встретиться.\n" +
+          "Do you know how to make bagels? — Ты знаешь, как печь бублики?\n" +
+          "Вопросительное слово + TO + глагол = «где/как/что (нужно) сделать». Короче, чем целая фраза.",
+      },
+      {
+        title: "ABROAD — без предлога, как HOME",
+        explanation:
+          "go abroad — поехать за границу, live abroad — жить за границей, study abroad — учиться за рубежом.\n" +
+          "Не говорят «to abroad» и «in abroad» — abroad уже содержит «за границу/за границей», как home и downtown.",
+      },
+      {
+        title: "Present Continuous для планов: I'm not flying today",
+        explanation:
+          "I canceled my ticket, so I'm not flying today. — Я отменил билет, так что сегодня не лечу.\n" +
+          "AM/IS/ARE + -ING часто говорит о том, что уже решено на ближайшее время: I'm meeting Anna tonight.",
+      },
+    ],
+  },
+  {
     id: "duo-unit-74", date: "2026-10-13", source: "duo",
     lessons: [
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Обосновать выбор одежды ✓" },
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Оценить качество одежды ✓" },
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду в магазине ✓" },
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купим одежду и пообедаем ✓" },
-      { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду со скидкой — в процессе" },
+      { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду со скидкой ✓" },
     ],
     newWords: ["percent", "cash register", "checkout", "underwear", "sleeve", "quality", "cotton", "tiny", "selfie", "afterward", "successful", "thrown", "sweatshirt", "coat", "try on", "wallet", "change", "leather", "purse", "pants"],
     rules: [

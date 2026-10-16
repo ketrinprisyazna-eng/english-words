@@ -151,7 +151,7 @@ const RULES = [
   {
     id: "compare", icon: "📏", title: "Сравнение: -ER / -EST и MORE / MOST",
     hook: "Короткое слово — хвостик (-ER, -EST), длинное — «подпорка» (MORE, THE MOST).",
-    body: "big → bigger → the biggest;  near → nearer → the nearest.\nexpensive → more expensive → the most expensive.\n«Чем» = THAN: bigger than me.  На -Y: easy → easier → the easiest, funny → funnier.\nПеред -EST всегда THE: the richest man.\nИсключения (как стишок): good-better-best, bad-worse-worst, far-farther-farthest, little-less-least, much/many-more-most.",
+    body: "big → bigger → the biggest;  near → nearer → the nearest.\nexpensive → more expensive → the most expensive.\n«Чем» = THAN: bigger than me.  На -Y: easy → easier → the easiest, funny → funnier.\nПеред -EST всегда THE: the richest man.\nРавенство — AS … AS: I'm as adventurous as him — я такой же любитель приключений, как он.\nИсключения (как стишок): good-better-best, bad-worse-worst, far-farther-farthest, little-less-least, much/many-more-most.",
     groups: [
       { label: "Исключения", words: ["better", "best", "like best", "best of all", "worse", "worst", "farther", "farthest", "less", "least", "at least", "more", "most", "the most", "more often"] },
       { label: "С хвостиком -ER / -EST", words: ["nearest", "latest", "than"] },
@@ -254,7 +254,7 @@ const RULES = [
       { label: "TAKE", words: ["take a walk", "take a nap", "take a bath", "take a tour", "take a flight", "take notes", "take care", "take care of"] },
       { label: "HAVE", words: ["have fun", "have a seat", "have a good day", "have a headache"] },
       { label: "GO + -ING", words: ["go shopping", "go swimming", "go fishing"] },
-      { label: "HOME, DOWNTOWN, THERE — без TO", words: ["go home", "get home", "stay home", "at home", "from home", "downtown", "there", "here"] },
+      { label: "HOME, DOWNTOWN, ABROAD, THERE — без TO", words: ["go home", "get home", "stay home", "at home", "from home", "downtown", "abroad", "there", "here"] },
       { label: "TAKE + занятия: take a class (посещать занятие)", words: ["class", "course", "exam", "lesson"] },
       { label: "GO + TO", words: ["go to", "go to bed", "go to sleep", "go to the bathroom"] },
     ],
@@ -398,7 +398,7 @@ const RULES = [
   {
     id: "wh", icon: "❓", title: "Вопросительные слова: всё на WH (кроме HOW)",
     hook: "Что-где-когда-кто-почему начинаются на WH: what, where, when, who, why. HOW — «как» — единственный без W впереди.",
-    body: "HOW + слово = «насколько»: how much/many (сколько), how old (сколько лет), how long (как долго), how often (как часто).\nWHAT + слово = «какой»: what time, what color, what kind of.\nВнутри фразы порядок обычный (без do и перестановки): I know where they are. Do you know what time it is?",
+    body: "HOW + слово = «насколько»: how much/many (сколько), how old (сколько лет), how long (как долго), how often (как часто).\nWHAT + слово = «какой»: what time, what color, what kind of.\nВнутри фразы порядок обычный (без do и перестановки): I know where they are. Do you know what time it is?\nВопросительное слово + TO = «где/как (нужно) сделать»: I told her where to meet us. Do you know how to make bagels?",
     groups: [
       { label: "WH-", words: ["what", "where", "when", "who", "why", "which", "whose", "who is", "where is"] },
       { label: "HOW + …", words: ["how", "how much", "how many", "how old", "how long", "how often", "how big", "how about", "how about you", "how are you"] },
@@ -494,7 +494,7 @@ const RULES = [
   {
     id: "verb-to-ing", icon: "🎯", title: "Глагол + TO или + -ING",
     hook: "Смотрю в БУДУЩЕЕ (хочу, планирую, решил, надеюсь) → TO. Говорю про сам ПРОЦЕСС (наслаждаюсь, заканчиваю, избегаю) → -ING.",
-    body: "want TO go, need TO pay, plan TO travel, forget TO buy, remember TO call.\nenjoy readING, finish workING, avoid eatING, mind waitING.\nlike / love / hate / start / begin — можно и так, и так: I like to swim = I like swimming.\nПосле предлога — всегда -ING: good at swimming, thanks for coming.",
+    body: "want TO go, need TO pay, plan TO travel, forget TO buy, remember TO call.\nenjoy readING, finish workING, avoid eatING, mind waitING.\nlike / love / hate / start / begin — можно и так, и так: I like to swim = I like swimming.\nПосле предлога — всегда -ING: good at swimming, thanks for coming.\n-ING может быть подлежащим: Cycling is fun. Keeping fit is important. Taking a bath will help you relax.",
     groups: [
       { label: "+ TO (будущее, цель)", words: ["want", "want to", "need", "need to", "would like to", "would you like to", "plan to", "try to", "decide", "hope", "agree", "forget", "don't forget to", "remember", "learn", "happy to", "able to"] },
       { label: "+ -ING (процесс)", words: ["enjoy", "finish", "avoid", "suggest", "practice", "do you mind if", "keep"] },
@@ -558,7 +558,7 @@ const RULES = [
   {
     id: "tag-questions", icon: "🔁", title: "«…, не так ли?» — хвостики-вопросы",
     hook: "Повтори глагол наоборот: «плюс» → хвостик с минусом, «минус» → с плюсом. It IS cold, ISN'T it? They AREN'T here, ARE they?",
-    body: "You like coffee, DON'T you?  She can swim, CAN'T she?\nThe children aren't in the cafeteria, ARE THEY? — Дети не в столовой, не так ли?\nВ хвостике только местоимение: the children → they, Ben → he.",
+    body: "You like coffee, DON'T you?  She can swim, CAN'T she?\nThe children aren't in the cafeteria, ARE THEY? — Дети не в столовой, не так ли?\nВ хвостике только местоимение: the children → they, Ben → he.\nС модальными так же: I can get into that school, CAN'T I?  You'll apply, WON'T you?",
     groups: [
       { label: "Из словаря", words: ["isn't it", "is it", "right", "that's right", "really"] },
     ],
@@ -591,9 +591,9 @@ const RULES = [
   {
     id: "negative-questions", icon: "🤨", title: "«Разве…?» — вопрос с отрицанием",
     hook: "DOESN'T / DON'T / ISN'T / WEREN'T в начале вопроса = «Разве…?». Doesn't this coat look too big? — Разве оно не слишком большое?",
-    body: "Строится как обычный вопрос, только помощник с N'T: Doesn't it…? Don't you…? Weren't they…?\nТак спрашивают, когда ждут согласия: «ну правда же…?».\nОтвечают по факту: Yes, it does — да (большое).  No, it doesn't — нет (не большое).",
+    body: "Строится как обычный вопрос, только помощник с N'T: Doesn't it…? Don't you…? Weren't they…?\nТак спрашивают, когда ждут согласия: «ну правда же…?».\nОтвечают по факту: Yes, it does — да (большое).  No, it doesn't — нет (не большое).\nС модальными — мягкое предложение: Shouldn't we look for a cheaper ticket? Can't I order a vegetarian meal instead?",
     groups: [
-      { label: "Из словаря", words: ["doesn't", "don't", "isn't", "aren't", "weren't", "wasn't", "didn't", "isn't it", "why don't"] },
+      { label: "Из словаря", words: ["doesn't", "don't", "isn't", "aren't", "weren't", "wasn't", "didn't", "isn't it", "why don't", "can't", "couldn't", "shouldn't", "won't"] },
     ],
   },
   {
@@ -621,6 +621,54 @@ const RULES = [
       { label: "Примерка и размер", words: ["try on", "fitting room", "size", "fit", "tight", "medium", "large", "small", "sleeve", "look"] },
       { label: "Цена и скидки", words: ["price", "price tag", "cost", "cheap", "expensive", "affordable", "discount", "percent", "on sale", "half price", "coupon"] },
       { label: "Оплата", words: ["checkout", "cash register", "pay", "with cash", "with a card", "credit card", "debit card", "change", "receipt", "refund", "return", "wallet", "purse"] },
+    ],
+  },
+  {
+    id: "conditionals", icon: "🔀", title: "IF / WHEN: после них — настоящее время, даже про будущее",
+    hook: "После IF, WHEN, BEFORE, AFTER, UNTIL — НЕ ставь will. If it rains, we'll stay (не «if it will rain»). Will — только во второй половине.",
+    body: "If it's foggy, we'll stay inside. — Если будет туман, мы останемся дома.\nWhen we arrive, we'll unpack. — Когда приедем, распакуемся.\nВсегда так (привычка): If I'm stressed out, I cook soup — когда я в стрессе, я варю суп.\nСовет: Take a nap if you feel terrible.  Если IF стоит в начале — ставим запятую.",
+    groups: [
+      { label: "Слова-сигналы", words: ["if", "when", "before", "after", "until", "as soon as", "in case", "if you can", "if you want", "if you like"] },
+    ],
+  },
+  {
+    id: "past-continuous", icon: "🎞️", title: "Past Continuous: WAS/WERE + -ING — «был в процессе»",
+    hook: "Что происходило в какой-то момент прошлого: We were dancing all night. Длинное действие + короткое: I broke my foot WHILE I WAS SKIING.",
+    body: "I was skiing — я катался (в процессе).  We were taking photos at six — в шесть мы фотографировали.\nWHILE + длинное действие (was/were + -ing), WHEN + короткое (Past Simple): I was cooking when he called.\nI was going to exercise, but… — я собирался, но… (план, который не сбылся).",
+    groups: [
+      { label: "Из словаря", words: ["was", "were", "while", "all night", "all day", "at the moment"] },
+    ],
+  },
+  {
+    id: "reported", icon: "💬", title: "Косвенная речь: SAY / TELL + that",
+    hook: "SAY — что сказал (say that…), TELL — КОМУ сказал (tell me, told her). The doctor told ME to rest. She said THAT she was tired.",
+    body: "Emma says that this gallery is pretty. — Эмма говорит, что…\nThe guide said that the artist was Canadian. — Гид сказал, что художник был канадцем (время «сдвигается» в прошлое).\nПросьба/совет: tell + кого + TO: The doctor told me to take some aspirin.\nTHAT можно опускать: I think (that) he's single.",
+    groups: [
+      { label: "Из словаря", words: ["say", "said", "tell", "told", "think", "hope", "explain", "describe", "mention"] },
+    ],
+  },
+  {
+    id: "want-someone-to", icon: "🫵", title: "«Хочу, чтобы ты…»: WANT / NEED / TELL + кого-то + TO",
+    hook: "По-русски «хочу, ЧТОБЫ ты пришёл», по-английски — без «чтобы»: I want YOU TO come. I need HIM TO explain.",
+    body: "I'd like you to meet my friend. — Я бы хотела познакомить тебя с другом (букв. «хочу, чтобы ты встретил»).\nI need him to explain this vocabulary. — Мне нужно, чтобы он объяснил эти слова.\nНе говори «I want that you…» — так нельзя.",
+    groups: [
+      { label: "Из словаря", words: ["want", "need", "would like", "tell", "ask", "help", "remind", "invite", "allowed"] },
+    ],
+  },
+  {
+    id: "passive", icon: "📦", title: "Пассив: BE + 3-я форма = «был сделан»",
+    hook: "Когда важно не КТО сделал, а ЧТО случилось: The sculpture WAS MADE of glass. The cameras WERE COVERED.",
+    body: "is/are + 3-я форма — сейчас: English is spoken here.\nwas/were + 3-я форма — в прошлом: The police weren't delayed — полицейские не задержались.\nКто сделал — через BY: The book was written by my friend.",
+    groups: [
+      { label: "3-и формы, которые часто стоят в пассиве", words: ["made", "made of", "stolen", "broken", "written", "taken", "thrown", "named", "located", "allowed", "canceled", "covered", "delayed", "known", "built"] },
+    ],
+  },
+  {
+    id: "airport", icon: "✈️", title: "В аэропорту и за границей",
+    hook: "Регистрация — check in, контроль безопасности — security, багаж — baggage/luggage (всегда без -s!), рейс — flight, выход — gate.",
+    body: "BAGGAGE и LUGGAGE — неисчисляемые: much luggage, a piece of luggage (не «luggages»).\nThe line for airport security is long. — Очередь на досмотр длинная.\nABROAD — за границей / за границу, без предлога: go abroad.  Виза — visa, посольство — embassy.",
+    groups: [
+      { label: "Из словаря", words: ["airport", "check in", "security", "baggage", "luggage", "passport", "passport control", "visa", "ticket", "flight", "take a flight", "gate", "arrival", "reservations", "canceled", "abroad", "embassy", "citizen", "shuttle"] },
     ],
   },
   {

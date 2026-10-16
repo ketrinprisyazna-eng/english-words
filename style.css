@@ -650,3 +650,13 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* ===== Ключевые фразы разделов ===== */
+.kp-unit { margin-bottom: 8px; padding: 12px 16px; }
+.kp-head { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.kp-head .ico { color: var(--ink-3); flex-shrink: 0; }
+.kp-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); }
+.kp-phrase { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--rule); }
+.kp-unit.open .kp-head { margin-bottom: 6px; }
+.kp-en { font-family: var(--serif); font-size: 16px; color: var(--ink); line-height: 1.35; }
+.kp-ru { font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }

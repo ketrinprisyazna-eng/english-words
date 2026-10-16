@@ -219,6 +219,7 @@
     <div class="seg wide" id="duo-tabs">
       <button type="button" class="filter-chip active" data-tab="lessons">Уроки и слова</button>
       <button type="button" class="filter-chip" data-tab="mistakes">Ошибки <span id="mistakes-count"></span></button>
+      <button type="button" class="filter-chip" data-tab="phrases">Фразы</button>
     </div>
     <div id="duo-tab-lessons">
       <p class="view-lead">
@@ -227,6 +228,19 @@
       <div id="sources-list"></div>
       <h2 class="section-title">Конспекты уроков</h2>
       <div id="duo-list"></div>
+    </div>
+    <div id="duo-tab-phrases" style="display:none;">
+      <p class="view-lead">
+        Ключевые фразы из путеводителей всех пройденных разделов Duolingo. Это готовые предложения, которые стоит знать наизусть: переводи с русского — и сверяй.
+      </p>
+      <div class="card">
+        <div class="settings-row" style="margin-top:0;">
+          <button class="small-btn learn-btn" onclick="startKeyPhraseSession()" id="kp-train-btn"></button>
+        </div>
+        <div class="seg" id="kp-levels" style="margin-top:12px;"></div>
+      </div>
+      <input type="search" id="kp-search" placeholder="Найти фразу или тему..." style="margin-top:12px;">
+      <div id="kp-list" style="margin-top:10px;"></div>
     </div>
     <div id="duo-tab-mistakes" style="display:none;">
       <p class="view-lead">
@@ -302,12 +316,13 @@
   </div>
 </div>
 
-<script src="words.js?v=3"></script>
+<script src="words.js?v=4"></script>
 <script src="assoc.js?v=1"></script>
-<script src="duo.js?v=3"></script>
-<script src="rules.js?v=4"></script>
-<script src="mistakes.js?v=1"></script>
+<script src="duo.js?v=4"></script>
+<script src="rules.js?v=5"></script>
+<script src="mistakes.js?v=2"></script>
 <script src="phrasal.js?v=1"></script>
+<script src="keyphrases.js?v=1"></script>
 <script src="mic.js?v=2"></script>
 <script src="app.js?v=4"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>

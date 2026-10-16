@@ -419,6 +419,10 @@ function renderCard() {
     renderPhrasalCard();
     return;
   }
+  if (SESSION.mode === "keyphrase") {
+    renderKeyPhraseCard();
+    return;
+  }
 
   const w = currentWord();
   const dir = currentDir();
@@ -477,6 +481,7 @@ function renderCard() {
 }
 function checkTyped() {
   if (SESSION && SESSION.mode === "phrasal") { checkPhrasalGap(); return; }
+  if (SESSION && SESSION.mode === "keyphrase") { checkKeyPhrase(); return; }
   const input = document.getElementById("type-answer-input");
   const value = input ? input.value.trim() : "";
   const item = currentItem();
@@ -1321,7 +1326,9 @@ function setDuoTab(tab) {
   document.querySelectorAll("#duo-tabs .filter-chip").forEach((el) => el.classList.toggle("active", el.dataset.tab === tab));
   document.getElementById("duo-tab-lessons").style.display = tab === "lessons" ? "" : "none";
   document.getElementById("duo-tab-mistakes").style.display = tab === "mistakes" ? "" : "none";
+  document.getElementById("duo-tab-phrases").style.display = tab === "phrases" ? "" : "none";
   if (tab === "mistakes") renderMistakes();
+  if (tab === "phrases") renderKeyPhrases();
 }
 function toggleMistake(id) {
   openMistakeId = openMistakeId === id ? null : id;
@@ -1539,6 +1546,187 @@ function renderPhrasalPage() {
     }).join("")}`).join("") || `<div class="empty-state">Ничего не найдено</div>`;
 }
 
+/* ============ Ключевые фразы разделов Duolingo ============ */
+let kpLevel = "all";
+let kpSearch = "";
+let kpOpenUnit = null;
+const KP_LEVELS = [["all", "Все"], ["B1", "B1"], ["A2", "A2"], ["A1", "A1"], ["Intro", "Начало"]];
+function kpAll() {
+  if (typeof KEY_PHRASES === "undefined") return [];
+  const out = [];
+  for (const u of KEY_PHRASES) for (const [en, ru] of u.phrases) out.push({ en, ru, unit: u });
+  return out;
+}
+// сравнение предложений: сокращения раскрываем, пунктуацию убираем
+// сокращения, которые на телефоне часто пишут без апострофа
+const KP_NO_APOSTROPHE = {
+  dont: "do not", doesnt: "does not", didnt: "did not", isnt: "is not", arent: "are not", wasnt: "was not", werent: "were not",
+  cant: "can not", couldnt: "could not", shouldnt: "should not", wouldnt: "would not", wont: "will not",
+  havent: "have not", hasnt: "has not", hadnt: "had not", mustnt: "must not",
+  im: "i am", ive: "i have", youre: "you are", theyre: "they are", weve: "we have", youve: "you have", theyve: "they have",
+  youll: "you will", itll: "it will", theyll: "they will",
+  lets: "let us", thats: "that is", whats: "what is", wheres: "where is", hows: "how is", heres: "here is", theres: "there is",
+};
+// слова, пропуск которых не считаем ошибкой
+const KP_SOFT = new Set(["a", "an", "the", "that", "so", "very", "really", "just", "please", "oh", "wow", "hey"]);
+function kpTokens(s) {
+  return String(s).toLowerCase()
+    .replace(/[’‘`]/g, "'")
+    .replace(/\bcan't\b/g, "can not").replace(/\bwon't\b/g, "will not").replace(/\bshan't\b/g, "shall not")
+    .replace(/n't\b/g, " not").replace(/'m\b/g, " am").replace(/'re\b/g, " are").replace(/'ve\b/g, " have")
+    .replace(/'ll\b/g, " will").replace(/'d\b/g, " would")
+    .replace(/\b(it|that|what|where|who|there|here|he|she|how|let)'s\b/g, (m, w) => (w === "let" ? "let us" : w + " is"))
+    .replace(/[^a-z0-9' -]/g, " ").replace(/-/g, " ")
+    .split(/\s+/).filter(Boolean)
+    .flatMap((t) => (KP_NO_APOSTROPHE[t] ? KP_NO_APOSTROPHE[t].split(" ") : [t]));
+}
+function kpCompare(user, correct) {
+  const a = kpTokens(user), b = kpTokens(correct);
+  // LCS по словам: какие слова правильного ответа совпали
+  const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--)
+    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const matched = new Set();
+  let i = 0, j = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { matched.add(j); i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+    else j++;
+  }
+  const lcs = dp[0][0];
+  const ratio = b.length ? lcs / Math.max(a.length, b.length) : 0;
+  const missing = b.filter((_, k) => !matched.has(k));
+  const extra = a.length - lcs;
+  // верно: все важные слова на месте (пропущены только мелкие) и почти нет лишних
+  const ok = b.length > 0 && missing.every((w) => KP_SOFT.has(w)) && missing.length <= 2 && extra <= 1;
+  return { ok, close: ratio >= 0.6, ratio, missing };
+}
+// правильный ответ с подсветкой слов, которых не было в ответе
+function kpHighlight(correct, missing) {
+  const miss = new Set(missing);
+  return String(correct).split(/(\s+)/).map((chunk) => {
+    if (/^\s+$/.test(chunk)) return chunk;
+    const toks = kpTokens(chunk);
+    const isMissing = toks.length && toks.some((t) => miss.has(t));
+    return isMissing ? `<b class="ph-hl">${escapeHtml(chunk)}</b>` : escapeHtml(chunk);
+  }).join("");
+}
+function buildKeyPhraseQueue(list, n) {
+  const now = Date.now();
+  const scored = list.map((x) => ({ x, p: getProgress(x.en) }));
+  scored.sort((a, b) => {
+    if (a.p.lastWrong !== b.p.lastWrong) return a.p.lastWrong ? -1 : 1;
+    const ad = isDue(a.p, now), bd = isDue(b.p, now);
+    if (ad !== bd) return ad ? -1 : 1;
+    if (a.p.total !== b.p.total) return a.p.total - b.p.total;
+    return b.x.unit.unit - a.x.unit.unit; // свежие разделы — раньше
+  });
+  return shuffleArray(scored.slice(0, Math.max(n * 2, n)).map((s) => s.x)).slice(0, n);
+}
+function startKeyPhraseSession(unitIdx) {
+  let list = kpAll();
+  if (unitIdx !== undefined) list = list.filter((x) => x.unit.unit === unitIdx);
+  else if (kpLevel !== "all") list = list.filter((x) => x.unit.cefr === kpLevel);
+  if (!list.length) { alert("Нет фраз для тренировки."); return; }
+  const queue = unitIdx !== undefined ? shuffleArray(list) : buildKeyPhraseQueue(list, 10);
+  SESSION = { mode: "keyphrase", queue: queue.map((x) => ({ kp: x })), idx: 0, correctCount: 0, revealed: false, typedChecked: false, typedValue: "", typedCorrect: null };
+  document.getElementById("session-overlay").style.display = "flex";
+  renderCard();
+}
+function renderKeyPhraseCard() {
+  const { kp } = currentItem();
+  const revealed = SESSION.revealed;
+  let feedback = "";
+  if (revealed) {
+    const r = SESSION.kpResult;
+    feedback = r.ok
+      ? `<div class="typed-feedback good">${ico("check")} Верно${r.ratio < 1 ? " (мелкие расхождения не считаем)" : ""}</div>`
+      : `<div class="typed-feedback bad">${ico("x")} ${SESSION.typedValue ? `Твой ответ: «${escapeHtml(SESSION.typedValue)}»` : "Пропущено"}${r.close ? " — почти!" : ""}</div>`;
+    feedback += `<div class="ph-explain">
+      <div class="ph-sentence" style="margin:0;">${kpHighlight(kp.en, r.ok ? [] : r.missing)}</div>
+      ${!r.ok && r.missing.length ? `<div class="muted" style="margin-top:6px;">Выделены слова, которых не было в твоём ответе.</div>` : ""}
+    </div>`;
+  }
+  document.getElementById("flash-area").innerHTML = `
+    <div class="flash-wrap">
+      <div class="flashcard">
+        ${revealed ? speakButtonHtml(kp.en, "card-speak-btn") : ""}
+        <div class="dir-badge learn-badge">Переведи на английский</div>
+        <div class="ph-sentence">${escapeHtml(kp.ru)}</div>
+        <div class="ph-hint">${escapeHtml(kp.unit.title.split(" / ")[0])} · ${escapeHtml(kp.unit.cefr)}</div>
+        ${feedback}
+      </div>
+      ${!revealed ? `
+        <div class="type-answer-row">
+          <input type="text" id="type-answer-input" class="type-answer-input" placeholder="Фраза по-английски…" autocomplete="off" autocapitalize="off" spellcheck="false">
+          ${micAnswerButtonHtml("en-US")}
+          <button class="check-btn" onclick="checkTyped()">Проверить</button>
+        </div>` : `<button class="reveal-btn" onclick="nextCard()">Далее</button>`}
+    </div>`;
+  if (!revealed) { const input = document.getElementById("type-answer-input"); if (input) input.focus(); }
+}
+function checkKeyPhrase() {
+  const input = document.getElementById("type-answer-input");
+  const value = input ? input.value.trim() : "";
+  const item = currentItem();
+  const r = kpCompare(value, item.kp.en);
+  SESSION.kpResult = r;
+  SESSION.typedValue = value;
+  SESSION.typedChecked = true;
+  SESSION.typedCorrect = r.ok;
+  SESSION.revealed = true;
+  registerReview(item.kp.en, r.ok);
+  if (r.ok) SESSION.correctCount++;
+  else if (SESSION.queue.filter((x) => x.kp === item.kp).length < 2) {
+    SESSION.queue.splice(Math.min(SESSION.queue.length, SESSION.idx + 4), 0, { kp: item.kp });
+  }
+  renderCard();
+  speakEn(item.kp.en);
+}
+function toggleKpUnit(idx) {
+  kpOpenUnit = kpOpenUnit === idx ? null : idx;
+  renderKeyPhrases();
+}
+function setKpLevel(level) {
+  kpLevel = level;
+  renderKeyPhrases();
+}
+function renderKeyPhrases() {
+  const el = document.getElementById("kp-list");
+  if (!el || typeof KEY_PHRASES === "undefined") return;
+  const total = kpAll().length;
+  const btn = document.getElementById("kp-train-btn");
+  if (btn) btn.innerHTML = `${ico("pencil")} Тренировать 10 фраз${kpLevel !== "all" ? ` (${kpLevel === "Intro" ? "начало" : kpLevel})` : ""}`;
+  document.getElementById("kp-levels").innerHTML = KP_LEVELS.map(([k, label]) =>
+    `<button type="button" class="filter-chip ${kpLevel === k ? "active" : ""}" onclick="setKpLevel('${k}')">${label}</button>`).join("");
+  const q = kpSearch.trim().toLowerCase();
+  let units = [...KEY_PHRASES].sort((a, b) => b.unit - a.unit);
+  if (kpLevel !== "all") units = units.filter((u) => u.cefr === kpLevel);
+  if (q) units = units.filter((u) => u.title.toLowerCase().includes(q) || u.phrases.some(([en, ru]) => en.toLowerCase().includes(q) || ru.toLowerCase().includes(q)));
+  const learned = kpAll().filter((x) => getProgress(x.en).box >= 1).length;
+  el.innerHTML = `<p class="block-note">${KEY_PHRASES.length} ${plural(KEY_PHRASES.length, "раздел", "раздела", "разделов")} · ${total} фраз · выучено ${learned}</p>` +
+    (units.map((u) => {
+      const open = kpOpenUnit === u.unit || (q && units.length <= 5);
+      const done = u.phrases.filter(([en]) => getProgress(en).box >= 1).length;
+      return `<div class="card kp-unit ${open ? "open" : ""}">
+        <div class="kp-head" onclick="toggleKpUnit(${u.unit})">
+          <div style="flex:1;min-width:0;">
+            <div class="kp-title">${escapeHtml(u.title.split(" / ")[0])}</div>
+            <div class="block-note" style="margin:2px 0 0;">${escapeHtml(u.cefr)} · ${done}/${u.phrases.length} выучено</div>
+          </div>
+          ${ico(open ? "x" : "chevron-right")}
+        </div>
+        ${open ? `
+          ${u.phrases.map(([en, ru]) => `<div class="kp-phrase">
+            <div style="flex:1;min-width:0;"><div class="kp-en">${escapeHtml(en)}</div><div class="kp-ru">${escapeHtml(ru)}</div></div>
+            ${speakButtonHtml(en)}
+          </div>`).join("")}
+          <button class="small-btn learn-btn" style="margin-top:10px;" onclick="startKeyPhraseSession(${u.unit})">${ico("pencil")} Тренировать раздел</button>
+        ` : ""}
+      </div>`;
+    }).join("") || `<div class="empty-state">Ничего не найдено</div>`);
+}
+
 /* ============ helpers ============ */
 // иконка из SVG-спрайта в index.html (Tabler Icons, MIT)
 function ico(name, cls) {
@@ -1630,6 +1818,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("rules-search").addEventListener("input", (e) => { rulesSearch = e.target.value; renderRules(); });
   document.getElementById("phrasal-search").addEventListener("input", (e) => { phrasalSearch = e.target.value; renderPhrasalPage(); });
   document.querySelectorAll("#duo-tabs .filter-chip").forEach((el) => el.addEventListener("click", () => setDuoTab(el.dataset.tab)));
+  document.getElementById("kp-search").addEventListener("input", (e) => { kpSearch = e.target.value; renderKeyPhrases(); });
 
   document.getElementById("lang-en-btn").addEventListener("click", () => setTextLang("en"));
   document.getElementById("lang-ru-btn").addEventListener("click", () => setTextLang("ru"));

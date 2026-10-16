@@ -6,6 +6,54 @@
 // type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
 const MISTAKES = [
   {
+    id: "m2026-10-16-1", date: "2026-10-16", type: "to-ru",
+    prompt: "I canceled my ticket, so I'm not flying today.",
+    yours: "Я отменил билет так что я не лечу сегодня",
+    correct: "Я отменил свой билет, так что сегодня я не лечу.",
+    why: [
+      "MY перед вещью по-русски часто становится «свой»: I canceled my ticket — я отменил СВОЙ билет. Не теряй местоимение.",
+      "I'M NOT FLYING today — Present Continuous для того, что уже решено на ближайшее время: «сегодня я не лечу».",
+      "Перед SO (поэтому) по-русски ставим запятую: …, так что…",
+    ],
+    rules: ["pronouns", "continuous", "linking"], words: ["canceled", "ticket", "so"],
+  },
+  {
+    id: "m2026-10-15-1", date: "2026-10-15", type: "to-en",
+    prompt: "Мой папа раньше жарил бургеры на этой сковороде.",
+    yours: "My dad used to cook burgers in this frying",
+    correct: "My dad used to cook burgers in this frying pan.",
+    why: [
+      "«Сковорода» — это два слова: FRYING PAN (pan — посуда, frying — для жарки). Одно frying — это «жарка».",
+      "USED TO + глагол = «раньше (делал), а теперь нет» — тут у тебя всё верно 👍",
+    ],
+    rules: ["compounds", "modals"], words: ["frying pan", "used to"],
+  },
+  {
+    id: "m2026-10-15-2", date: "2026-10-15", type: "to-en",
+    prompt: "Я довольно уверен, что тебе не нужно больше вещей.",
+    yours: "I'm pretty sure you don't need move stuff",
+    correct: "I'm pretty sure that you don't need any more stuff.",
+    why: [
+      "«Больше, ещё» — MORE (не move — «двигать»).",
+      "В отрицании перед more добавляют ANY: don't need any more stuff — «больше не нужно».",
+      "PRETTY перед прилагательным = «довольно»: pretty sure — довольно уверен.",
+      "THAT после sure можно опустить — оба варианта верны.",
+    ],
+    rules: ["much-many", "do-does-did"], words: ["pretty", "stuff", "any", "more"],
+  },
+  {
+    id: "m2026-10-15-3", date: "2026-10-15", type: "gap",
+    prompt: "Как сказать «касса» (в магазине)?",
+    yours: "",
+    correct: "checkout / cash register",
+    why: [
+      "CHECKOUT — касса в магазине (и «оформление заказа» на сайте).",
+      "CASH REGISTER — кассовый аппарат.",
+      "Не путай: check — чек в ресторане, receipt — чек из магазина.",
+    ],
+    rules: ["shopping"], words: ["checkout", "cash register"],
+  },
+  {
     id: "m2026-10-13-1", date: "2026-10-13", type: "to-en",
     prompt: "Трансфер может отвезти вас в центр города.",
     yours: "transfer can take you in downtown",
