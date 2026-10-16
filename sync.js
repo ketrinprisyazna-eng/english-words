@@ -134,7 +134,7 @@
         '<div style="font-size:13px;color:var(--muted);margin-bottom:8px;">' +
         "Прогресс хранится только на этом устройстве. Войдите (тот же аккаунт, что и для испанского), чтобы видеть один и тот же прогресс на компьютере и телефоне." +
         "</div>" +
-        '<button class="small-btn learn-btn" id="btn-open-login">🔄 Войти / синхронизировать</button>';
+        '<button class="small-btn learn-btn" id="btn-open-login">Войти и синхронизировать</button>';
       document.getElementById("btn-open-login").addEventListener("click", openLoginModal);
     }
   }

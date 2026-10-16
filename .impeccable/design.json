@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T18:00:00Z",
+  "title": "Design System: Мой английский",
+  "extensions": {
+    "colorMeta": {
+      "red": {
+        "role": "primary",
+        "displayName": "Margin Terracotta",
+        "canonical": "#B0452A",
+        "dark": "#E2805F",
+        "tonalRamp": [
+          "#3E251A",
+          "#8E3520",
+          "#B0452A",
+          "#E2805F",
+          "#F0A487",
+          "#F2DCD2"
+        ]
+      },
+      "red-ink": {
+        "role": "primary",
+        "displayName": "Deep Terracotta",
+        "canonical": "#8E3520",
+        "dark": "#F0A487",
+        "tonalRamp": [
+          "#8E3520",
+          "#F0A487"
+        ]
+      },
+      "red-tint": {
+        "role": "primary",
+        "displayName": "Terracotta Wash",
+        "canonical": "#F2DCD2",
+        "dark": "#3E251A",
+        "tonalRamp": [
+          "#3E251A",
+          "#F2DCD2"
+        ]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Ink Blue",
+        "canonical": "#2E5283",
+        "dark": "#98B3DC",
+        "tonalRamp": [
+          "#1F2A3B",
+          "#2E5283",
+          "#98B3DC",
+          "#DDE5EF"
+        ]
+      },
+      "blue-tint": {
+        "role": "secondary",
+        "displayName": "Blue Wash",
+        "canonical": "#DDE5EF",
+        "dark": "#1F2A3B",
+        "tonalRamp": [
+          "#1F2A3B",
+          "#DDE5EF"
+        ]
+      },
+      "moss": {
+        "role": "tertiary",
+        "displayName": "Moss",
+        "canonical": "#4B6A35",
+        "dark": "#A8C387",
+        "tonalRamp": [
+          "#263121",
+          "#4B6A35",
+          "#A8C387",
+          "#E1E9D5"
+        ]
+      },
+      "moss-tint": {
+        "role": "tertiary",
+        "displayName": "Moss Wash",
+        "canonical": "#E1E9D5",
+        "dark": "#263121",
+        "tonalRamp": [
+          "#263121",
+          "#E1E9D5"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Ochre",
+        "canonical": "#8C6411",
+        "dark": "#DDB461",
+        "tonalRamp": [
+          "#362C16",
+          "#8C6411",
+          "#DDB461",
+          "#F2E4C4"
+        ]
+      },
+      "amber-tint": {
+        "role": "tertiary",
+        "displayName": "Ochre Wash",
+        "canonical": "#F2E4C4",
+        "dark": "#362C16",
+        "tonalRamp": [
+          "#362C16",
+          "#F2E4C4"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#F3ECDF",
+        "dark": "#1A1813",
+        "tonalRamp": [
+          "#1A1813",
+          "#232019",
+          "#2C2820",
+          "#EEE5D5",
+          "#F3ECDF",
+          "#FBF7EF"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "canonical": "#FBF7EF",
+        "dark": "#232019",
+        "tonalRamp": [
+          "#232019",
+          "#FBF7EF"
+        ]
+      },
+      "sheet-2": {
+        "role": "neutral",
+        "displayName": "Second Sheet",
+        "canonical": "#EEE5D5",
+        "dark": "#2C2820",
+        "tonalRamp": [
+          "#2C2820",
+          "#EEE5D5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#221C14",
+        "dark": "#EEE7D8",
+        "tonalRamp": [
+          "#221C14",
+          "#5E5444",
+          "#766A57",
+          "#9A8F7B",
+          "#B5AA96",
+          "#EEE7D8"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "#5E5444",
+        "dark": "#B5AA96",
+        "tonalRamp": [
+          "#5E5444",
+          "#B5AA96"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "#766A57",
+        "dark": "#9A8F7B",
+        "tonalRamp": [
+          "#766A57",
+          "#9A8F7B"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#DCD0BB",
+        "dark": "#3A342A",
+        "tonalRamp": [
+          "#3A342A",
+          "#4C4537",
+          "#C7B89E",
+          "#DCD0BB"
+        ]
+      },
+      "rule-2": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "canonical": "#C7B89E",
+        "dark": "#4C4537",
+        "tonalRamp": [
+          "#4C4537",
+          "#C7B89E"
+        ]
+      },
+      "on-ink": {
+        "role": "neutral",
+        "displayName": "On Ink",
+        "canonical": "#FBF7EF",
+        "dark": "#1A1813",
+        "tonalRamp": [
+          "#1A1813",
+          "#FBF7EF"
+        ]
+      },
+      "chip-on": {
+        "role": "neutral",
+        "displayName": "Chip On",
+        "canonical": "#FBF7EF",
+        "dark": "#433C30",
+        "tonalRamp": [
+          "#433C30",
+          "#FBF7EF"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgba(34, 28, 20, 0.45)",
+        "dark": "rgba(0, 0, 0, 0.6)",
+        "tonalRamp": []
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Card Word",
+        "purpose": "The English (or Russian) word on the review flashcard."
+      },
+      "headline": {
+        "displayName": "Page Title",
+        "purpose": "Home title at 30px; view titles reuse it at 27px."
+      },
+      "numeral": {
+        "displayName": "Ledger Numeral",
+        "purpose": "The three figures in the home stat row; lining tabular figures."
+      },
+      "answer": {
+        "displayName": "Answer",
+        "purpose": "Revealed translation on the flashcard, italic, ink blue, animated by ink-settle."
+      },
+      "title": {
+        "displayName": "Section Title",
+        "purpose": "Section headings on a page (15.5px inside cards)."
+      },
+      "reading": {
+        "displayName": "Reading",
+        "purpose": "Generated reading texts, max 65ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Base interface text in Golos Text."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Primary CTA label; reveal 15.5px, check 15px, small buttons 13.5px/500."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Stat labels, counts, breakdowns and meta; nav labels 11px."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 1px 2px rgba(60, 40, 10, 0.08), 0 10px 24px -12px rgba(60, 40, 10, 0.28)",
+        "dark": "0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 28px -12px rgba(0, 0, 0, 0.7)",
+        "purpose": "The review flashcard and the login modal card only."
+      },
+      {
+        "name": "segment-nub",
+        "value": "0 1px 2px rgba(60, 40, 10, 0.12)",
+        "purpose": "Active option in a segmented control or language toggle."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px var(--blue-tint)",
+        "purpose": "Text input focus, with a blue border."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 6px",
+        "purpose": "Global :focus-visible ring."
+      },
+      {
+        "name": "mic-pulse",
+        "value": "0 0 0 0 var(--red-tint) -> 0 0 0 6px var(--red-tint), 1.2s ease-in-out infinite",
+        "purpose": "Mic button while listening."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The one easing curve (--ease) for all eased transitions."
+      },
+      {
+        "name": "ink-settle",
+        "value": "0.6s var(--ease); from { opacity: 0.25; filter: blur(3px); transform: translateY(2px); }",
+        "purpose": "The single expressive motion: the revealed answer settles into the paper like ink. Legible from the first frame."
+      },
+      {
+        "name": "press",
+        "value": "transform scale(0.985) / 0.98 / 0.94, 0.15s var(--ease)",
+        "purpose": "Press feedback on CTA, reveal, small and speak buttons."
+      },
+      {
+        "name": "cta-arrow-nudge",
+        "value": "translateX(3px), 0.25s var(--ease)",
+        "purpose": "CTA arrow on hover."
+      },
+      {
+        "name": "nav-underline",
+        "value": "scaleX(0 -> 1), 0.25s var(--ease)",
+        "purpose": "Active bottom-nav terracotta bar."
+      },
+      {
+        "name": "progress",
+        "value": "width 0.5s var(--ease)",
+        "purpose": "Progress bar fill."
+      },
+      {
+        "name": "spin",
+        "value": "rotate(360deg), 0.9s linear infinite",
+        "purpose": "Loader icon."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation/transition durations 0.01ms under prefers-reduced-motion: reduce",
+        "purpose": "All motion collapses."
+      }
+    ],
+    "breakpoints": [],
+    "layout": {
+      "column": "640px",
+      "cardColumn": "460px",
+      "gutter": "16px",
+      "navHeight": "64px",
+      "note": "Single column, no width breakpoints; safe-area insets on top, bottom and nav."
+    },
+    "icons": {
+      "family": "Tabler Icons (outline, MIT)",
+      "delivery": "inline SVG <symbol> sprite in index.html, used via <use href=\"#i-...\">",
+      "stroke": 1.75,
+      "size": "1.2em default; 15-22px contextual; 48px at stroke 1.5 on session-done"
+    },
+    "themes": {
+      "light": ":root",
+      "dark": "@media (prefers-color-scheme: dark) :root:not([data-theme=light]) and :root[data-theme=dark]",
+      "darkTokenPrefix": "dark-"
+    }
+  },
+  "components": [
+    {
+      "name": "Ink Bar CTA",
+      "kind": "button",
+      "refersTo": "cta",
+      "description": "The one primary action per screen: start the review.",
+      "html": "<button class=\"ds-cta\"><span>Повторить 25 слов</span><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12l14 0\"/><path d=\"M13 18l6 -6\"/><path d=\"M13 6l6 6\"/></svg></button>",
+      "css": ".ds-ico { width: 1.2em; height: 1.2em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; } .ds-cta { width: 100%; min-height: 56px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--ink, #221C14); color: var(--on-ink, #FBF7EF); border: none; border-radius: var(--r, 12px); font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.15s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)), background 0.2s; } .ds-cta .ds-ico { width: 22px; height: 22px; transition: transform 0.25s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-cta:hover .ds-ico { transform: translateX(3px); } .ds-cta:active { transform: scale(0.985); } .ds-cta:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; }"
+    },
+    {
+      "name": "Small Button",
+      "kind": "button",
+      "refersTo": "small-btn",
+      "description": "Secondary actions: export, import, reset, settings.",
+      "html": "<button class=\"ds-small-btn\">Экспорт</button> <button class=\"ds-small-btn ds-danger\">Сбросить</button>",
+      "css": ".ds-small-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 0 13px; border: 1px solid var(--rule-2, #C7B89E); background: var(--sheet, #FBF7EF); color: var(--ink, #221C14); border-radius: 10px; font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; transition: background 0.15s, border-color 0.15s; } .ds-small-btn:hover { border-color: var(--ink-3, #766A57); } .ds-small-btn:active { transform: scale(0.98); } .ds-small-btn:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-small-btn.ds-danger { color: var(--red, #B0452A); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Search and form fields on sheet paper with a terracotta caret.",
+      "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Слово на английском или русском\">",
+      "css": ".ds-input { width: 100%; min-height: 46px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--rule-2, #C7B89E); background: var(--sheet, #FBF7EF); color: var(--ink, #221C14); font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 16px; caret-color: var(--red, #B0452A); transition: border-color 0.15s, box-shadow 0.15s; } .ds-input::placeholder { color: var(--ink-3, #766A57); } .ds-input:focus { outline: none; border-color: var(--blue, #2E5283); box-shadow: 0 0 0 3px var(--blue-tint, #DDE5EF); }"
+    },
+    {
+      "name": "Filter Pills",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Horizontally scrolling list filters; active pill is ink-filled.",
+      "html": "<div class=\"ds-filter-row\"><button class=\"ds-pill ds-on\">Все</button><button class=\"ds-pill\">Нужно подучить</button><button class=\"ds-pill\">Новые</button></div>",
+      "css": ".ds-filter-row { display: flex; gap: 6px; } .ds-pill { flex-shrink: 0; min-height: 36px; padding: 0 13px; border: 1px solid var(--rule-2, #C7B89E); background: transparent; color: var(--ink, #221C14); border-radius: 999px; font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 13px; white-space: nowrap; cursor: pointer; } .ds-pill:hover { border-color: var(--ink-3, #766A57); } .ds-pill:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-pill.ds-on { background: var(--ink, #221C14); border-color: var(--ink, #221C14); color: var(--on-ink, #FBF7EF); }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "seg-chip",
+      "description": "Recessed track with a raised active option (text level, language order, lesson tabs).",
+      "html": "<div class=\"ds-seg\"><button class=\"ds-seg-opt ds-on\">A2</button><button class=\"ds-seg-opt\">B1</button><button class=\"ds-seg-opt\">B2</button></div>",
+      "css": ".ds-seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--sheet-2, #EEE5D5); border-radius: 10px; } .ds-seg-opt { border: none; background: none; color: var(--ink-2, #5E5444); min-height: 36px; padding: 0 11px; border-radius: 8px; font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; } .ds-seg-opt:hover { color: var(--ink, #221C14); } .ds-seg-opt:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-seg-opt.ds-on { background: var(--chip-on, #FBF7EF); color: var(--ink, #221C14); box-shadow: 0 1px 2px rgba(60, 40, 10, 0.12); }"
+    },
+    {
+      "name": "Contents Row",
+      "kind": "nav",
+      "refersTo": "toc-item",
+      "description": "Signature: table-of-contents row with a dotted leader running along the title's last line to a serif count. Sits on the paper ground.",
+      "html": "<div class=\"ds-toc\"><button class=\"ds-toc-item\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1\"/></svg><span class=\"ds-toc-line\"><span class=\"ds-toc-text\">Фразовые глаголы</span><small>78</small></span></button><button class=\"ds-toc-item\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1\"/></svg><span class=\"ds-toc-line\"><span class=\"ds-toc-text\">Правила</span><small>56</small></span></button></div>",
+      "css": ".ds-ico { width: 1.2em; height: 1.2em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; } .ds-toc { background: var(--paper, #F3ECDF); border-top: 1px solid var(--rule, #DCD0BB); } .ds-toc-item { width: 100%; display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 12px 2px; text-align: left; background: none; border: none; border-bottom: 1px solid var(--rule, #DCD0BB); cursor: pointer; font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; } .ds-toc-item > .ds-ico { width: 21px; height: 21px; color: var(--ink-2, #5E5444); } .ds-toc-item:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-toc-line { flex: 1; min-width: 0; display: flow-root; line-height: 1.35; background-image: radial-gradient(circle, var(--rule-2, #C7B89E) 1.1px, transparent 1.4px); background-size: 6px 4px; background-repeat: repeat-x; background-position: 0 calc(100% - 0.38em); } .ds-toc-line > :first-child { background: var(--paper, #F3ECDF); padding-right: 8px; -webkit-box-decoration-break: clone; box-decoration-break: clone; } .ds-toc-line > :last-child { float: right; background: var(--paper, #F3ECDF); padding-left: 8px; line-height: inherit; } .ds-toc-text { font-size: 15.5px; font-weight: 500; color: var(--ink, #221C14); transition: color 0.15s; } .ds-toc-item:hover .ds-toc-text { color: var(--red, #B0452A); } .ds-toc-line small { font-family: Literata, Georgia, 'Times New Roman', serif; font-size: 14.5px; color: var(--ink-2, #5E5444); white-space: nowrap; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Review Index Card",
+      "kind": "card",
+      "refersTo": "flashcard",
+      "description": "Signature: the flashcard as an index card with a terracotta margin line; the answer appears with ink-settle.",
+      "html": "<div class=\"ds-flashcard\"><button class=\"ds-speak ds-tl\" aria-label=\"Произнести\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M15 8a5 5 0 0 1 0 8\"/><path d=\"M17.7 5a9 9 0 0 1 0 14\"/><path d=\"M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5\"/></svg></button><span class=\"ds-dir\">EN → RU</span><button class=\"ds-speak ds-tr\" aria-label=\"Проверить произношение\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z\"/><path d=\"M5 10a7 7 0 0 0 14 0\"/><path d=\"M8 21l8 0\"/><path d=\"M12 17l0 4\"/></svg></button><div class=\"ds-word\">to look forward to</div><div class=\"ds-answer\">ждать с нетерпением</div></div>",
+      "css": ".ds-ico { width: 1.2em; height: 1.2em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; } .ds-flashcard { position: relative; width: 100%; max-width: 460px; min-height: 250px; background: var(--sheet, #FBF7EF); color: var(--ink, #221C14); border-radius: var(--r, 12px); box-shadow: var(--lift, 0 1px 2px rgba(60, 40, 10, 0.08), 0 10px 24px -12px rgba(60, 40, 10, 0.28)); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 66px 20px 26px; text-align: center; gap: 8px; } .ds-flashcard::before { content: ''; position: absolute; left: 0; right: 0; top: 50px; height: 1px; background: var(--red, #B0452A); opacity: 0.55; } .ds-dir { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 12.5px; font-weight: 500; color: var(--ink-2, #5E5444); white-space: nowrap; } .ds-speak { position: absolute; top: 7px; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--rule, #DCD0BB); background: transparent; color: var(--ink-2, #5E5444); border-radius: 10px; cursor: pointer; padding: 0; transition: color 0.15s, border-color 0.15s; } .ds-speak .ds-ico { width: 18px; height: 18px; } .ds-speak:hover { color: var(--ink, #221C14); border-color: var(--rule-2, #C7B89E); } .ds-speak:active { transform: scale(0.94); } .ds-speak:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-tl { left: 8px; } .ds-tr { right: 8px; } .ds-word { font-family: Literata, Georgia, 'Times New Roman', serif; font-weight: 650; font-size: 34px; line-height: 1.15; letter-spacing: -0.015em; overflow-wrap: anywhere; } .ds-answer { font-family: Literata, Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; font-size: 21px; line-height: 1.3; color: var(--blue, #2E5283); margin-top: 6px; animation: ds-ink-settle 0.6s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } @keyframes ds-ink-settle { from { opacity: 0.25; filter: blur(3px); transform: translateY(2px); } } @media (prefers-reduced-motion: reduce) { .ds-answer { animation: none; } }"
+    },
+    {
+      "name": "Verdict Strip",
+      "kind": "custom",
+      "refersTo": "verdict-good",
+      "description": "Calm tinted feedback on a typed answer; moss for right, deep terracotta for wrong.",
+      "html": "<div class=\"ds-verdict ds-good\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12l5 5l10 -10\"/></svg> Верно</div><div class=\"ds-verdict ds-bad\">Правильно: <b>look forward to</b></div>",
+      "css": ".ds-ico { width: 1.2em; height: 1.2em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; } .ds-verdict { display: flex; align-items: center; gap: 8px; font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 14px; border-radius: 10px; padding: 9px 12px; margin-top: 8px; text-align: left; } .ds-verdict.ds-good { background: var(--moss-tint, #E1E9D5); color: var(--moss, #4B6A35); } .ds-verdict.ds-bad { background: var(--red-tint, #F2DCD2); color: var(--red-ink, #8E3520); } .ds-verdict b { color: var(--ink, #221C14); font-weight: 600; }"
+    },
+    {
+      "name": "Ledger Stat Row",
+      "kind": "custom",
+      "refersTo": "numeral",
+      "description": "Home stat row: three ruled cells with serif tabular figures; the due count is terracotta.",
+      "html": "<div class=\"ds-ledger\"><div class=\"ds-cell ds-due\"><div class=\"ds-num\">23</div><div class=\"ds-label\">ждут повтора</div></div><div class=\"ds-cell\"><div class=\"ds-num\">12</div><div class=\"ds-label\">повторено сегодня</div></div><div class=\"ds-cell\"><div class=\"ds-num\">41%</div><div class=\"ds-label\">пройдено из 2725</div></div></div>",
+      "css": ".ds-ledger { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule-2, #C7B89E); border-bottom: 1px solid var(--rule, #DCD0BB); color: var(--ink, #221C14); } .ds-cell { padding: 12px 0 12px 12px; border-left: 1px solid var(--rule, #DCD0BB); min-width: 0; } .ds-cell:first-child { padding-left: 0; border-left: none; } .ds-num { font-family: Literata, Georgia, 'Times New Roman', serif; font-weight: 650; font-size: 28px; line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.02em; } .ds-due .ds-num { color: var(--red, #B0452A); } .ds-label { font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 12.5px; color: var(--ink-2, #5E5444); margin-top: 3px; line-height: 1.3; }"
+    },
+    {
+      "name": "Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "nav-btn",
+      "description": "Fixed bottom bar of line icons; active item gets a terracotta icon and a 2px top bar.",
+      "html": "<nav class=\"ds-nav\"><button class=\"ds-nav-btn ds-on\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12l-2 0l9 -9l9 9l-2 0\"/><path d=\"M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7\"/><path d=\"M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6\"/></svg>Главная</button><button class=\"ds-nav-btn\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z\"/><path d=\"M9 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z\"/><path d=\"M5 8h4\"/><path d=\"M9 16h4\"/></svg>Слова</button></nav>",
+      "css": ".ds-ico { width: 1.2em; height: 1.2em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; } .ds-nav { display: flex; justify-content: center; background: var(--paper, #F3ECDF); border-top: 1px solid var(--rule, #DCD0BB); padding: 4px; } .ds-nav-btn { position: relative; flex: 1; max-width: 108px; min-width: 0; min-height: 56px; padding: 6px 2px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: none; background: none; color: var(--ink-3, #766A57); font-family: 'Golos Text', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 11px; letter-spacing: -0.01em; cursor: pointer; } .ds-nav-btn .ds-ico { width: 22px; height: 22px; } .ds-nav-btn::before { content: ''; position: absolute; top: -1px; left: 50%; width: 22px; height: 2px; margin-left: -11px; background: var(--red, #B0452A); border-radius: 2px; transform: scaleX(0); transition: transform 0.25s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)); } .ds-nav-btn:hover { color: var(--ink, #221C14); } .ds-nav-btn:focus-visible { outline: 2px solid var(--blue, #2E5283); outline-offset: 2px; } .ds-nav-btn.ds-on { color: var(--ink, #221C14); font-weight: 600; } .ds-nav-btn.ds-on .ds-ico { color: var(--red, #B0452A); } .ds-nav-btn.ds-on::before { transform: scaleX(1); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Тетрадь — The Kept Exercise Book",
+    "overview": "The app is a personal study notebook, not a game. Warm paper is the ground, near-black ink carries the text, and a single terracotta line plays the part of the red margin rule in a school exercise book. Everything that is not the next review reads like a tidy page: hairline rules, ruled number rows, contents lists with dotted leaders. There is exactly one loud object per screen, the dark ink bar that starts the review.\n\nDensity is calm and single-column, tuned for one hand on an Android phone in short daily sessions; the interface speaks Russian, the words being studied are English. Serif type (Literata) is reserved for what is studied and counted: words, headings, numerals, reading text. A humanist sans (Golos Text) runs every control. Depth is almost absent: surfaces are separated by 1px paper-edge lines, and only two objects ever lift off the page, the review index card and the login sheet.\n\nThe world explicitly refuses the game-dashboard look it replaced: no grid of equal coloured stat tiles, no emoji buttons, no bright green progress candy.",
+    "keyCharacteristics": [
+      "Warm paper ground, ink text, one terracotta margin-red accent.",
+      "Literata for words, headings and numbers; Golos Text for the interface.",
+      "Hairline rules and ruled rows instead of shadowed cards.",
+      "Contents-page rows with dotted leaders running to a serif count.",
+      "The review card is an index card with a red margin line.",
+      "One drawn icon family (Tabler outline, 1.75 stroke) via an inline SVG sprite.",
+      "One expressive motion: the answer settles into the paper like ink.",
+      "Full light and dark themes from the same token names."
+    ],
+    "rules": [
+      {
+        "name": "The One Margin Line Rule",
+        "body": "Terracotta is the only accent and it marks, it never fills: a number, an underline, a 1px line, an icon stroke. If a screen shows terracotta as a background larger than a tint strip, it is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The State Ink Rule",
+        "body": "Word state always maps the same way: moss = mastered/right, blue = learning/answer, amber = difficult/hint, `rule-2` = new. Each state ink is paired with its own tint for backgrounds; never put a state ink on another state's tint.",
+        "section": "colors"
+      },
+      {
+        "name": "The Studied-In-Serif Rule",
+        "body": "If it is an English word, a heading, a number or reading text, it is Literata. If you press it or it labels a control, it is Golos Text. The empty state is the one place the serif speaks in italic prose.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Eyebrow Rule",
+        "body": "A heading stands alone; the date or context line goes under it (`.today`), never above it as a small-caps kicker.",
+        "section": "typography"
+      },
+      {
+        "name": "The Hairline-Not-Shadow Rule",
+        "body": "Content cards, list cards, rule bodies and reader panels are separated by a 1px `rule` border on `sheet`, never by a shadow. Lift is reserved for the one object you are holding: the index card in review, or a modal sheet.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep terracotta (`red`) to marks: numbers, underlines, 1px lines, icon strokes, caret.",
+      "**Do** set English words, headings, numerals and reading text in Literata; set every control in Golos Text.",
+      "**Do** separate content with 1px `rule` hairlines on `sheet`, and reserve the Lift shadow for the review card and modal sheets.",
+      "**Do** present lists of destinations as contents rows with a dotted leader to a serif count, placed on the `paper` ground.",
+      "**Do** keep one ink-bar CTA per screen and put alternatives beneath it as quiet text links.",
+      "**Do** draw every icon from the Tabler outline sprite at stroke 1.75 with `currentColor`.",
+      "**Do** define every new colour as a role token with both light and dark values, and reference only the role name in components.",
+      "**Do** keep answer feedback to tinted verdict strips: moss on `moss-tint` for right, `red-ink` on `red-tint` for wrong."
+    ],
+    "donts": [
+      "**Don't** build a dashboard of equal coloured stat tiles; numbers live in the ruled ledger row.",
+      "**Don't** use emoji as icons or buttons, or mix in a second icon family.",
+      "**Don't** imitate a teacher's red pen (scrawled marks, ticks, crossings-out over her typed answer) in the review session; the verdict strip is the only wrong-answer treatment there. (The Mistakes log's 1px terracotta strike-through on the recorded wrong sentence is a record, not a verdict, and stays.)",
+      "**Don't** put a small label or kicker above a heading; context goes underneath.",
+      "**Don't** add shadows to content cards, list cards or rows.",
+      "**Don't** add decorative motion beyond ink-settle; new animations must answer a user action or show a live state.",
+      "**Don't** place contents rows inside a `sheet` card: their `paper` mask will show as patches."
+    ]
+  }
+}

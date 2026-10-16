@@ -45,17 +45,17 @@ function speakEn(text, rate) {
   } catch (e) {}
 }
 function speakButtonHtml(text, extraClass) {
-  return `<button class="speak-btn ${extraClass || ""}" data-text="${escapeHtml(text)}" onclick="event.stopPropagation(); speakEn(this.dataset.text)" title="Прослушать">🔊</button>`;
+  return `<button class="speak-btn ${extraClass || ""}" data-text="${escapeHtml(text)}" onclick="event.stopPropagation(); speakEn(this.dataset.text)" title="Прослушать" aria-label="Прослушать">${ico("volume")}</button>`;
 }
 
 function micButtonHtml(target, extraClass) {
-  return `<button class="mic-btn ${extraClass || ""}" data-target="${escapeHtml(target)}" onclick="handleMicClick(this)" title="Проверить произношение">🎤</button>`;
+  return `<button class="mic-btn ${extraClass || ""}" data-target="${escapeHtml(target)}" onclick="handleMicClick(this)" title="Проверить произношение" aria-label="Проверить произношение">${ico("microphone")}</button>`;
 }
 
 /* Микрофон как способ ОТВЕТИТЬ в сессии повторения: распознанная речь
    вписывается в поле ответа (type-answer-input), а не проверяется сама по себе. */
 function micAnswerButtonHtml(lang) {
-  return `<button class="mic-btn" data-lang="${lang}" onclick="handleAnswerMicClick(this)" title="Ответить голосом">🎤</button>`;
+  return `<button class="mic-btn" data-lang="${lang}" onclick="handleAnswerMicClick(this)" title="Ответить голосом" aria-label="Ответить голосом">${ico("microphone")}</button>`;
 }
 
 function handleAnswerMicClick(btn) {
@@ -77,7 +77,7 @@ function handleAnswerMicClick(btn) {
   micRecognition = rec;
   micActiveBtn = btn;
   btn.dataset.state = "listening";
-  btn.textContent = "🔴";
+  btn.innerHTML = ico("microphone");
   btn.classList.add("listening");
 
   rec.onresult = (e) => {
@@ -118,7 +118,7 @@ function startMicFor(btn) {
   micRecognition = rec;
   micActiveBtn = btn;
   btn.dataset.state = "listening";
-  btn.textContent = continuous ? "⏹️" : "🔴";
+  btn.innerHTML = ico(continuous ? "player-stop" : "microphone");
   btn.classList.add("listening");
 
   rec.onresult = (e) => {
@@ -144,7 +144,8 @@ function stopMic() {
 }
 
 function resetMicBtn(btn) {
-  btn.textContent = "🎤";
+  btn.innerHTML = ico("microphone");
+  btn.classList.remove("ok", "bad");
   btn.classList.remove("listening");
   btn.dataset.state = "idle";
   if (micActiveBtn === btn) { micActiveBtn = null; micRecognition = null; }
@@ -172,7 +173,9 @@ function finishMic(btn, target, heard) {
   micRecognition = null;
   const pct = scorePronunciation(target, heard);
   const ok = pct >= 80;
-  btn.textContent = ok ? "✅" : "❌";
+  btn.innerHTML = ico(ok ? "check" : "x");
+  btn.classList.toggle("ok", ok);
+  btn.classList.toggle("bad", !ok);
   btn.classList.remove("listening");
   btn.title = heard
     ? `Услышано: «${heard}»` + (target.trim().split(/\s+/).length > 1 ? ` (совпадение: ${pct}%)` : "")
@@ -180,5 +183,5 @@ function finishMic(btn, target, heard) {
   if (btn.classList.contains("reader-mic-btn") && typeof window.colorReaderPronunciation === "function") {
     window.colorReaderPronunciation(target, heard);
   }
-  setTimeout(() => { if (btn.dataset.state === "idle") { btn.textContent = "🎤"; } }, 2200);
+  setTimeout(() => { if (btn.dataset.state === "idle") { btn.innerHTML = ico("microphone"); btn.classList.remove("ok", "bad"); } }, 2200);
 }

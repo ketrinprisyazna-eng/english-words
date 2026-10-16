@@ -311,6 +311,8 @@ function renderHome() {
   document.getElementById("stat-today").textContent = t.reviewed;
   document.getElementById("stat-due").textContent = countDue();
   document.getElementById("stat-total").textContent = WORDS_DATA.length;
+  const dateEl = document.getElementById("today-date");
+  if (dateEl) dateEl.textContent = new Date().toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
 
   const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
   setText("phrasal-count", typeof PHRASALS !== "undefined" ? `${PHRASALS.length} ${plural(PHRASALS.length, "сочетание", "сочетания", "сочетаний")}` : "");
@@ -319,13 +321,13 @@ function renderHome() {
 
   const mastered = countMastered();
   const learning = countLearning();
+  const share = (n) => WORDS_DATA.length ? (n / WORDS_DATA.length * 100).toFixed(1) : 0;
   document.getElementById("home-breakdown").innerHTML =
-    `<div class="progressbar-outer"><div class="progressbar-inner" style="width:${(mastered / WORDS_DATA.length * 100).toFixed(1)}%"></div></div>
-     <div style="font-size:12.5px;color:var(--muted);margin-top:6px;">
-        Закреплено: <b style="color:var(--primary-dark)">${mastered}</b> ·
-        Учится: <b style="color:var(--accent)">${learning}</b> ·
-        Нужно подучить: <b style="color:var(--danger)">${countDue()}</b> ·
-        Сложные слова: <b style="color:var(--warn)">${countDifficult()}</b>
+    `<div class="progressbar-outer split"><div class="progressbar-inner" style="width:${share(mastered)}%"></div><div class="progressbar-learning" style="width:${share(learning)}%"></div></div>
+     <div class="breakdown">
+        <span><i class="sw mastered"></i>закреплено <b>${mastered}</b></span>
+        <span><i class="sw learning"></i>учится <b>${learning}</b></span>
+        <span><i class="sw difficult"></i>сложные <b>${countDifficult()}</b></span>
      </div>`;
 }
 
@@ -390,10 +392,10 @@ function renderCard() {
       const enListJson = JSON.stringify(SESSION.learnEnList).replace(/'/g, "&#39;");
       document.getElementById("flash-area").innerHTML = `
         <div class="session-done">
-          <div class="big">📖</div>
+          <div class="big">${ico("book-2")}</div>
           <h2>Слова показаны!</h2>
           <p>Теперь проверь, как запомнил(а), — так они попадут в повторение.</p>
-          <button class="reveal-btn" onclick='startSessionForWords(${enListJson})'>✍️ Проверить себя</button>
+          <button class="reveal-btn" onclick='startSessionForWords(${enListJson})'>${ico("pencil")} Проверить себя</button>
           <button class="reveal-btn ghost" onclick="closeSession()">Позже</button>
         </div>`;
       return;
@@ -401,7 +403,7 @@ function renderCard() {
     const pct = total ? Math.round((SESSION.correctCount / total) * 100) : 0;
     document.getElementById("flash-area").innerHTML = `
       <div class="session-done">
-        <div class="big">🎉</div>
+        <div class="big">${ico("confetti")}</div>
         <h2>Сессия завершена!</h2>
         <p>Правильно: <b>${SESSION.correctCount}</b> из <b>${total}</b> (${pct}%)</p>
         <button class="reveal-btn" onclick="closeSession()">Готово</button>
@@ -427,16 +429,16 @@ function renderCard() {
   let assocHtml = "";
   if (SESSION.showAssoc) {
     const a = getAssociation(w.en, w.ru);
-    assocHtml = `<div class="assoc-box">🧠 ${escapeHtml(a.text)}</div>`;
+    assocHtml = `<div class="assoc-box">${ico("bulb")} ${escapeHtml(a.text)}</div>`;
   }
 
   let feedbackHtml = "";
   if (revealed && SESSION.typedChecked) {
     feedbackHtml = SESSION.typedCorrect
-      ? `<div class="typed-feedback good">✅ Верно! Ты написал(а): «${escapeHtml(SESSION.typedValue)}»</div>`
+      ? `<div class="typed-feedback good">${ico("check")} Верно. Ты написал(а): «${escapeHtml(SESSION.typedValue)}»</div>`
       : SESSION.typedValue
-        ? `<div class="typed-feedback bad">❌ Ты написал(а): «${escapeHtml(SESSION.typedValue)}»</div>`
-        : `<div class="typed-feedback bad">❌ Пропущено</div>`;
+        ? `<div class="typed-feedback bad">${ico("x")} Ты написал(а): «${escapeHtml(SESSION.typedValue)}»</div>`
+        : `<div class="typed-feedback bad">${ico("x")} Пропущено</div>`;
   }
 
   // английское слово можно прослушать: сразу, если оно в вопросе, и после ответа, если оно в ответе
@@ -461,10 +463,10 @@ function renderCard() {
           ${micAnswerButtonHtml(isRuToEn ? "en-US" : "ru-RU")}
           <button class="check-btn" onclick="checkTyped()">Проверить</button>
         </div>
-        <button class="think-btn" onclick="toggleAssocInSession()">🧠 Не могу запомнить — показать ассоциацию</button>
+        <button class="think-btn" onclick="toggleAssocInSession()">${ico("bulb")} Не могу запомнить — показать ассоциацию</button>
       ` : `
         <button class="reveal-btn" onclick="nextCard()">Далее</button>
-        <button class="think-btn" onclick="toggleAssocInSession()">🧠 ${SESSION.showAssoc ? "Скрыть" : "Показать"} ассоциацию</button>
+        <button class="think-btn" onclick="toggleAssocInSession()">${ico("bulb")} ${SESSION.showAssoc ? "Скрыть" : "Показать"} ассоциацию</button>
       `}
     </div>`;
 
@@ -532,14 +534,14 @@ function renderLearnCard() {
   let assocHtml = "";
   if (SESSION.showAssoc) {
     const a = getAssociation(w.en, w.ru);
-    assocHtml = `<div class="assoc-box">🧠 ${escapeHtml(a.text)}</div>`;
+    assocHtml = `<div class="assoc-box">${ico("bulb")} ${escapeHtml(a.text)}</div>`;
   }
   document.getElementById("flash-area").innerHTML = `
     <div class="flash-wrap">
       <div class="flashcard">
         ${speakButtonHtml(w.en, "card-speak-btn")}
         ${micButtonHtml(w.en, "card-mic-btn")}
-        <div class="dir-badge learn-badge">📖 Изучение</div>
+        <div class="dir-badge learn-badge">Изучение</div>
         <div class="es-word">${escapeHtml(w.en)}</div>
         ${transcriptionHtml(w)}
         <div class="ru-word">${escapeHtml(w.ru)}</div>
@@ -547,7 +549,7 @@ function renderLearnCard() {
         ${assocHtml}
       </div>
       <button class="reveal-btn" onclick="nextCard()">Далее</button>
-      <button class="think-btn" onclick="toggleAssocInSession()">🧠 ${SESSION.showAssoc ? "Скрыть" : "Показать"} ассоциацию</button>
+      <button class="think-btn" onclick="toggleAssocInSession()">${ico("bulb")} ${SESSION.showAssoc ? "Скрыть" : "Показать"} ассоциацию</button>
     </div>`;
   if (!SESSION.showAssoc) speakEn(w.en);
 }
@@ -600,7 +602,7 @@ function renderWords() {
       <div class="box-dots">${dots}</div>
       ${speakButtonHtml(w.en)}
       ${micButtonHtml(w.en)}
-      <button class="assoc-btn" onclick="openAssocFor('${encodeURIComponent(w.en)}')">🧠</button>
+      <button class="assoc-btn" onclick="openAssocFor('${encodeURIComponent(w.en)}')" title="Ассоциация" aria-label="Ассоциация">${ico("bulb")}</button>
     </div>`;
   }).join("");
   listEl.innerHTML = frag + (items.length > 400 ? `<div class="empty-state">Показаны первые 400 из ${items.length}. Уточни поиск.</div>` : "");
@@ -628,7 +630,7 @@ function renderAssocList() {
     items = WORDS_DATA.filter((w) => getProgress(w.en).difficult);
   }
   if (items.length === 0) {
-    el.innerHTML = `<div class="empty-state">${q ? "Ничего не найдено" : "Пока нет сложных слов 🎉<br>Они появятся здесь, когда ты 3 раза ошибёшься в слове во время повторения — или нажми «Не могу запомнить» в сессии."}</div>`;
+    el.innerHTML = `<div class="empty-state">${q ? "Ничего не найдено" : "Пока нет сложных слов.<br>Они появятся здесь, когда ты 3 раза ошибёшься в слове во время повторения — или нажми «Не могу запомнить» в сессии."}</div>`;
     return;
   }
   el.innerHTML = items.map((w) => renderAssocDetail(w)).join("");
@@ -636,7 +638,7 @@ function renderAssocList() {
 function renderAssocDetail(w) {
   const a = getAssociation(w.en, w.ru);
   const p = getProgress(w.en);
-  const tagLabel = a.tag === "ai" ? "🤖 ассоциация от ИИ" : a.tag === "custom" ? "✍️ твоя ассоциация" : "⚙️ черновая (авто)";
+  const tagLabel = a.tag === "ai" ? "ассоциация от ИИ" : a.tag === "custom" ? "твоя ассоциация" : "черновая, по созвучию";
   const tagCls = a.tag === "auto" ? "auto" : "";
   const isAuto = a.tag === "auto";
   return `<div class="assoc-detail">
@@ -649,9 +651,9 @@ function renderAssocDetail(w) {
       <div class="assoc-request">
         Это черновая подсказка (просто созвучие), а не настоящая ассоциация.
         ${loadAiKey()
-          ? `<button class="small-btn learn-btn" onclick="generateAiAssocForList('${encodeURIComponent(w.en)}', this)">🤖 Сгенерировать ассоциацию</button>`
+          ? `<button class="small-btn learn-btn" onclick="generateAiAssocForList('${encodeURIComponent(w.en)}', this)">${ico("sparkles")} Сгенерировать ассоциацию</button>`
           : `Вставь свой ключ ИИ в разделе «Тексты», чтобы генерировать ассоциации автоматически — или напиши мне в чате: <b>«сделай ассоциацию для ${escapeHtml(w.en)}»</b>.
-             <button class="small-btn" onclick="copyWordToClipboard('${encodeURIComponent(w.en)}', this)">📋 Скопировать слово</button>`
+             <button class="small-btn" onclick="copyWordToClipboard('${encodeURIComponent(w.en)}', this)">${ico("copy")} Скопировать слово</button>`
         }
       </div>
     ` : ""}
@@ -666,22 +668,22 @@ async function generateAiAssocForList(enEnc, btn) {
   const en = decodeURIComponent(enEnc);
   const w = WORDS_DATA.find((x) => x.en === en);
   if (!w) return;
-  const oldLabel = btn.textContent;
+  const oldLabel = btn.innerHTML;
   btn.disabled = true;
-  btn.textContent = "⏳ Генерирую...";
+  btn.innerHTML = ico("loader-2", "spin") + " Генерирую…";
   try {
     await generateAiAssociationFor(w.en, w.ru);
     renderAssocList();
   } catch (e) {
     alert("Не получилось сгенерировать ассоциацию: " + e.message);
     btn.disabled = false;
-    btn.textContent = oldLabel;
+    btn.innerHTML = oldLabel;
   }
 }
 function copyWordToClipboard(enEnc, btn) {
   const en = decodeURIComponent(enEnc);
   const text = `сделай ассоциацию для ${en}`;
-  const done = () => { const old = btn.textContent; btn.textContent = "✅ Скопировано"; setTimeout(() => { btn.textContent = old; }, 1500); };
+  const done = () => { const old = btn.innerHTML; btn.innerHTML = ico("check") + " Скопировано"; setTimeout(() => { btn.innerHTML = old; }, 1500); };
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(done).catch(() => alert(text));
   } else {
@@ -884,9 +886,9 @@ async function generateNewText() {
   const key = loadAiKey();
   if (!key) { alert("Сначала вставь и сохрани ключ ИИ выше."); return; }
   const btn = document.getElementById("generate-text-btn");
-  const oldLabel = btn.textContent;
+  const oldLabel = btn.innerHTML;
   btn.disabled = true;
-  btn.textContent = "⏳ Генерирую...";
+  btn.innerHTML = ico("loader-2", "spin") + " Генерирую…";
   const words = sampleVocabForPrompt(55);
   const levelHint = { A2: "уровень A2, простая грамматика, короткие предложения", B1: "уровень B1, разные времена (Present/Past/Future, Present Perfect)", B2: "уровень B2, естественный живой язык, сложные предложения" }[genLevel];
   const prompt = `Ты помощник для изучения английского языка. Составь короткий текст (5-7 предложений, ${levelHint}) на английском языке, используя как можно больше следующих слов и фраз из словаря ученика: ${words.join(", ")}. Тема свободная и естественная, текст связный.
@@ -906,7 +908,7 @@ async function generateNewText() {
     alert("Не получилось сгенерировать текст: " + e.message + "\n\nПроверь ключ (в начале раздела «Тексты») и соединение с интернетом.");
   } finally {
     btn.disabled = false;
-    btn.textContent = oldLabel;
+    btn.innerHTML = oldLabel;
   }
 }
 function closeReader() {
@@ -922,9 +924,9 @@ async function translateOwnText() {
   if (!text) return;
   const btn = document.getElementById("translate-btn");
   const resultEl = document.getElementById("translate-result");
-  const oldLabel = btn.textContent;
+  const oldLabel = btn.innerHTML;
   btn.disabled = true;
-  btn.textContent = "⏳ Перевожу...";
+  btn.innerHTML = ico("loader-2", "spin") + " Перевожу…";
   resultEl.innerHTML = "";
   const prompt = `Определи, на каком языке написан следующий текст — на русском или на английском — и переведи его на другой язык (если текст на русском, переведи на английский; если на английском — переведи на русский). Текст: "${text}"
 Ответь СТРОГО в формате JSON без markdown-разметки и пояснений, ровно так:
@@ -942,7 +944,7 @@ async function translateOwnText() {
     resultEl.innerHTML = `<div style="color:var(--danger);margin-top:10px;">Не получилось перевести: ${escapeHtml(e.message)}</div>`;
   } finally {
     btn.disabled = false;
-    btn.textContent = oldLabel;
+    btn.innerHTML = oldLabel;
   }
 }
 function setTextLang(lang) {
@@ -968,7 +970,7 @@ function renderReader() {
   const box = document.getElementById("reader-translate-box");
   box.style.display = "none";
   box.innerHTML = "";
-  document.getElementById("reader-translate-btn").textContent = "🌐 Перевести текст";
+  document.getElementById("reader-translate-btn").innerHTML = ico("language") + " Перевести текст";
 }
 function speakReaderText() {
   if (currentGeneratedText) speakEn(currentGeneratedText.en, 0.9);
@@ -981,11 +983,11 @@ function toggleReaderTranslation() {
   const showing = box.style.display !== "none";
   if (showing) {
     box.style.display = "none";
-    btn.textContent = "🌐 Перевести текст";
+    btn.innerHTML = ico("language") + " Перевести текст";
   } else {
     box.textContent = currentTextLang === "en" ? t.ru : t.en;
     box.style.display = "block";
-    btn.textContent = "🌐 Скрыть перевод";
+    btn.innerHTML = ico("language") + " Скрыть перевод";
   }
 }
 function regenerateText() {
@@ -997,8 +999,8 @@ function regenerateText() {
 
 /* ============ Уроки: источники слов + конспекты ============ */
 const SOURCES = [
-  { key: "duo", icon: "🦉", name: "Duolingo", desc: "Выученные слова курса английского (раздел «Тренировка → Слова»)." },
-  { key: "puzzle", icon: "🧩", name: "Puzzle English", desc: "Слова и выражения из «Моего словаря» — с транскрипцией." },
+  { key: "duo", name: "Duolingo", desc: "Выученные слова курса английского (раздел «Тренировка → Слова»)." },
+  { key: "puzzle", name: "Puzzle English", desc: "Слова и выражения из «Моего словаря» — с транскрипцией." },
 ];
 const BATCH_SIZE = 20;
 function sourceWords(src) { return WORDS_DATA.filter((w) => matchesSrc(w, src)); }
@@ -1011,7 +1013,7 @@ function nextBatch(src, onlyNew) {
 }
 function learnSourceBatch(src) {
   const list = nextBatch(src, true);
-  if (!list.length) { alert("Новых слов в этом источнике не осталось — все уже в повторении 🎉"); return; }
+  if (!list.length) { alert("Новых слов в этом источнике не осталось — все уже в повторении."); return; }
   startLearnForWords(list);
 }
 function checkSourceBatch(src) {
@@ -1034,16 +1036,16 @@ function renderSources() {
     const pct = total ? Math.round(((total - fresh) / total) * 100) : 0;
     return `<div class="card source-card" style="margin-bottom:12px;">
       <div class="source-head">
-        <div class="source-name">${s.icon} ${s.name}</div>
+        <div class="source-name">${s.name}</div>
         <div style="font-size:13px;color:var(--muted);">${total} слов</div>
       </div>
       <div class="source-meta">${s.desc}</div>
       <div class="progressbar-outer" style="margin-top:10px;"><div class="progressbar-inner" style="width:${pct}%"></div></div>
       <div class="source-meta">Начато: <b>${total - fresh}</b> · Новых: <b>${fresh}</b> · Закреплено: <b>${mastered}</b></div>
       <div class="settings-row" style="margin-top:10px;">
-        <button class="small-btn learn-btn" onclick="learnSourceBatch('${s.key}')">📖 Изучить ${BATCH_SIZE} новых</button>
-        <button class="small-btn" onclick="checkSourceBatch('${s.key}')">✍️ Проверить себя</button>
-        <button class="small-btn" onclick="showView('words'); setWordsSrcFilter('${s.key}')">📚 Список</button>
+        <button class="small-btn learn-btn" onclick="learnSourceBatch('${s.key}')">${ico("book-2")} Изучить ${BATCH_SIZE} новых</button>
+        <button class="small-btn" onclick="checkSourceBatch('${s.key}')">${ico("pencil")} Проверить себя</button>
+        <button class="small-btn" onclick="showView('words'); setWordsSrcFilter('${s.key}')">${ico("list")} Список</button>
       </div>
     </div>`;
   }).join("");
@@ -1067,12 +1069,12 @@ function renderDuo() {
   el.innerHTML = days.map((day) => renderDuoDay(day)).join("");
 }
 function renderDuoDay(day) {
-  const srcLabel = day.source === "puzzle" ? "🧩 Puzzle English" : "🦉 Duolingo";
+  const srcLabel = day.source === "puzzle" ? "Puzzle English" : "Duolingo";
   const lessonsHtml = (day.lessons || []).map((l) => {
     let scoreHtml = "";
     if (l.total) {
       const pct = Math.round((l.correct / l.total) * 100);
-      scoreHtml = `<span class="duo-lesson-score">${l.perfect ? "💯" : pct + "%"} (${l.correct}/${l.total})</span>`;
+      scoreHtml = `<span class="duo-lesson-score">${l.perfect ? "без ошибок" : pct + "%"} (${l.correct}/${l.total})</span>`;
     }
     return `<div class="duo-lesson-row">
       <span>${escapeHtml(l.skill)} · ${escapeHtml(l.lessonNum)}</span>
@@ -1089,7 +1091,7 @@ function renderDuoDay(day) {
 
   const rulesHtml = (day.rules || []).map((r) => `
     <div class="duo-rule">
-      <div class="duo-rule-title">📐 ${escapeHtml(r.title)}</div>
+      <div class="duo-rule-title">${escapeHtml(r.title)}</div>
       <div class="duo-rule-body">${escapeHtml(r.explanation).replace(/\n/g, "<br>")}</div>
     </div>`).join("");
 
@@ -1102,8 +1104,8 @@ function renderDuoDay(day) {
       <div class="section-title" style="margin-top:14px;">Новые слова (${newWords.length})</div>
       <div class="duo-words-grid">${wordsHtml}</div>
       <div class="settings-row" style="margin-top:8px;">
-        <button class="small-btn learn-btn" onclick='startLearnForWords(${listJson})'>📖 Изучить</button>
-        <button class="small-btn" onclick='startSessionForWords(${listJson})'>✍️ Проверить себя</button>
+        <button class="small-btn learn-btn" onclick='startLearnForWords(${listJson})'>${ico("book-2")} Изучить</button>
+        <button class="small-btn" onclick='startSessionForWords(${listJson})'>${ico("pencil")} Проверить себя</button>
       </div>
     ` : ""}
 
@@ -1206,11 +1208,11 @@ function ruleHintHtml(w) {
   const rule = rules[0];
   const v = rule.id === "irregular" ? irregularRowFor(w) : null;
   const text = v ? `${verbFormsHtml(v)} (${escapeHtml(v[3])})` : escapeHtml(rule.hook);
-  const more = rules.length > 1 ? `<div class="rule-hint-more">Ещё: ${rules.slice(1).map((r) => r.icon + " " + escapeHtml(ruleShortTitle(r))).join(" · ")}</div>` : "";
-  return `<div class="rule-hint"><div class="rule-hint-title">${rule.icon} ${escapeHtml(ruleShortTitle(rule))}</div><div>${text}</div>${more}</div>`;
+  const more = rules.length > 1 ? `<div class="rule-hint-more">Ещё: ${rules.slice(1).map((r) => escapeHtml(ruleShortTitle(r))).join(" · ")}</div>` : "";
+  return `<div class="rule-hint"><div class="rule-hint-title">${escapeHtml(ruleShortTitle(rule))}</div><div>${text}</div>${more}</div>`;
 }
 function ruleChipsHtml(w) {
-  return rulesForWord(w).map((r) => `<span class="rule-chip" onclick="event.stopPropagation(); openRule('${r.id}')">${r.icon} ${escapeHtml(ruleShortTitle(r))}</span>`).join("");
+  return rulesForWord(w).map((r) => `<span class="rule-chip" onclick="event.stopPropagation(); openRule('${r.id}')">${escapeHtml(ruleShortTitle(r))}</span>`).join("");
 }
 
 let openRuleId = null;
@@ -1255,7 +1257,7 @@ function renderRuleBody(rule, entry) {
   const verbHtml = entry.verbGroups.map((g) => `
     <div class="rule-group">
       <div class="rule-group-label">${escapeHtml(g.label)}</div>
-      <div class="rule-group-hook">💡 ${escapeHtml(g.hook)}</div>
+      <div class="rule-group-hook">${escapeHtml(g.hook)}</div>
       <table class="verb-table">
         ${g.rows.map((r) => {
           const have = new Set(r.words.map((w) => ruleKey(w.en).split(/\s+/)[0]));
@@ -1273,11 +1275,11 @@ function renderRuleBody(rule, entry) {
     <div class="rule-body">${escapeHtml(rule.body).replace(/\n/g, "<br>")}</div>
     ${verbHtml}
     ${groupsHtml}
-    ${rule.irregular ? `<div class="rule-legend">Выделены формы, которые уже есть в твоём словаре. Нажми на слово — оно прозвучит.</div>` : `<div class="rule-legend">🟢 закреплено · 🔵 учится. Нажми на слово — оно прозвучит.</div>`}
+    ${rule.irregular ? `<div class="rule-legend">Выделены формы, которые уже есть в твоём словаре. Нажми на слово — оно прозвучит.</div>` : `<div class="rule-legend"><i class="sw mastered"></i>закреплено · <i class="sw learning"></i>учится. Нажми на слово — оно прозвучит.</div>`}
     <div class="settings-row" style="margin-top:12px;">
-      <button class="small-btn learn-btn" onclick="learnRuleWords('${rule.id}')">📖 Изучить</button>
-      <button class="small-btn" onclick="checkRuleWords('${rule.id}')">✍️ Проверить себя</button>
-      ${rule.id === "phrasal" ? `<button class="small-btn" onclick="showView('phrasal')">🧩 Тренажёр с предложениями</button>` : ""}
+      <button class="small-btn learn-btn" onclick="learnRuleWords('${rule.id}')">${ico("book-2")} Изучить</button>
+      <button class="small-btn" onclick="checkRuleWords('${rule.id}')">${ico("pencil")} Проверить себя</button>
+      ${rule.id === "phrasal" ? `<button class="small-btn" onclick="showView('phrasal')">${ico("puzzle")} Тренажёр с предложениями</button>` : ""}
     </div>`;
 }
 function renderRules() {
@@ -1300,14 +1302,11 @@ function renderRules() {
     const open = openRuleId === r.id || (q && rules.length <= 3);
     const mastered = entry.words.filter((w) => getProgress(w.en).box >= 4).length;
     return `<div class="card rule-card ${open ? "open" : ""}" id="rule-${r.id}">
-      <div class="rule-head" onclick="toggleRule('${r.id}')">
-        <div class="rule-icon">${r.icon}</div>
-        <div style="flex:1;min-width:0;">
-          <div class="rule-title">${escapeHtml(r.title)}</div>
-          <div class="rule-hook">${escapeHtml(r.hook)}</div>
-        </div>
-        <div class="rule-meta">${entry.words.length}<small>слов</small>${mastered ? `<small style="color:var(--primary-dark)">✓ ${mastered}</small>` : ""}</div>
-      </div>
+      <button type="button" class="rule-head" onclick="toggleRule('${r.id}')" aria-expanded="${open ? "true" : "false"}">
+        <span class="toc-line"><span class="rule-title">${escapeHtml(r.title)}</span><span class="toc-leader" aria-hidden="true"></span><span class="rule-meta">${entry.words.length}</span></span>
+        <span class="rule-hook">${escapeHtml(r.hook)}</span>
+        <span class="rule-sub">${entry.words.length} ${plural(entry.words.length, "слово", "слова", "слов")} из словаря${mastered ? ` · закреплено ${mastered}` : ""}</span>
+      </button>
       ${open ? renderRuleBody(r, entry) : ""}
     </div>`;
   }).join("");
@@ -1349,12 +1348,12 @@ function renderMistakes() {
   const freq = {};
   for (const m of items) for (const r of m.rules || []) freq[r] = (freq[r] || 0) + 1;
   const weak = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 5)
-    .map(([id, n]) => { const r = RULES.find((x) => x.id === id); return r ? `<span class="rule-chip" onclick="openRule('${id}')">${r.icon} ${escapeHtml(ruleShortTitle(r))} ×${n}</span>` : ""; }).join("");
+    .map(([id, n]) => { const r = RULES.find((x) => x.id === id); return r ? `<span class="rule-chip" onclick="openRule('${id}')">${escapeHtml(ruleShortTitle(r))} ×${n}</span>` : ""; }).join("");
   const head = `<div class="card" style="margin-bottom:12px;">
-      <div style="font-weight:700;font-size:14px;">🎯 Твои слабые места</div>
+      <h2 class="block-title">Твои слабые места</h2>
       <div style="font-size:12.5px;color:var(--muted);margin:4px 0 6px;">Правила, на которых ты ошибаешься чаще всего. Нажми — откроется правило.</div>
       <div>${weak}</div>
-      <button class="small-btn learn-btn" style="margin-top:10px;" onclick="practiceMistakeWords()">✍️ Повторить слова из всех ошибок</button>
+      <button class="small-btn learn-btn" style="margin-top:10px;" onclick="practiceMistakeWords()">${ico("pencil")} Повторить слова из всех ошибок</button>
     </div>`;
   el.innerHTML = head + items.map((m) => {
     const open = openMistakeId === m.id;
@@ -1362,7 +1361,7 @@ function renderMistakes() {
       const r = RULES.find((x) => x.id === id);
       if (!r) return "";
       return `<div class="mistake-rule" onclick="event.stopPropagation(); openRule('${id}')">
-        <div class="rule-hint-title">${r.icon} ${escapeHtml(r.title)}</div>
+        <div class="rule-hint-title">${escapeHtml(r.title)}</div>
         <div>${escapeHtml(r.hook)}</div>
       </div>`;
     }).join("");
@@ -1370,17 +1369,17 @@ function renderMistakes() {
     return `<div class="card mistake-card ${open ? "open" : ""}" onclick="toggleMistake('${m.id}')">
       <div class="mistake-meta">${formatDateRu(m.date)} · ${MISTAKE_TYPES[m.type] || ""}</div>
       <div class="mistake-prompt">${escapeHtml(m.prompt)}</div>
-      ${m.yours ? `<div class="mistake-line bad">✗ ${escapeHtml(m.yours)}</div>` : `<div class="mistake-line muted">Твой ответ Duolingo не сохранил</div>`}
-      <div class="mistake-line good">✓ ${escapeHtml(m.correct)} <span class="inline-speak">${m.type === "to-en" || m.type === "gap" ? speakButtonHtml(m.correct) : speakButtonHtml(m.prompt)}</span></div>
+      ${m.yours ? `<div class="mistake-line bad">${ico("x")} ${escapeHtml(m.yours)}</div>` : `<div class="mistake-line muted">Твой ответ Duolingo не сохранил</div>`}
+      <div class="mistake-line good">${ico("check")} ${escapeHtml(m.correct)} <span class="inline-speak">${m.type === "to-en" || m.type === "gap" ? speakButtonHtml(m.correct) : speakButtonHtml(m.prompt)}</span></div>
       ${open ? `
         <div class="mistake-why">
           <div class="rule-group-label">Почему так</div>
           <ul>${m.why.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
         </div>
-        ${rulesHtml ? `<div class="rule-group-label" style="margin-top:10px;">📐 Правило</div>${rulesHtml}` : ""}
+        ${rulesHtml ? `<div class="rule-group-label" style="margin-top:10px;">Правило</div>${rulesHtml}` : ""}
         ${words.length ? `<div class="rule-words" style="margin-top:10px;">${words.map(ruleWordChipHtml).join("")}</div>
-          <button class="small-btn" style="margin-top:10px;" onclick="event.stopPropagation(); practiceMistakeWords('${m.id}')">✍️ Повторить эти слова</button>` : ""}
-      ` : `<div class="mistake-more">Нажми, чтобы увидеть объяснение ›</div>`}
+          <button class="small-btn" style="margin-top:10px;" onclick="event.stopPropagation(); practiceMistakeWords('${m.id}')">${ico("pencil")} Повторить эти слова</button>` : ""}
+      ` : `<div class="mistake-more">Почему так ${ico("chevron-right")}</div>`}
     </div>`;
   }).join("");
 }
@@ -1437,7 +1436,7 @@ function renderPhrasalCard() {
   if (item.kind === "particle") {
     if (!SESSION.options) SESSION.options = particleOptionsFor(ph);
     body = `
-      <div class="dir-badge learn-badge">⚡ Какая частица?</div>
+      <div class="dir-badge learn-badge">Какая частица?</div>
       <div class="es-word">${escapeHtml(revealed ? ph.en : phrasalBase(ph))}</div>
       <div class="ru-word">${escapeHtml(ph.ru)}</div>
       <div class="particle-options">${SESSION.options.map((o) => {
@@ -1447,18 +1446,18 @@ function renderPhrasalCard() {
       }).join("")}</div>`;
   } else {
     body = `
-      <div class="dir-badge learn-badge">✍️ Впиши сочетание</div>
+      <div class="dir-badge learn-badge">Впиши сочетание</div>
       <div class="ph-sentence">${revealed ? phrasalHighlight(item.ex[0]) : escapeHtml(g.gapped)}</div>
       <div class="ru-word" style="font-size:15px;">${escapeHtml(item.ex[1])}</div>
-      <div class="ph-hint">💡 ${escapeHtml(ph.ru)}</div>`;
+      <div class="ph-hint">${ico("bulb")} ${escapeHtml(ph.ru)}</div>`;
   }
   let feedback = "";
   if (revealed) {
     const ok = SESSION.typedCorrect;
     const said = item.kind === "particle" ? SESSION.chosen : SESSION.typedValue;
     feedback = ok
-      ? `<div class="typed-feedback good">✅ Верно!</div>`
-      : `<div class="typed-feedback bad">❌ ${said ? `Твой ответ: «${escapeHtml(said)}»` : "Пропущено"}. Правильно: <b>${escapeHtml(item.kind === "particle" ? ph.p : g.answer)}</b></div>`;
+      ? `<div class="typed-feedback good">${ico("check")} Верно</div>`
+      : `<div class="typed-feedback bad">${ico("x")} ${said ? `Твой ответ: «${escapeHtml(said)}»` : "Пропущено"}. Правильно: <b>${escapeHtml(item.kind === "particle" ? ph.p : g.answer)}</b></div>`;
     const other = ph.ex.filter((e) => e !== item.ex);
     feedback += `<div class="ph-explain">
       ${meaning ? `<div>${meaning}</div>` : ""}
@@ -1541,6 +1540,10 @@ function renderPhrasalPage() {
 }
 
 /* ============ helpers ============ */
+// иконка из SVG-спрайта в index.html (Tabler Icons, MIT)
+function ico(name, cls) {
+  return `<svg class="ico${cls ? " " + cls : ""}" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
+}
 function plural(n, one, few, many) {
   const m10 = n % 10, m100 = n % 100;
   if (m10 === 1 && m100 !== 11) return one;
