@@ -220,9 +220,9 @@ const RULES = [
     body: "Глагол + маленькое слово = новый смысл. Догадаться помогает частица:\nclean UP — убрать ДО КОНЦА,  find OUT — выяснить (вытащить НАРУЖУ),\nturn OFF — выключить,  turn ON — включить,  sit DOWN — сесть ВНИЗ,  throw AWAY — выбросить ПРОЧЬ.",
     groups: [
       { label: "UP — вверх / до конца", words: ["hurry up", "clean up", "grow up", "stand up", "wake up", "woke up", "give up", "given up", "pick up", "look up", "set up", "sign up", "make up", "follow up", "end up", "hang up", "ramp up", "break up", "hold up"] },
-      { label: "OUT — наружу / полностью", words: ["look out", "find out", "fill out", "work out", "take out", "check out", "hang out", "hung out", "go out", "stressed out", "bring out"] },
+      { label: "OUT — наружу / полностью", words: ["come out of", "get out of", "look out", "find out", "fill out", "work out", "take out", "check out", "hang out", "hung out", "go out", "stressed out", "bring out"] },
       { label: "OFF — прочь / выключить", words: ["take off", "turn off", "get off", "fall off", "hop off", "see off", "set off"] },
-      { label: "ON — на / включить", words: ["turn on", "put on", "try on", "get on", "hop on", "click on", "depend on", "settle on", "copy somebody on", "hang on"] },
+      { label: "ON — на / включить", words: ["knock on", "turn on", "put on", "try on", "get on", "hop on", "click on", "depend on", "settle on", "copy somebody on", "hang on"] },
       { label: "DOWN — вниз", words: ["sit down", "sat down", "fall down", "fell down", "lie down", "lying down", "write down", "put down", "cut down on"] },
       { label: "BACK — назад,  AWAY — прочь", words: ["come back", "get back", "give back", "throw away", "put away", "get away", "stay away from"] },
       { label: "Другие частицы", words: ["come over", "go over", "carry over", "stop over", "turn in", "check in", "come in", "muscle in", "turn into", "get into", "get along", "get around", "look after", "look for", "look at", "deal with", "put together", "get together", "gotten together", "come from", "leave for"] },
@@ -367,10 +367,10 @@ const RULES = [
     hook: "K перед N молчит (knee), W перед R молчит (write), B после M молчит (comb), GH обычно молчит (night).",
     body: "know [ноу], knife [найф], write [райт], wrong [рон], comb [коум], climb [клайм].\nGH: night [найт], daughter [дотэ]. Но иногда GH = Ф: laugh, enough, cough.\nL молчит в walk, talk, half, calm, could, should, would.  H молчит в hour, honest.",
     groups: [
-      { label: "KN- (K молчит)", words: ["knee", "knife", "knives", "know", "knew", "known", "know how"] },
+      { label: "KN- (K молчит)", words: ["knee", "knife", "knives", "know", "knew", "known", "know how", "knock on"] },
       { label: "WR- (W молчит)", words: ["write", "wrote", "written", "write down", "writer", "writing", "wrong", "what's wrong", "wrist"] },
       { label: "-MB (B молчит)", words: ["comb", "climb", "thumb"] },
-      { label: "GH молчит", words: ["night", "at night", "last night", "good night", "tonight", "midnight", "tomorrow night", "light", "a light bulb", "right", "right now", "right here", "right away", "bright", "eight", "eighteen", "eighty", "daughter", "granddaughter", "high", "high school", "weight", "neighbor", "sightseeing", "through", "thought", "bought", "brought", "caught", "taught", "fought"] },
+      { label: "GH молчит", words: ["dough", "night", "at night", "last night", "good night", "tonight", "midnight", "tomorrow night", "light", "a light bulb", "right", "right now", "right here", "right away", "bright", "eight", "eighteen", "eighty", "daughter", "granddaughter", "high", "high school", "weight", "neighbor", "sightseeing", "through", "thought", "bought", "brought", "caught", "taught", "fought"] },
       { label: "GH = Ф", words: ["laugh", "enough", "cough", "tough"] },
       { label: "L, H, T молчат", words: ["walk", "take a walk", "talk", "half", "half price", "half an hour", "calm", "could", "should", "would like", "couldn't", "shouldn't", "hour", "honest", "honestly", "listen", "listen to", "castle", "often"] },
     ],
@@ -434,7 +434,7 @@ const RULES = [
       { label: "threw = through [сру],  flew = flu [флу]", words: ["through", "the flu"] },
       { label: "wait = weight [уэйт]", words: ["wait", "weight"] },
       { label: "steal = steel [стил],  sell = cell [сел]", words: ["steal", "sell", "cell phone"] },
-      { label: "piece = peace [пис],  sale = sail [сейл]", words: ["piece", "sale", "on sale", "for sale"] },
+      { label: "piece = peace [пис],  sale = sail [сейл]", words: ["piece", "sale", "on sale", "for sale", "sail"] },
       { label: "soul = sole,  cereal = serial,  I = eye", words: ["soul", "cereal", "I", "eye"] },
       { label: "break = brake,  bear (медведь) = bare (голый)", words: ["break", "bear"] },
       { label: "fare (плата за проезд) = fair (честный)", words: ["fare"] },
@@ -455,11 +455,11 @@ const RULES = [
     hook: "Длинное слово — часто два коротких: tooth+brush = зубная щётка, rain+coat = дождевик. Разбей — и перевод готов.",
     body: "Главное слово — второе: a BOOKstore — это store (магазин), какой? — книжный.\nbreak+fast = «прервать пост» → завтрак.  week+end = конец недели → выходные.\n-ACHE = боль: head+ache — головная боль.  GRAND- = через поколение: grand+mother — бабушка, GREAT-GRAND- — прабабушка.",
     groups: [
-      { label: "Дом и вещи", words: ["bedroom", "bathroom", "classroom", "restroom", "living room", "dining room", "backyard", "bookshelf", "toothbrush", "toothpaste", "paintbrush", "keyboard", "whiteboard", "notebook", "textbook", "workbook", "cookbook", "suitcase", "backpack", "sunglasses", "headphones", "raincoat", "swimsuit", "wheelchair", "earring", "firework", "campfire", "snowboard", "skateboard", "football", "basketball", "baseball", "volleyball", "playground", "newspaper", "postcard", "password", "website", "webcam", "inbox", "online", "dishwasher", "teaspoon", "cupcake", "cheeseburger", "seafood", "homework", "housework", "haircut", "underwear", "checkout", "baby clothes"] },
+      { label: "Дом и вещи", words: ["bedroom", "bathroom", "classroom", "restroom", "living room", "dining room", "backyard", "bookshelf", "toothbrush", "toothpaste", "paintbrush", "keyboard", "whiteboard", "notebook", "textbook", "workbook", "cookbook", "suitcase", "backpack", "sunglasses", "headphones", "raincoat", "swimsuit", "wheelchair", "earring", "firework", "campfire", "snowboard", "skateboard", "football", "basketball", "baseball", "volleyball", "playground", "newspaper", "postcard", "password", "website", "webcam", "inbox", "online", "dishwasher", "teaspoon", "cupcake", "cheeseburger", "seafood", "homework", "housework", "haircut", "underwear", "checkout", "baby clothes", "handwriting"] },
       { label: "Время и места", words: ["weekend", "weekday", "birthday", "afternoon", "midnight", "tonight", "lunchtime", "sunset", "sunscreen", "thunderstorm", "highway", "crosswalk", "downtown", "downstairs", "upstairs", "hometown", "bookstore", "airport", "airplane", "airline", "deadline", "breakfast", "goodbye"] },
       { label: "-ACHE = боль", words: ["headache", "toothache", "stomachache", "have a headache"] },
       { label: "GRAND- / GREAT-GRAND- — поколения", words: ["grandmother", "grandfather", "grandparents", "grandson", "granddaughter", "grandchildren", "grandma", "grandpa", "great-grandmother", "great-grandparent"] },
-      { label: "Люди и чувства", words: ["firefighter", "boyfriend", "girlfriend", "businessman", "businesswoman", "coworker", "classmate", "roommate", "homesick", "feedback", "highlight", "underline"] },
+      { label: "Люди и чувства", words: ["firefighter", "lifeguard", "boyfriend", "girlfriend", "businessman", "businesswoman", "coworker", "classmate", "roommate", "homesick", "feedback", "highlight", "underline"] },
     ],
   },
   {
@@ -467,7 +467,7 @@ const RULES = [
     hook: "rain (дождь) + Y = rainy (дождливый). Вся погода — на -Y: sunny, cloudy, windy, foggy, icy.",
     body: "salt → salty (солёный), spice → spicy (острый), dirt → dirty (грязный), health → healthy (здоровый), luck → lucky (везучий).\nКороткое слово удваивает букву: sun → suNNy, fun → fuNNy, fog → foGGy.\nНемая E исчезает: ice → icy, scare → scary.",
     groups: [
-      { label: "Погода", words: ["rainy", "it's rainy", "it's sunny", "cloudy", "windy", "foggy", "icy"] },
+      { label: "Погода", words: ["rainy", "sunny", "it's rainy", "it's sunny", "cloudy", "windy", "foggy", "icy"] },
       { label: "Еда и вкус", words: ["salty", "spicy", "tasty", "yummy"] },
       { label: "Остальные", words: ["dirty", "healthy", "unhealthy", "lucky", "messy", "noisy", "sleepy", "funny", "picky", "curly", "shiny", "scary", "cozy", "thirsty", "hungry"] },
     ],
@@ -480,7 +480,7 @@ const RULES = [
       { label: "-OUS", words: ["famous", "dangerous", "nervous", "delicious", "jealous", "adventurous", "envious", "serious", "various", "previous"] },
       { label: "-AL", words: ["national", "international", "traditional", "professional", "medical", "normal", "annual", "classical", "casual", "special", "final", "crucial", "total", "bilingual", "delusional", "unusual"] },
       { label: "-IC / -IVE", words: ["romantic", "electric", "fantastic", "allergic", "expensive"] },
-      { label: "-ENT / -ANT", words: ["important", "intelligent", "excellent", "different", "convenient", "ancient", "patient", "pleasant", "unpleasant", "distant", "significant"] },
+      { label: "-ENT / -ANT", words: ["important", "intelligent", "excellent", "different", "convenient", "ancient", "patient", "pleasant", "unpleasant", "distant", "significant", "elegant"] },
     ],
   },
   {
@@ -488,7 +488,7 @@ const RULES = [
     hook: "draw (рисовать) + ING = drawing (рисунок, рисование). -ING делает из действия «вещь».",
     body: "paint → painting (картина), build → building (здание), meet → meeting (встреча), end → ending (концовка), feel → feeling (чувство).\nНемая E исчезает: shave → shaving.  Короткое слово удваивает букву: begin → beginNing.",
     groups: [
-      { label: "Из твоего словаря", words: ["drawing", "painting", "building", "apartment building", "meeting", "ending", "beginning", "feeling", "writing", "meaning", "cycling", "sightseeing", "clothing", "shaving", "engineering", "a storing", "including"] },
+      { label: "Из твоего словаря", words: ["drawing", "painting", "building", "apartment building", "meeting", "ending", "beginning", "feeling", "writing", "meaning", "cycling", "sightseeing", "clothing", "shaving", "engineering", "a storing", "including", "recycling"] },
     ],
   },
   {

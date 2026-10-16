@@ -108,6 +108,10 @@ const PHRASALS = [
   { en: "turn into", ru: "превращаться в", p: "into", ex: [["The caterpillar {turned into} a butterfly.", "Гусеница превратилась в бабочку."], ["Our small trip {turned into} a big adventure.", "Наша маленькая поездка превратилась в большое приключение."]] },
   { en: "get into", ru: "попасть, увлечься", p: "into", ex: [["She {got into} a good university.", "Она поступила в хороший университет."], ["I {got into} yoga last year.", "В прошлом году я увлеклась йогой."]] },
 
+  { en: "come out of", ru: "выходить из (комнаты)", p: "out", ex: [["Eddy {comes out of} the bathroom.", "Эдди выходит из ванной."], ["Oscar {came out of} his classroom.", "Оскар вышел из своего класса."]] },
+  { en: "get out of", ru: "выходить из (машины, такси); выбираться", p: "out", ex: [["Lin {gets out of} the taxi.", "Лин выходит из такси."], ["How do we {get} him {out of} the toilet?", "Как нам достать его из унитаза?"]] },
+  { en: "knock on", ru: "стучать в (дверь)", p: "on", ex: [["She {knocks on} the door.", "Она стучит в дверь."], ["Somebody {knocked on} my window last night.", "Кто-то постучал мне в окно прошлой ночью."]] },
+
   // ---------- ALONG / AROUND / AFTER / FOR / AT / WITH / TOGETHER / FROM ----------
   { en: "get along", ru: "ладить", p: "along", ex: [["I {get along} well with my sister.", "Я хорошо лажу с сестрой."], ["Do you {get along} with your boss?", "Ты ладишь с начальником?"]] },
   { en: "get around", ru: "передвигаться", p: "around", ex: [["It's easy to {get around} the city by bike.", "По городу легко передвигаться на велосипеде."], ["How do you {get around} without a car?", "Как ты передвигаешься без машины?"]] },

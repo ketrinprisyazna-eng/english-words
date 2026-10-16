@@ -11,6 +11,44 @@
 // }
 const DUO_LOG = [
   {
+    id: "duo-stories", date: "2026-10-16", source: "duo",
+    lessons: [
+      { skill: "Истории Duolingo", lessonNum: "68 прочитанных историй (уровни Intro – A1)" },
+      { skill: "Истории Duolingo", lessonNum: "«Дневник», «Чрезвычайная ситуация», «Похороны рыбки», «Неожиданная концовка», «Проблема с машиной» и др." },
+    ],
+    newWords: ["diary", "handwriting", "emergency", "lifeguard", "drown", "uh-oh", "vanilla", "promote", "accidentally", "blank", "come out of", "recycling", "planet", "pour", "ground", "handsome", "lie", "dinosaur", "trunk", "gas", "secret", "knock on", "babysit", "bench", "marry", "sunny", "genius", "janitor", "model", "auto repair shop", "space", "robot", "crash", "ghost", "funeral", "burial", "alive", "get out of", "respond", "sail", "dough", "elegant"],
+    rules: [
+      {
+        title: "LIE — два разных глагола",
+        explanation:
+          "LIE — врать: lie — lied — lied.  I lied about the ending. — Я соврал(а) про концовку.  I always know when you're lying.\n" +
+          "LIE — лежать: lie — lay — lain.  Lie down! — Ляг!\n" +
+          "-ING от обоих: lying (ie → y): Why are you lying? / He is lying on the bench.",
+      },
+      {
+        title: "OUT OF — «из (чего-то наружу)»",
+        explanation:
+          "Lin gets out of the taxi. — Лин выходит из такси.\n" +
+          "Eddy comes out of the bathroom. — Эдди выходит из ванной.\n" +
+          "How do we get him out of the toilet? — Как нам достать его из унитаза?\n" +
+          "GET OUT OF — выбраться/выйти из (транспорта), COME OUT OF — выйти (показаться) из комнаты.",
+      },
+      {
+        title: "IS GOING TO + глагол = «вот-вот случится»",
+        explanation:
+          "The plane is going to crash! — Самолёт вот-вот разобьётся!\n" +
+          "Going to — не только план, но и то, что уже видно: Look at the clouds — it's going to rain.",
+      },
+      {
+        title: "Истории учат «живому» английскому",
+        explanation:
+          "Uh… / Uhh — «э-э» (думаю).  Huh? — «А? Что?».  Uh-oh — «ой-ой» (что-то пошло не так).  Whoa — «ого!».\n" +
+          "ask someone to marry you — сделать предложение.  babysit — сидеть с ребёнком.  knock on the door — постучать в дверь.\n" +
+          "accidentally — случайно: Ted accidentally spills his wine.",
+      },
+    ],
+  },
+  {
     id: "duo-unit-flight", date: "2026-10-16", source: "duo",
     lessons: [
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду со скидкой ✓" },
