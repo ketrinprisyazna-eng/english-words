@@ -83,7 +83,7 @@ function handleAnswerMicClick(btn) {
   rec.onresult = (e) => {
     const heard = e.results[0][0].transcript;
     input.value = heard;
-    input.focus();
+    input.focus({ preventScroll: true });
   };
   rec.onerror = () => { resetMicBtn(btn); };
   rec.onend = () => { resetMicBtn(btn); };

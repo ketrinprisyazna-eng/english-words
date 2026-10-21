@@ -493,7 +493,7 @@ function renderCard() {
 
   if (!revealed) {
     const input = document.getElementById("type-answer-input");
-    if (input) input.focus();
+    if (input) input.focus({ preventScroll: true });
   }
 }
 function checkTyped() {
@@ -530,6 +530,8 @@ function checkTyped() {
   if (isRuToEn) speakEn(w.en);
 }
 function nextCard() {
+  const overlay = document.getElementById("session-overlay");
+  if (overlay) overlay.scrollTop = 0;
   SESSION.idx++;
   SESSION.revealed = false;
   SESSION.showAssoc = false;
@@ -1457,7 +1459,7 @@ function renderPhrasalCard() {
         </div>` : ""}
       ${revealed ? `<button class="reveal-btn" onclick="nextCard()">Далее</button>` : ""}
     </div>`;
-  if (!revealed && item.kind === "gap") { const input = document.getElementById("type-answer-input"); if (input) input.focus(); }
+  if (!revealed && item.kind === "gap") { const input = document.getElementById("type-answer-input"); if (input) input.focus({ preventScroll: true }); }
 }
 function finishPhrasalAnswer(correct) {
   const item = currentItem();
@@ -1633,7 +1635,7 @@ function renderKeyPhraseCard() {
           <button class="check-btn" onclick="checkTyped()">Проверить</button>
         </div>` : `<button class="reveal-btn" onclick="nextCard()">Далее</button>`}
     </div>`;
-  if (!revealed) { const input = document.getElementById("type-answer-input"); if (input) input.focus(); }
+  if (!revealed) { const input = document.getElementById("type-answer-input"); if (input) input.focus({ preventScroll: true }); }
 }
 function checkKeyPhrase() {
   const input = document.getElementById("type-answer-input");
