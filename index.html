@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <!-- Иконки: Tabler Icons (MIT, github.com/tabler/tabler-icons) -->
@@ -18,6 +18,7 @@
   <symbol id="i-books" viewBox="0 0 24 24"><path d="M5 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /> <path d="M9 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /> <path d="M5 8h4" /> <path d="M9 16h4" /> <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041z" /> <path d="M14 9l4 -1" /> <path d="M16 16l3.923 -.98" /></symbol>
   <symbol id="i-ruler-2" viewBox="0 0 24 24"><path d="M17 3l4 4l-14 14l-4 -4z" /> <path d="M16 7l-1.5 -1.5" /> <path d="M13 10l-1.5 -1.5" /> <path d="M10 13l-1.5 -1.5" /> <path d="M7 16l-1.5 -1.5" /></symbol>
   <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" /> <path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3" /> <path d="M9.7 17l4.6 0" /></symbol>
+  <symbol id="i-messages" viewBox="0 0 24 24"><path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" /> <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" /></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /> <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /> <path d="M3 6l0 13" /> <path d="M12 6l0 13" /> <path d="M21 6l0 13" /></symbol>
   <symbol id="i-school" viewBox="0 0 24 24"><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /> <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></symbol>
   <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1" /></symbol>
@@ -149,68 +150,29 @@
 
   <!-- ===================== ТЕКСТЫ ===================== -->
   <div class="view" id="view-texts">
-    <h1 class="view-title">Тексты</h1>
-    <div id="texts-generate">
-      <div class="card" id="ai-key-card" style="display:none;">
-        <h2 class="block-title">Ключ ИИ для текстов</h2>
-        <p class="block-note">
-          Нужен бесплатный ключ Google Gemini: открой
-          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>,
-          войди со своим Google-аккаунтом, нажми «Create API key» и вставь ключ сюда. Ключ хранится только в этом браузере.
-          Подойдёт тот же ключ, что и в приложении с испанскими словами.
-        </p>
-        <input type="text" id="ai-key-input" placeholder="AIza…" autocomplete="off" aria-label="Ключ Gemini">
-        <button class="small-btn learn-btn" style="margin-top:10px;" onclick="saveAiKey()">Сохранить ключ</button>
-      </div>
+    <h1 class="view-title">Диалог</h1>
+    <p class="view-lead">Собеседник говорит только словами из твоего словаря. Ты видишь по-русски, что ответить, и переводишь это на английский — а ошибки разбираются сразу, с объяснением «почему так».</p>
+    <div class="card" id="ai-key-card" style="display:none;">
+      <h2 class="block-title">Ключ ИИ для диалога</h2>
+      <p class="block-note">
+        Нужен бесплатный ключ Google Gemini: открой
+        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>,
+        войди со своим Google-аккаунтом, нажми «Create API key» и вставь ключ сюда. Ключ хранится только в этом браузере.
+        Подойдёт тот же ключ, что и в приложении с испанскими словами.
+      </p>
+      <input type="text" id="ai-key-input" placeholder="AIza…" autocomplete="off" aria-label="Ключ Gemini">
+      <button class="small-btn learn-btn" style="margin-top:10px;" onclick="saveAiKey()">Сохранить ключ</button>
+    </div>
+    <div id="dialog-setup">
       <div class="card">
-        <h2 class="block-title">Новый текст</h2>
-        <p class="block-note">Текст собирается из твоих слов, включая добавленные сегодня, и каждый раз новый.</p>
-        <div class="field-row compact">
-          <span class="field-label">Уровень</span>
-          <div class="seg" id="gen-level-toggle">
-            <button type="button" class="filter-chip active" data-level="A2" onclick="setGenLevel('A2')">A2</button>
-            <button type="button" class="filter-chip" data-level="B1" onclick="setGenLevel('B1')">B1</button>
-            <button type="button" class="filter-chip" data-level="B2" onclick="setGenLevel('B2')">B2</button>
-          </div>
-        </div>
-        <div class="field-row compact">
-          <span class="field-label">Показать</span>
-          <div class="seg" id="gen-lang-toggle">
-            <button type="button" class="filter-chip active" data-lang="en" onclick="setGenLang('en')">Сначала EN</button>
-            <button type="button" class="filter-chip" data-lang="ru" onclick="setGenLang('ru')">Сначала RU</button>
-          </div>
-        </div>
-        <button class="reveal-btn" style="margin-top:14px;" onclick="generateNewText()" id="generate-text-btn"><svg class="ico" aria-hidden="true"><use href="#i-sparkles"></use></svg> Сгенерировать текст</button>
-        <div class="block-note" style="margin:8px 0 0;" id="ai-key-status"></div>
-      </div>
-      <div class="card" style="margin-top:14px;">
-        <h2 class="block-title">Перевести текст</h2>
-        <p class="block-note">Вставь текст на английском или русском — язык определится сам.</p>
-        <textarea id="translate-input" placeholder="Текст на английском или русском" aria-label="Текст для перевода"></textarea>
-        <button class="reveal-btn" style="margin-top:10px;" onclick="translateOwnText()" id="translate-btn"><svg class="ico" aria-hidden="true"><use href="#i-language"></use></svg> Перевести</button>
-        <div id="translate-result"></div>
+        <h2 class="block-title">О чём поговорим?</h2>
+        <p class="block-note">Темы — из последних пройденных разделов Duolingo. В диалоге 8 твоих ответов.</p>
+        <div class="dlg-topics" id="dialog-topics"></div>
+        <button class="reveal-btn" style="margin-top:14px;" onclick="startDialog()" id="dialog-start-btn"></button>
       </div>
     </div>
-    <div id="text-reader" class="reader" style="display:none;">
-      <div class="reader-head">
-        <button class="icon-btn" id="reader-back" aria-label="Назад"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg></button>
-        <div class="lang-toggle">
-          <button id="lang-en-btn" class="active">EN</button>
-          <button id="lang-ru-btn">RU</button>
-        </div>
-      </div>
-      <h2 id="reader-title" class="reader-title"></h2>
-      <div class="reader-body" id="reader-body"></div>
-      <div class="word-translate-popup" id="word-translate-popup" style="display:none;"></div>
-      <div class="reader-mic" id="reader-mic"></div>
-      <div class="reader-meta" id="reader-meta"></div>
-      <div class="settings-row" style="margin-top:14px;">
-        <button class="small-btn learn-btn" onclick="toggleReaderTranslation()" id="reader-translate-btn"><svg class="ico" aria-hidden="true"><use href="#i-language"></use></svg> Перевести текст</button>
-        <button class="small-btn" onclick="speakReaderText()" id="reader-speak-btn"><svg class="ico" aria-hidden="true"><use href="#i-volume"></use></svg> Прослушать</button>
-        <button class="small-btn" onclick="regenerateText()"><svg class="ico" aria-hidden="true"><use href="#i-refresh"></use></svg> Другой текст</button>
-      </div>
-      <div class="reader-translate-box" id="reader-translate-box" style="display:none;"></div>
-    </div>
+    <div id="dialog-chat" style="display:none;"></div>
+    <div class="word-translate-popup" id="word-translate-popup" style="display:none;"></div>
   </div>
 
   <!-- ===================== УРОКИ: DUOLINGO + PUZZLE ENGLISH ===================== -->
@@ -280,7 +242,7 @@
   <button class="nav-btn" id="nav-words"><svg class="ico" aria-hidden="true"><use href="#i-books"></use></svg>Слова</button>
   <button class="nav-btn" id="nav-rules"><svg class="ico" aria-hidden="true"><use href="#i-ruler-2"></use></svg>Правила</button>
   <button class="nav-btn" id="nav-assoc"><svg class="ico" aria-hidden="true"><use href="#i-bulb"></use></svg>Ассоциации</button>
-  <button class="nav-btn" id="nav-texts"><svg class="ico" aria-hidden="true"><use href="#i-book"></use></svg>Тексты</button>
+  <button class="nav-btn" id="nav-texts"><svg class="ico" aria-hidden="true"><use href="#i-messages"></use></svg>Диалог</button>
   <button class="nav-btn" id="nav-duo"><svg class="ico" aria-hidden="true"><use href="#i-school"></use></svg>Уроки</button>
 </nav>
 
@@ -323,12 +285,13 @@
 <script src="mistakes.js?v=3"></script>
 <script src="phrasal.js?v=2"></script>
 <script src="keyphrases.js?v=2"></script>
-<script src="mic.js?v=2"></script>
-<script src="app.js?v=5"></script>
+<script src="mic.js?v=3"></script>
+<script src="app.js?v=6"></script>
+<script src="dialog.js?v=1"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js?v=1"></script>
-<script src="sync.js?v=3"></script>
+<script src="sync.js?v=4"></script>
 </body>
 </html>

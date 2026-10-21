@@ -54,8 +54,8 @@ function micButtonHtml(target, extraClass) {
 
 /* Микрофон как способ ОТВЕТИТЬ в сессии повторения: распознанная речь
    вписывается в поле ответа (type-answer-input), а не проверяется сама по себе. */
-function micAnswerButtonHtml(lang) {
-  return `<button class="mic-btn" data-lang="${lang}" onclick="handleAnswerMicClick(this)" title="Ответить голосом" aria-label="Ответить голосом">${ico("microphone")}</button>`;
+function micAnswerButtonHtml(lang, inputId) {
+  return `<button class="mic-btn" data-lang="${lang}" data-input="${inputId || "type-answer-input"}" onclick="handleAnswerMicClick(this)" title="Ответить голосом" aria-label="Ответить голосом">${ico("microphone")}</button>`;
 }
 
 function handleAnswerMicClick(btn) {
@@ -63,7 +63,7 @@ function handleAnswerMicClick(btn) {
     alert("Распознавание речи не поддерживается в этом браузере. Открой сайт в Chrome (на Android — работает).");
     return;
   }
-  const input = document.getElementById("type-answer-input");
+  const input = document.getElementById(btn.dataset.input || "type-answer-input");
   if (!input) return;
   if (micActiveBtn === btn) { stopMic(); return; }
   if (micActiveBtn) stopMic();

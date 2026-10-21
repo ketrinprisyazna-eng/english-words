@@ -676,3 +676,36 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .exam-result { font-size: 14px; line-height: 1.5; margin: 8px 0 14px; color: var(--ink-2); }
 .exam-result.good { color: var(--moss); font-weight: 600; }
 .exam-result .ico { vertical-align: -3px; }
+
+/* ===== Диалог ===== */
+.dlg-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+.dlg-topics .filter-chip { white-space: normal; text-align: left; }
+.dlg-progress { font-size: 12.5px; color: var(--ink-2); margin: 4px 0 10px; }
+.dlg-msg { display: flex; margin: 8px 0; }
+.dlg-msg.me { justify-content: flex-end; }
+.dlg-bubble { max-width: 88%; padding: 10px 14px; border-radius: 16px; background: var(--sheet); border: 1px solid var(--rule); }
+.dlg-msg.partner .dlg-bubble { border-top-left-radius: 4px; }
+.dlg-msg.me .dlg-bubble { border-top-right-radius: 4px; background: var(--blue-tint); border-color: transparent; }
+.dlg-en { font-family: var(--serif); font-size: 17px; line-height: 1.45; color: var(--ink); }
+.dlg-en .tap-word { cursor: pointer; }
+.dlg-en .tap-word.unknown { text-decoration: underline dotted var(--red); text-underline-offset: 3px; }
+.dlg-ru { font-size: 13.5px; color: var(--ink-2); margin-top: 4px; }
+.dlg-tools { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.dlg-tools .speak-btn { width: 30px; height: 30px; }
+.dlg-task-ru { font-size: 12.5px; color: var(--ink-2); margin-bottom: 4px; }
+.dlg-task-ru.big { font-size: 17px; color: var(--ink); font-weight: 600; margin: 4px 0 10px; line-height: 1.4; }
+.dlg-task { margin-top: 12px; }
+.dlg-task-label { font-size: 12.5px; color: var(--ink-2); }
+.dlg-hint { font-size: 13px; color: var(--blue); min-height: 1em; margin: 6px 0 2px; }
+.dlg-feedback { margin: 4px 0 12px auto; max-width: 92%; padding: 10px 14px; border-radius: 12px; font-size: 13.5px; line-height: 1.5; }
+.dlg-feedback.good { background: var(--moss-tint); }
+.dlg-feedback.minor { background: var(--amber-tint); }
+.dlg-feedback.bad { background: var(--red-tint); }
+.dlg-feedback-head { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.dlg-feedback ul { margin: 6px 0 0; padding-left: 18px; }
+.dlg-feedback li { margin-bottom: 4px; }
+.dlg-correct { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-family: var(--serif); font-size: 16px; color: var(--ink); }
+.dlg-correct .speak-btn { width: 28px; height: 28px; flex-shrink: 0; }
+.dlg-rules { margin-top: 6px; }
+.dlg-summary { margin-top: 14px; }
+.mistake-context { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; font-style: italic; }

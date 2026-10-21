@@ -295,7 +295,7 @@ function showView(name) {
   if (name === "home") renderHome();
   if (name === "words") renderWords();
   if (name === "assoc") renderAssocList();
-  if (name === "texts") renderTexts();
+  if (name === "texts") renderDialog();
   if (name === "duo") renderDuo();
   if (name === "rules") renderRules();
   if (name === "phrasal") renderPhrasalPage();
@@ -316,7 +316,7 @@ function renderHome() {
 
   const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
   setText("phrasal-count", typeof PHRASALS !== "undefined" ? `${PHRASALS.length} ${plural(PHRASALS.length, "сочетание", "сочетания", "сочетаний")}` : "");
-  setText("home-mistakes-count", typeof MISTAKES !== "undefined" ? `${MISTAKES.length} с разбором` : "");
+  setText("home-mistakes-count", `${allMistakes().length} с разбором`);
   setText("home-rules-count", typeof RULES !== "undefined" ? (() => {
     const learned = RULES.filter((r) => buildRuleIndex().byRule[r.id].words.length && ruleLearnedInfo(r.id)).length;
     return `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")}` + (learned ? ` · выучено ${learned}` : "");
@@ -742,13 +742,9 @@ function openAssocFor(enEnc) {
   renderAssocList();
 }
 
-/* ============ Тексты (генерируются ИИ по запросу) ============ */
+/* ============ ИИ (Gemini) и знакомые слова — для диалога ============ */
 const LS_AI_KEY = "enapp_ai_key";
 const LS_AI_KEY_ES = "esapp_ai_key"; // ключ из испанского приложения (тот же домен) — подхватываем, если свой не задан
-let currentGeneratedText = null;
-let currentTextLang = "en";
-let genLang = "en";
-let genLevel = "A2";
 
 let KNOWN_SET = null;
 function knownSet() {
@@ -844,13 +840,15 @@ function loadAiKey() {
     return (localStorage.getItem(LS_AI_KEY) || localStorage.getItem(LS_AI_KEY_ES) || "").trim();
   } catch (e) { return ""; }
 }
-async function callGeminiRaw(prompt) {
+async function callGeminiRaw(prompt, json) {
   const key = loadAiKey();
   if (!key) throw new Error("Нет сохранённого ключа ИИ.");
   const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${encodeURIComponent(key)}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+    body: JSON.stringify(json
+      ? { contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json", temperature: 0.7 } }
+      : { contents: [{ parts: [{ text: prompt }] }] }),
   });
   if (!resp.ok) {
     if (resp.status === 503) throw new Error("ИИ сейчас перегружен (слишком много запросов у Google). Подожди немного и попробуй ещё раз.");
@@ -866,19 +864,11 @@ function saveAiKey() {
   if (!key) return;
   try { localStorage.setItem(LS_AI_KEY, key); } catch (e) {}
   input.value = "";
-  renderTexts();
+  renderDialog();
 }
 function clearAiKey() {
   try { localStorage.removeItem(LS_AI_KEY); } catch (e) {}
-  renderTexts();
-}
-function setGenLang(lang) {
-  genLang = lang;
-  document.querySelectorAll("#gen-lang-toggle .filter-chip").forEach((el) => el.classList.toggle("active", el.dataset.lang === lang));
-}
-function setGenLevel(level) {
-  genLevel = level;
-  document.querySelectorAll("#gen-level-toggle .filter-chip").forEach((el) => el.classList.toggle("active", el.dataset.level === level));
+  renderDialog();
 }
 function sampleVocabForPrompt(n) {
   // в первую очередь — слова, которые сейчас учатся или нужно подучить, плюс случайные из всего словаря
@@ -895,134 +885,6 @@ function sampleVocabForPrompt(n) {
   }
   return picked;
 }
-function renderTexts() {
-  const key = loadAiKey();
-  document.getElementById("ai-key-card").style.display = key ? "none" : "block";
-  document.getElementById("ai-key-status").textContent = key ? "Ключ сохранён в этом браузере." : "";
-  if (currentGeneratedText) {
-    document.getElementById("texts-generate").style.display = "none";
-    document.getElementById("text-reader").style.display = "block";
-    renderReader();
-  } else {
-    document.getElementById("texts-generate").style.display = "block";
-    document.getElementById("text-reader").style.display = "none";
-  }
-}
-async function generateNewText() {
-  const key = loadAiKey();
-  if (!key) { alert("Сначала вставь и сохрани ключ ИИ выше."); return; }
-  const btn = document.getElementById("generate-text-btn");
-  const oldLabel = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = ico("loader-2", "spin") + " Генерирую…";
-  const words = sampleVocabForPrompt(55);
-  const levelHint = { A2: "уровень A2, простая грамматика, короткие предложения", B1: "уровень B1, разные времена (Present/Past/Future, Present Perfect)", B2: "уровень B2, естественный живой язык, сложные предложения" }[genLevel];
-  const prompt = `Ты помощник для изучения английского языка. Составь короткий текст (5-7 предложений, ${levelHint}) на английском языке, используя как можно больше следующих слов и фраз из словаря ученика: ${words.join(", ")}. Тема свободная и естественная, текст связный.
-Ответь СТРОГО в формате JSON без markdown-разметки и пояснений, ровно так:
-{"title": "короткое название на русском", "en": "текст на английском", "ru": "точный перевод текста на русский"}`;
-  try {
-    const raw = await callGeminiRaw(prompt);
-    const clean = raw.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(clean);
-    if (!parsed.en || !parsed.ru) throw new Error("Не удалось разобрать ответ ИИ.");
-    currentGeneratedText = { title: parsed.title || "Новый текст", en: parsed.en, ru: parsed.ru };
-    currentTextLang = genLang;
-    document.getElementById("texts-generate").style.display = "none";
-    document.getElementById("text-reader").style.display = "block";
-    renderReader();
-  } catch (e) {
-    alert("Не получилось сгенерировать текст: " + e.message + "\n\nПроверь ключ (в начале раздела «Тексты») и соединение с интернетом.");
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = oldLabel;
-  }
-}
-function closeReader() {
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  document.getElementById("text-reader").style.display = "none";
-  document.getElementById("texts-generate").style.display = "block";
-}
-async function translateOwnText() {
-  const key = loadAiKey();
-  if (!key) { alert("Сначала вставь и сохрани ключ ИИ выше."); return; }
-  const input = document.getElementById("translate-input");
-  const text = input.value.trim();
-  if (!text) return;
-  const btn = document.getElementById("translate-btn");
-  const resultEl = document.getElementById("translate-result");
-  const oldLabel = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = ico("loader-2", "spin") + " Перевожу…";
-  resultEl.innerHTML = "";
-  const prompt = `Определи, на каком языке написан следующий текст — на русском или на английском — и переведи его на другой язык (если текст на русском, переведи на английский; если на английском — переведи на русский). Текст: "${text}"
-Ответь СТРОГО в формате JSON без markdown-разметки и пояснений, ровно так:
-{"detected": "ru" или "en", "translation": "перевод"}`;
-  try {
-    const raw = await callGeminiRaw(prompt);
-    const clean = raw.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(clean);
-    if (!parsed.translation) throw new Error("Пустой перевод.");
-    const toEnglish = parsed.detected === "ru";
-    const dirLabel = toEnglish ? "RU → EN" : "EN → RU";
-    resultEl.innerHTML = `<div class="dir-badge" style="margin-top:10px;">${dirLabel}</div><div style="margin-top:6px;">${escapeHtml(parsed.translation)}</div>` +
-      (toEnglish ? `<div style="margin-top:8px;">${speakButtonHtml(parsed.translation)}</div>` : "");
-  } catch (e) {
-    resultEl.innerHTML = `<div style="color:var(--danger);margin-top:10px;">Не получилось перевести: ${escapeHtml(e.message)}</div>`;
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = oldLabel;
-  }
-}
-function setTextLang(lang) {
-  currentTextLang = lang;
-  renderReader();
-}
-function renderReader() {
-  const t = currentGeneratedText;
-  if (!t) return;
-  const pct = textKnownPct(t.en);
-  document.getElementById("reader-title").textContent = t.title;
-  document.getElementById("lang-en-btn").classList.toggle("active", currentTextLang === "en");
-  document.getElementById("lang-ru-btn").classList.toggle("active", currentTextLang === "ru");
-  const body = currentTextLang === "en" ? highlightUnknown(t.en) : escapeHtml(t.ru);
-  document.getElementById("reader-body").innerHTML = body;
-  const popup = document.getElementById("word-translate-popup");
-  if (popup) popup.style.display = "none";
-  document.getElementById("reader-mic").innerHTML = currentTextLang === "en"
-    ? micButtonHtml(t.en, "reader-mic-btn") + `<span class="reader-mic-label">Прочитай текст вслух и проверь произношение</span>`
-    : "";
-  document.getElementById("reader-meta").textContent = currentTextLang === "en" ? `Известно слов в тексте: ${pct}% (выделены слова, которых ещё нет в твоём наборе)` : "";
-  document.getElementById("reader-speak-btn").style.display = currentTextLang === "en" ? "" : "none";
-  const box = document.getElementById("reader-translate-box");
-  box.style.display = "none";
-  box.innerHTML = "";
-  document.getElementById("reader-translate-btn").innerHTML = ico("language") + " Перевести текст";
-}
-function speakReaderText() {
-  if (currentGeneratedText) speakEn(currentGeneratedText.en, 0.9);
-}
-function toggleReaderTranslation() {
-  const t = currentGeneratedText;
-  if (!t) return;
-  const box = document.getElementById("reader-translate-box");
-  const btn = document.getElementById("reader-translate-btn");
-  const showing = box.style.display !== "none";
-  if (showing) {
-    box.style.display = "none";
-    btn.innerHTML = ico("language") + " Перевести текст";
-  } else {
-    box.textContent = currentTextLang === "en" ? t.ru : t.en;
-    box.style.display = "block";
-    btn.innerHTML = ico("language") + " Скрыть перевод";
-  }
-}
-function regenerateText() {
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  currentGeneratedText = null;
-  document.getElementById("text-reader").style.display = "none";
-  document.getElementById("texts-generate").style.display = "block";
-}
-
 /* ============ Уроки: источники слов + конспекты ============ */
 const SOURCES = [
   { key: "duo", name: "Duolingo", desc: "Выученные слова курса английского (раздел «Тренировка → Слова»)." },
@@ -1084,7 +946,7 @@ function formatDateRu(dateStr) {
 function renderDuo() {
   renderSources();
   const mc = document.getElementById("mistakes-count");
-  if (mc) mc.textContent = typeof MISTAKES !== "undefined" ? `(${MISTAKES.length})` : "";
+  if (mc) mc.textContent = `(${allMistakes().length})`;
   if (duoTab === "mistakes") renderMistakes();
   const el = document.getElementById("duo-list");
   if (typeof DUO_LOG === "undefined" || DUO_LOG.length === 0) {
@@ -1420,7 +1282,12 @@ function renderRules() {
 }
 
 /* ============ Ошибки из Duolingo ============ */
-const MISTAKE_TYPES = { "to-en": "Перевод на английский", "to-ru": "Перевод на русский", gap: "Вставить слово", listen: "Аудирование" };
+const MISTAKE_TYPES = { "to-en": "Перевод на английский", "to-ru": "Перевод на русский", gap: "Вставить слово", listen: "Аудирование", dialog: "Диалог" };
+// ошибки из Duolingo + ошибки из диалогов в приложении
+function allMistakes() {
+  const fromDialog = typeof DIALOG_MISTAKES !== "undefined" ? DIALOG_MISTAKES : [];
+  return [...fromDialog, ...(typeof MISTAKES !== "undefined" ? MISTAKES : [])];
+}
 let duoTab = "lessons";
 let openMistakeId = null;
 function setDuoTab(tab) {
@@ -1440,7 +1307,7 @@ function mistakeWords(m) {
   return (m.words || []).map((s) => WORDS_DATA.find((w) => normKey(w.en) === normKey(s)) || WORDS_DATA.find((w) => ruleKey(w.en) === ruleKey(s))).filter(Boolean);
 }
 function practiceMistakeWords(id) {
-  const list = id ? MISTAKES.filter((m) => m.id === id) : MISTAKES;
+  const list = id ? allMistakes().filter((m) => m.id === id) : allMistakes();
   const words = [...new Set(list.flatMap(mistakeWords).map((w) => w.en))];
   if (!words.length) { alert("В этих ошибках нет слов из твоего словаря."); return; }
   startSessionForWords(words.slice(0, 40));
@@ -1448,11 +1315,11 @@ function practiceMistakeWords(id) {
 function renderMistakes() {
   const el = document.getElementById("mistakes-list");
   if (!el) return;
-  if (typeof MISTAKES === "undefined" || !MISTAKES.length) {
+  if (!allMistakes().length) {
     el.innerHTML = `<div class="empty-state">Ошибок пока нет. Попроси «разбери мои ошибки в дуолинго» — и они появятся здесь с объяснением.</div>`;
     return;
   }
-  const items = [...MISTAKES].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const items = [...allMistakes()].sort((a, b) => b.date.localeCompare(a.date)); // при равной дате сохраняем порядок: сначала ошибки из диалогов
   // какие правила встречаются в ошибках чаще всего — это «слабые места»
   const freq = {};
   for (const m of items) for (const r of m.rules || []) freq[r] = (freq[r] || 0) + 1;
@@ -1477,6 +1344,7 @@ function renderMistakes() {
     const words = mistakeWords(m);
     return `<div class="card mistake-card ${open ? "open" : ""}" onclick="toggleMistake('${m.id}')">
       <div class="mistake-meta">${formatDateRu(m.date)} · ${MISTAKE_TYPES[m.type] || ""}</div>
+      ${m.context ? `<div class="mistake-context">Собеседник: «${escapeHtml(m.context)}»</div>` : ""}
       <div class="mistake-prompt">${escapeHtml(m.prompt)}</div>
       ${m.yours ? `<div class="mistake-line bad">${ico("x")} ${escapeHtml(m.yours)}</div>` : `<div class="mistake-line muted">Твой ответ Duolingo не сохранил</div>`}
       <div class="mistake-line good">${ico("check")} ${escapeHtml(m.correct)} <span class="inline-speak">${m.type === "to-en" || m.type === "gap" ? speakButtonHtml(m.correct) : speakButtonHtml(m.prompt)}</span></div>
@@ -1922,9 +1790,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("#duo-tabs .filter-chip").forEach((el) => el.addEventListener("click", () => setDuoTab(el.dataset.tab)));
   document.getElementById("kp-search").addEventListener("input", (e) => { kpSearch = e.target.value; renderKeyPhrases(); });
 
-  document.getElementById("lang-en-btn").addEventListener("click", () => setTextLang("en"));
-  document.getElementById("lang-ru-btn").addEventListener("click", () => setTextLang("ru"));
-  document.getElementById("reader-back").addEventListener("click", closeReader);
 
   document.getElementById("btn-export").addEventListener("click", exportData);
   document.getElementById("btn-reset").addEventListener("click", resetProgress);

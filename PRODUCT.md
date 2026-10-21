@@ -12,7 +12,7 @@ One person: the owner, a Russian speaker learning English at roughly A2–B1. Us
 
 ## Product Purpose
 
-A personal review companion for the English she is actually studying in Duolingo and Puzzle English. It turns those lessons into spaced-repetition review, short memory-hook grammar rules, mnemonics, generated reading texts, and a worked review of her own Duolingo mistakes. Success is a daily habit that sticks: open, review the words that are due, close.
+A personal review companion for the English she is actually studying in Duolingo and Puzzle English. It turns those lessons into spaced-repetition review, short memory-hook grammar rules, mnemonics, a translate-the-reply dialogue with an AI partner limited to her own vocabulary, and a worked review of her own Duolingo and dialogue mistakes. Success is a daily habit that sticks: open, review the words that are due, close.
 
 ## Positioning
 
@@ -22,14 +22,14 @@ Built from her own material, not a generic course: every word, rule, mistake and
 
 - Daily ritual on the phone; the review session (15 / 25 / 40 words) is the core loop.
 - New Duolingo/Puzzle English units are added to the data files after each completed section.
-- Pronunciation check uses the browser microphone (Chrome only); reading texts are generated with her own Google Gemini key stored in the browser.
+- Pronunciation check uses the browser microphone (Chrome only); the dialogue partner and its answer checks use her own Google Gemini key stored in the browser.
 - Progress syncs between phone and computer through Firebase, sharing the account with a sibling Spanish-words app.
 
 ## Capabilities and Constraints
 
 - Static site: plain HTML, CSS and JavaScript, no build step or framework. Scripts are cache-busted with `?v=` query strings.
 - Interface language is Russian; studied language is English (EN → RU, RU → EN, mixed).
-- Screens: Home, Words (2 725 words, filters by status and source), Rules (56), Associations (91 mnemonics), Texts (AI generation, reader, translation), Lessons (lesson notes + 24 analysed mistakes), Phrasal verbs trainer (78 combinations), full-screen review session, login modal.
+- Screens: Home, Words (≈2 800 words, filters by status and source), Rules (63, learned ones struck out), Associations (91 mnemonics), Dialogue (AI partner speaks only her words; she translates her Russian reply into English and gets each mistake explained), Lessons (lesson notes, key phrases of 147 units, analysed Duolingo + dialogue mistakes), Phrasal verbs trainer (81 combinations), full-screen review session, login modal.
 - Review uses typed answers with a "Check" step, a five-box spaced-repetition schedule (0, 1, 3, 7, 14, 30 days), and an optional association hint.
 - Data files (words.js, rules.js, phrasal.js, mistakes.js, assoc.js, duo.js) and sync (sync.js, firebase-config.js) are content/infrastructure, not design surface.
 

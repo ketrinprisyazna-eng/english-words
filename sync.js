@@ -39,6 +39,7 @@
       EN_STREAK: STREAK,
       EN_DIRECTION: DIRECTION,
       EN_RULES: RULE_STATE,
+      EN_DIALOG_MISTAKES: typeof DIALOG_MISTAKES !== "undefined" ? DIALOG_MISTAKES : [],
       EN_updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
   }
@@ -56,6 +57,7 @@
       if (data.EN_STREAK) { STREAK = data.EN_STREAK; saveJSON(LS_STREAK, STREAK); }
       if (data.EN_DIRECTION) { DIRECTION = data.EN_DIRECTION; saveJSON(LS_DIRECTION, DIRECTION); }
       if (data.EN_RULES) { RULE_STATE = data.EN_RULES; saveJSON(LS_RULES, RULE_STATE); }
+      if (data.EN_DIALOG_MISTAKES && typeof DIALOG_MISTAKES !== "undefined") { DIALOG_MISTAKES = data.EN_DIALOG_MISTAKES; saveJSON(LS_DIALOG_MISTAKES, DIALOG_MISTAKES); }
       // Перерисовываем экран, только если DOM уже готов — иначе app.js сам отрисует
       // актуальные данные через DOMContentLoaded/showView("home").
       // Во время открытой сессии повторения не трогаем экран, чтобы не сбить карточку.
