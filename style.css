@@ -660,3 +660,19 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .kp-unit.open .kp-head { margin-bottom: 6px; }
 .kp-en { font-family: var(--serif); font-size: 16px; color: var(--ink); line-height: 1.35; }
 .kp-ru { font-size: 13.5px; color: var(--ink-2); margin-top: 2px; }
+
+/* ===== Правило выучено (вычеркнуто) ===== */
+.rule-card.learned .rule-title { text-decoration: line-through; text-decoration-thickness: 1.5px; text-decoration-color: var(--red); color: var(--ink-3); }
+.rule-card.learned .rule-meta .ico { color: var(--moss); }
+.rule-card.learned .rule-sub { color: var(--moss); }
+.rule-card.learned:not(.open) { opacity: 0.75; }
+.rules-learned-title { display: flex; align-items: center; gap: 6px; margin-top: 24px; color: var(--moss); }
+.rule-learned-box { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--moss-tint); font-size: 13.5px; line-height: 1.5; color: var(--ink); }
+.rule-learned-box .ico { color: var(--moss); vertical-align: -3px; }
+.rule-learned-box .small-btn { margin-top: 10px; }
+.rule-learned-box.todo { background: var(--sheet-2); }
+.rule-learned-box.todo .progressbar-outer { margin-top: 8px; }
+.rule-learned-box.todo .settings-row { margin-top: 4px; }
+.exam-result { font-size: 14px; line-height: 1.5; margin: 8px 0 14px; color: var(--ink-2); }
+.exam-result.good { color: var(--moss); font-weight: 600; }
+.exam-result .ico { vertical-align: -3px; }

@@ -317,7 +317,10 @@ function renderHome() {
   const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
   setText("phrasal-count", typeof PHRASALS !== "undefined" ? `${PHRASALS.length} ${plural(PHRASALS.length, "сочетание", "сочетания", "сочетаний")}` : "");
   setText("home-mistakes-count", typeof MISTAKES !== "undefined" ? `${MISTAKES.length} с разбором` : "");
-  setText("home-rules-count", typeof RULES !== "undefined" ? `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")}` : "");
+  setText("home-rules-count", typeof RULES !== "undefined" ? (() => {
+    const learned = RULES.filter((r) => buildRuleIndex().byRule[r.id].words.length && ruleLearnedInfo(r.id)).length;
+    return `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")}` + (learned ? ` · выучено ${learned}` : "");
+  })() : "");
 
   const mastered = countMastered();
   const learning = countLearning();
@@ -401,11 +404,25 @@ function renderCard() {
       return;
     }
     const pct = total ? Math.round((SESSION.correctCount / total) * 100) : 0;
+    let examHtml = "";
+    if (SESSION.ruleExam) {
+      // засчитываем только ответы с первой попытки: повторы ошибок в очереди не добавляют баллов
+      const firstTry = SESSION.examSize ? Math.round(((SESSION.examFirstCorrect || 0) / SESSION.examSize) * 100) : 0;
+      const score = Math.min(100, firstTry);
+      const r = RULES.find((x) => x.id === SESSION.ruleExam);
+      if (score >= RULE_EXAM_PASS * 100 && SESSION.examSize >= Math.min(8, ruleWordsList(SESSION.ruleExam).length)) {
+        if (!SESSION.examSaved) { markRuleLearned(SESSION.ruleExam, "exam", score); SESSION.examSaved = true; }
+        examHtml = `<p class="exam-result good">${ico("check")} Правило «${escapeHtml(ruleShortTitle(r))}» сдано на ${score}% и вычеркнуто.</p>`;
+      } else {
+        examHtml = `<p class="exam-result">Чтобы вычеркнуть «${escapeHtml(ruleShortTitle(r))}», нужно 90% с первой попытки. Сейчас ${score}% — повтори слова и попробуй ещё раз.</p>`;
+      }
+    }
     document.getElementById("flash-area").innerHTML = `
       <div class="session-done">
         <div class="big">${ico("confetti")}</div>
         <h2>Сессия завершена!</h2>
         <p>Правильно: <b>${SESSION.correctCount}</b> из <b>${total}</b> (${pct}%)</p>
+        ${examHtml}
         <button class="reveal-btn" onclick="closeSession()">Готово</button>
       </div>`;
     return;
@@ -496,6 +513,10 @@ function checkTyped() {
   SESSION.revealed = true;
 
   registerReview(w.en, correct);
+  if (SESSION.ruleExam) {
+    if (!SESSION.examSeen) { SESSION.examSeen = {}; SESSION.examFirstCorrect = 0; }
+    if (!SESSION.examSeen[w.en]) { SESSION.examSeen[w.en] = true; if (correct) SESSION.examFirstCorrect++; }
+  }
   if (correct) {
     SESSION.correctCount++;
   } else {
@@ -1220,6 +1241,63 @@ function ruleChipsHtml(w) {
   return rulesForWord(w).map((r) => `<span class="rule-chip" onclick="event.stopPropagation(); openRule('${r.id}')">${escapeHtml(ruleShortTitle(r))}</span>`).join("");
 }
 
+/* ---------- «Выучено»: правило вычеркнуто, когда материал действительно знаешь ----------
+   Три пути:
+   1) экзамен по правилу (кнопка «Сдать правило») — 90%+ верных с первой попытки;
+   2) само: 80%+ слов правила закреплены интервальным повторением (box ≥ 3);
+   3) вручную: «Знаю — вычеркнуть».
+   «Вернуть в изучение» снимает отметку и отключает авто-вычёркивание по словам,
+   пока правило снова не будет сдано на экзамене. */
+const LS_RULES = "enapp_rules_v1";
+let RULE_STATE = loadJSON(LS_RULES, {}); // { id: { learned: bool, at, how: "exam"|"manual"|"returned", score } }
+const RULE_AUTO_SHARE = 0.8;
+const RULE_EXAM_PASS = 0.9;
+function saveRuleState() { saveJSON(LS_RULES, RULE_STATE); if (window.CloudSync) window.CloudSync.schedulePush(); }
+function ruleWordShare(id) {
+  const words = buildRuleIndex().byRule[id].words;
+  if (!words.length) return 0;
+  return words.filter((w) => getProgress(w.en).box >= 3).length / words.length;
+}
+// learned + как именно: "exam" | "manual" | "words"
+function ruleLearnedInfo(id) {
+  const st = RULE_STATE[id];
+  if (st && st.learned) return st;
+  if (st && st.how === "returned") return null;
+  const words = buildRuleIndex().byRule[id].words;
+  if (words.length >= 3 && ruleWordShare(id) >= RULE_AUTO_SHARE) return { learned: true, how: "words" };
+  return null;
+}
+function markRuleLearned(id, how, score) {
+  RULE_STATE[id] = { learned: true, at: Date.now(), how, score: score == null ? null : score };
+  saveRuleState();
+}
+function learnRuleManually(id) {
+  const r = RULES.find((x) => x.id === id);
+  if (!confirm(`Вычеркнуть правило «${ruleShortTitle(r)}»? Оно уйдёт в «Выучено», вернуть можно в любой момент.`)) return;
+  markRuleLearned(id, "manual");
+  openRuleId = null;
+  renderRules();
+}
+function returnRule(id) {
+  RULE_STATE[id] = { learned: false, at: Date.now(), how: "returned" };
+  saveRuleState();
+  openRuleId = id;
+  renderRules();
+}
+function ruleLearnedLabel(info) {
+  if (!info) return "";
+  const when = info.at ? new Date(info.at).toLocaleDateString("ru-RU", { day: "numeric", month: "long" }) : "";
+  if (info.how === "exam") return `Сдано на ${info.score}%${when ? " · " + when : ""}`;
+  if (info.how === "manual") return `Вычеркнуто вручную${when ? " · " + when : ""}`;
+  return "80% слов правила закреплены";
+}
+function examRule(id) {
+  const words = ruleWordsList(id);
+  const list = shuffleArray(words).slice(0, Math.min(BATCH_SIZE, words.length)).map((w) => w.en);
+  startSessionForWords(list);
+  if (SESSION) { SESSION.ruleExam = id; SESSION.examSize = SESSION.queue.length; }
+}
+
 let openRuleId = null;
 let rulesSearch = "";
 function openRule(id) {
@@ -1285,7 +1363,23 @@ function renderRuleBody(rule, entry) {
       <button class="small-btn learn-btn" onclick="learnRuleWords('${rule.id}')">${ico("book-2")} Изучить</button>
       <button class="small-btn" onclick="checkRuleWords('${rule.id}')">${ico("pencil")} Проверить себя</button>
       ${rule.id === "phrasal" ? `<button class="small-btn" onclick="showView('phrasal')">${ico("puzzle")} Тренажёр с предложениями</button>` : ""}
-    </div>`;
+    </div>
+    ${(() => {
+      const info = ruleLearnedInfo(rule.id);
+      const share = Math.round(ruleWordShare(rule.id) * 100);
+      if (info) return `<div class="rule-learned-box">
+          <div>${ico("check")} <b>Выучено.</b> ${escapeHtml(ruleLearnedLabel(info))}</div>
+          <button class="small-btn" onclick="returnRule('${rule.id}')">${ico("refresh")} Вернуть в изучение</button>
+        </div>`;
+      return `<div class="rule-learned-box todo">
+          <div>Правило вычеркнется, когда ты его знаешь: сдай экзамен на 90% — или закрепи 80% слов (сейчас ${share}%).</div>
+          <div class="progressbar-outer"><div class="progressbar-inner" style="width:${Math.min(100, Math.round(share / RULE_AUTO_SHARE))}%"></div></div>
+          <div class="settings-row">
+            <button class="small-btn learn-btn" onclick="examRule('${rule.id}')">${ico("target")} Сдать правило</button>
+            <button class="small-btn" onclick="learnRuleManually('${rule.id}')">${ico("check")} Знаю — вычеркнуть</button>
+          </div>
+        </div>`;
+    })()}`;
 }
 function renderRules() {
   const el = document.getElementById("rules-list");
@@ -1299,22 +1393,30 @@ function renderRules() {
       idx.byRule[r.id].words.some((w) => w.en.toLowerCase().includes(q) || w.ru.toLowerCase().includes(q)));
   }
   const covered = Object.keys(idx.byWord).length;
+  const allVisible = RULES.filter((r) => idx.byRule[r.id].words.length);
+  const learnedCount = allVisible.filter((r) => ruleLearnedInfo(r.id)).length;
   document.getElementById("rules-summary").textContent =
-    `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")} · в них ${covered} из ${WORDS_DATA.length} твоих слов`;
+    `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")} · в них ${covered} из ${WORDS_DATA.length} твоих слов` +
+    (learnedCount ? ` · выучено ${learnedCount}` : "");
   if (!rules.length) { el.innerHTML = `<div class="empty-state">Ничего не найдено</div>`; return; }
-  el.innerHTML = rules.map((r) => {
+  const card = (r) => {
     const entry = idx.byRule[r.id];
+    const info = ruleLearnedInfo(r.id);
     const open = openRuleId === r.id || (q && rules.length <= 3);
     const mastered = entry.words.filter((w) => getProgress(w.en).box >= 4).length;
-    return `<div class="card rule-card ${open ? "open" : ""}" id="rule-${r.id}">
+    return `<div class="card rule-card ${open ? "open" : ""} ${info ? "learned" : ""}" id="rule-${r.id}">
       <button type="button" class="rule-head" onclick="toggleRule('${r.id}')" aria-expanded="${open ? "true" : "false"}">
-        <span class="toc-line"><span class="rule-title">${escapeHtml(r.title)}</span><span class="toc-leader" aria-hidden="true"></span><span class="rule-meta">${entry.words.length}</span></span>
-        <span class="rule-hook">${escapeHtml(r.hook)}</span>
-        <span class="rule-sub">${entry.words.length} ${plural(entry.words.length, "слово", "слова", "слов")} из словаря${mastered ? ` · закреплено ${mastered}` : ""}</span>
+        <span class="toc-line"><span class="rule-title">${escapeHtml(r.title)}</span><span class="toc-leader" aria-hidden="true"></span><span class="rule-meta">${info ? ico("check") : entry.words.length}</span></span>
+        ${info && !open ? "" : `<span class="rule-hook">${escapeHtml(r.hook)}</span>`}
+        <span class="rule-sub">${info ? escapeHtml(ruleLearnedLabel(info)) : `${entry.words.length} ${plural(entry.words.length, "слово", "слова", "слов")} из словаря${mastered ? ` · закреплено ${mastered}` : ""}`}</span>
       </button>
       ${open ? renderRuleBody(r, entry) : ""}
     </div>`;
-  }).join("");
+  };
+  const active = rules.filter((r) => !ruleLearnedInfo(r.id));
+  const learned = rules.filter((r) => ruleLearnedInfo(r.id));
+  el.innerHTML = active.map(card).join("") +
+    (learned.length ? `<h2 class="section-title rules-learned-title">${ico("check")} Выучено · ${learned.length}</h2>${learned.map(card).join("")}` : "");
 }
 
 /* ============ Ошибки из Duolingo ============ */
