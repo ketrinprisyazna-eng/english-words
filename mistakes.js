@@ -6,6 +6,92 @@
 // type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
 const MISTAKES = [
   {
+    id: "m2026-10-21-1", date: "2026-10-21", type: "to-en",
+    prompt: "Этот проездной позволяет тебе ездить на любом поезде в течение одной недели!",
+    yours: "This pass lets you ride any train one week",
+    correct: "This pass lets you ride any train for one week!",
+    why: [
+      "«В течение недели, на неделю» — FOR one week. Срок (сколько времени) — с FOR: for two days, for a year.",
+      "LET + кого + глагол без to: lets you ride — «позволяет тебе ездить». Это у тебя верно 👍",
+    ],
+    rules: ["perfect", "want-someone-to"], words: ["pass", "for"],
+  },
+  {
+    id: "m2026-10-21-2", date: "2026-10-21", type: "gap",
+    prompt: "I think the party _ over soon. The ceremony _ over five hours ago!",
+    yours: "was / will be",
+    correct: "I think the party will be over soon. The ceremony was over five hours ago!",
+    why: [
+      "Смотри на слова-подсказки: SOON (скоро) → будущее: will be over. AGO (назад) → прошлое: was over.",
+      "BE OVER — «закончиться»: The party is over — вечеринка закончилась.",
+    ],
+    rules: ["future", "past-simple"], words: ["soon", "ago"],
+  },
+  {
+    id: "m2026-10-21-3", date: "2026-10-21", type: "gap",
+    prompt: "Have you been _ contact _ your school friends all these years?",
+    yours: "with / in",
+    correct: "Have you been in contact with your school friends all these years?",
+    why: [
+      "Устойчивое выражение: IN CONTACT WITH — «на связи с». Сначала in (в контакте), потом with (с кем).",
+      "Have you been… all these years? — Present Perfect: «всё это время (и до сих пор)».",
+    ],
+    rules: ["preps", "perfect"], words: ["in contact"],
+  },
+  {
+    id: "m2026-10-21-4", date: "2026-10-21", type: "to-en",
+    prompt: "Разве я не могу получить паспорт в посольстве сегодня?",
+    yours: "Can't I get a passport at the",
+    correct: "Can't I get a passport at the embassy today?",
+    why: [
+      "Начало верное: «Разве я не могу…?» = CAN'T I…? 👍 Не хватило конца: посольство — EMBASSY, сегодня — TODAY (в конце фразы).",
+    ],
+    rules: ["negative-questions", "airport"], words: ["embassy", "passport"],
+  },
+  {
+    id: "m2026-10-21-5", date: "2026-10-21", type: "to-en",
+    prompt: "Ни один из инструментов не работает.",
+    yours: "None of the tppls work.",
+    correct: "None of the tools work.",
+    why: [
+      "Опечатка: инструменты — TOOLS.",
+      "NONE OF THE + множественное = «ни один из». Отрицание уже в none — второе «не» не нужно (не «don't work»).",
+    ],
+    rules: ["much-many", "some-any-no-every"], words: ["none of", "tool"],
+  },
+  {
+    id: "m2026-10-20-1", date: "2026-10-20", type: "to-en",
+    prompt: "Чтение заняло у меня один день.",
+    yours: "To read took me one day",
+    correct: "It took me a day to read.",
+    why: [
+      "«Занимает (время)» — IT TAKES: It took me a day to read. Начинаем с IT, действие — в конце с TO.",
+      "How long does it take? — Сколько времени это занимает?",
+    ],
+    rules: ["it-takes", "irregular"], words: ["take", "took"],
+  },
+  {
+    id: "m2026-10-20-2", date: "2026-10-20", type: "to-ru",
+    prompt: "My flight was canceled, so I slept at the airport!",
+    yours: "Мой рейс отменили",
+    correct: "Мой рейс отменили, так что я спал в аэропорту!",
+    why: [
+      "Переводи всю фразу: после SO (так что) — вторая часть: I slept at the airport — я спал(а) в аэропорту.",
+      "WAS CANCELED — пассив: «рейс был отменён / рейс отменили».",
+    ],
+    rules: ["passive", "linking"], words: ["canceled", "flight", "slept"],
+  },
+  {
+    id: "m2026-10-20-3", date: "2026-10-20", type: "to-ru",
+    prompt: "Can't we change our flight to another time?",
+    yours: "Мы можем перенести вылет на другое время",
+    correct: "Мы не можем перенести вылет на другое время?",
+    why: [
+      "CAN'T WE…? — вопрос с отрицанием: «Разве мы не можем…? / Нельзя ли нам…?». Отрицание терять нельзя — оно меняет тон.",
+    ],
+    rules: ["negative-questions"], words: ["change", "flight", "another"],
+  },
+  {
     id: "m2026-10-16-1", date: "2026-10-16", type: "to-ru",
     prompt: "I canceled my ticket, so I'm not flying today.",
     yours: "Я отменил билет так что я не лечу сегодня",

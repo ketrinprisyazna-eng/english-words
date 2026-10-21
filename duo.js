@@ -11,6 +11,47 @@
 // }
 const DUO_LOG = [
   {
+    id: "duo-unit-news", date: "2026-10-21", source: "duo",
+    lessons: [
+      { skill: "Аэропорт и поездки", lessonNum: "Попроси помощи в аэропорту ✓" },
+      { skill: "Аэропорт и поездки", lessonNum: "Расскажи о своём приезде ✓" },
+      { skill: "Аэропорт и поездки", lessonNum: "Говорить о поездках ✓" },
+      { skill: "Аэропорт и поездки", lessonNum: "Готовиться к перелёту ✓" },
+      { skill: "Обсуди последние новости", lessonNum: "раздел пройден ✓" },
+    ],
+    newWords: ["headline", "front page", "government", "leader", "spy", "border", "enemy", "gun", "billion", "jail", "in jail", "court", "in court", "expect", "in exchange for", "though", "bomb", "false", "crash", "to rob"],
+    rules: [
+      {
+        title: "IN COURT, IN JAIL — без артикля",
+        explanation:
+          "Когда речь о назначении места, артикль не нужен: in court (в суде), in jail (в тюрьме), at school, in bed, at work, in hospital.\n" +
+          "The lawyer stood next to the man in court. — Адвокат стоял рядом с мужчиной в суде.\n" +
+          "С артиклем — когда это просто здание: The court is near the park.",
+      },
+      {
+        title: "IT'S + прилагательное + TO — «это … (делать)»",
+        explanation:
+          "It's common to read the news on social media. — Читать новости в соцсетях — обычное дело.\n" +
+          "It's important to do your homework.  It's easy to forget.\n" +
+          "По-русски начинаем с действия, по-английски — с IT'S, а действие ставим в конец с TO.",
+      },
+      {
+        title: "IT TAKES + время + TO — «занимает (время)»",
+        explanation:
+          "It took me a day to read. — Чтение заняло у меня один день.\n" +
+          "How long does it take to open an account? — Сколько времени занимает открыть счёт?\n" +
+          "Схема: IT + TAKE (в нужном времени) + (кому) + сколько + TO + действие. Не «To read took me…».",
+      },
+      {
+        title: "Новости: headline, front page, government",
+        explanation:
+          "Did you see today's headlines? — Ты видела сегодняшние заголовки?\n" +
+          "The newspaper prints important articles ON the front page. — на первой полосе (ON page, как on TV).\n" +
+          "BILLION — без -s после числа: two billion people (как hundred, thousand, million).",
+      },
+    ],
+  },
+  {
     id: "duo-stories", date: "2026-10-16", source: "duo",
     lessons: [
       { skill: "Истории Duolingo", lessonNum: "68 прочитанных историй (уровни Intro – A1)" },

@@ -200,7 +200,7 @@ const RULES = [
       { label: "-TY (20–90)", words: ["twenty", "twenty-one", "thirty", "thirty-seven", "forty", "forty-five", "fifty", "sixty", "seventy", "eighty", "ninety"] },
       { label: "Порядковые: +TH", words: ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "tenth", "twentieth", "thirty-first", "for the first time", "first of all", "first class"] },
       { label: "Годы — парами", words: ["eighteen seventy", "eighteen ninety", "nineteen sixty", "nineteen ninety", "two thousand three", "two thousand seven", "twenty ten", "twenty fifteen"] },
-      { label: "Сотни, тысячи, миллионы", words: ["hundred", "hundreds", "thousand", "thousands", "million"] },
+      { label: "Сотни, тысячи, миллионы", words: ["hundred", "hundreds", "thousand", "thousands", "million", "billion"] },
     ],
   },
   {
@@ -305,6 +305,7 @@ const RULES = [
     hook: "Предлог «прилип» к слову — учи их вместе, как одно слово: afraid-OF, interested-IN, good-AT.",
     body: "Русский предлог часто не совпадает: «женат НА» = married TO, «злится НА» = mad AT, «зависит ОТ» = depends ON.\nПоэтому учим не слово, а целую пару.",
     groups: [
+      { label: "FOR (в обмен), IN … WITH", words: ["in exchange for", "in contact"] },
       { label: "OF", words: ["afraid of", "full of", "made of", "think of", "take care of", "because of", "instead of", "all kinds of", "make fun of"] },
       { label: "IN / AT", words: ["interested in", "rich in", "be involved in", "good at", "bad at", "mad at"] },
       { label: "TO", words: ["married to", "allergic to", "belong to", "listen to", "talk to", "speak to", "pay attention to", "happy to"] },
@@ -382,6 +383,7 @@ const RULES = [
     groups: [
       { label: "Сами артикли", words: ["a", "an", "the"] },
       { label: "A + профессия: I am A teacher (по-русски артикля нет!)", words: ["teacher", "doctor", "nurse", "lawyer", "student", "engineer", "barber", "firefighter", "waiter", "chef", "writer"] },
+      { label: "Без артикля: in court, in jail, at school, in bed, at work", words: ["in court", "in jail", "at school", "in bed", "at work", "at home"] },
       { label: "THE — единственный / тот самый", words: ["the sun", "the moon", "the sky", "the internet", "the news", "the truth", "the flu", "the mail", "the rest", "the bar", "the whole time", "the day after tomorrow", "the day before yesterday"] },
     ],
   },
@@ -669,6 +671,14 @@ const RULES = [
     body: "BAGGAGE и LUGGAGE — неисчисляемые: much luggage, a piece of luggage (не «luggages»).\nThe line for airport security is long. — Очередь на досмотр длинная.\nABROAD — за границей / за границу, без предлога: go abroad.  Виза — visa, посольство — embassy.",
     groups: [
       { label: "Из словаря", words: ["airport", "check in", "security", "baggage", "luggage", "passport", "passport control", "visa", "ticket", "flight", "take a flight", "gate", "arrival", "reservations", "canceled", "abroad", "embassy", "citizen", "shuttle"] },
+    ],
+  },
+  {
+    id: "it-takes", icon: "⏱️", title: "IT TAKES + время + TO — «занимает»",
+    hook: "«У меня ушёл день на чтение» = IT TOOK ME a day TO read. Всегда начинаем с IT.",
+    body: "It takes 20 minutes to get there. — Дорога туда занимает 20 минут.\nHow long does it take to open an account? — Сколько времени нужно, чтобы открыть счёт?\nIt took me a day to read. — Чтение заняло у меня день.",
+    groups: [
+      { label: "Из словаря", words: ["take", "took", "taken", "how long", "half an hour", "minute", "hour"] },
     ],
   },
   {
