@@ -39,6 +39,9 @@
       EN_STREAK: STREAK,
       EN_DIRECTION: DIRECTION,
       EN_RULES: RULE_STATE,
+      EN_REVIEW: typeof REVIEW_STATE !== "undefined" ? REVIEW_STATE : {},
+      EN_DIARY: typeof DIARY !== "undefined" ? DIARY : [],
+      EN_BACKLOG: typeof BACKLOG !== "undefined" ? BACKLOG : { portions: [] },
       EN_DIALOG_MISTAKES: typeof DIALOG_MISTAKES !== "undefined" ? DIALOG_MISTAKES : [],
       EN_updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
@@ -57,6 +60,9 @@
       if (data.EN_STREAK) { STREAK = data.EN_STREAK; saveJSON(LS_STREAK, STREAK); }
       if (data.EN_DIRECTION) { DIRECTION = data.EN_DIRECTION; saveJSON(LS_DIRECTION, DIRECTION); }
       if (data.EN_RULES) { RULE_STATE = data.EN_RULES; saveJSON(LS_RULES, RULE_STATE); }
+      if (data.EN_REVIEW && typeof REVIEW_STATE !== "undefined") { REVIEW_STATE = data.EN_REVIEW; saveJSON(LS_REVIEW, REVIEW_STATE); }
+      if (data.EN_DIARY && typeof DIARY !== "undefined") { DIARY = data.EN_DIARY; saveJSON(LS_DIARY, DIARY); }
+      if (data.EN_BACKLOG && typeof BACKLOG !== "undefined") { BACKLOG = data.EN_BACKLOG; saveJSON(LS_BACKLOG, BACKLOG); }
       if (data.EN_DIALOG_MISTAKES && typeof DIALOG_MISTAKES !== "undefined") { DIALOG_MISTAKES = data.EN_DIALOG_MISTAKES; saveJSON(LS_DIALOG_MISTAKES, DIALOG_MISTAKES); }
       // Перерисовываем экран, только если DOM уже готов — иначе app.js сам отрисует
       // актуальные данные через DOMContentLoaded/showView("home").

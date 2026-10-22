@@ -285,12 +285,14 @@ function getAssociation(en, ru) {
 }
 
 /* ============ Навигация ============ */
-const views = ["home", "words", "rules", "assoc", "texts", "duo", "phrasal"];
+const views = ["home", "words", "rules", "assoc", "texts", "duo", "phrasal", "diary", "archive"];
+// разделы архива: в меню подсвечивается «Архив»
+const NAV_OF_VIEW = { words: "archive", rules: "archive", assoc: "archive", duo: "archive", phrasal: "archive" };
 function showView(name) {
   views.forEach((v) => {
     document.getElementById("view-" + v).classList.toggle("active", v === name);
     const nav = document.getElementById("nav-" + v);
-    if (nav) nav.classList.toggle("active", v === name);
+    if (nav) nav.classList.toggle("active", v === (NAV_OF_VIEW[name] || name));
   });
   if (name === "home") renderHome();
   if (name === "words") renderWords();
@@ -299,39 +301,14 @@ function showView(name) {
   if (name === "duo") renderDuo();
   if (name === "rules") renderRules();
   if (name === "phrasal") renderPhrasalPage();
+  if (name === "diary") renderDiary();
+  if (name === "archive") renderArchive();
   window.scrollTo(0, 0);
 }
 
 /* ============ Главная ============ */
 function renderHome() {
-  const passedForPct = countMastered() + countLearning();
-  const progressPct = WORDS_DATA.length ? Math.round((passedForPct / WORDS_DATA.length) * 100) : 0;
-  document.getElementById("stat-progress-pct").textContent = progressPct + "%";
-  const t = HISTORY[todayStr()] || { reviewed: 0, correct: 0 };
-  document.getElementById("stat-today").textContent = t.reviewed;
-  document.getElementById("stat-due").textContent = countDue();
-  document.getElementById("stat-total").textContent = WORDS_DATA.length;
-  const dateEl = document.getElementById("today-date");
-  if (dateEl) dateEl.textContent = new Date().toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
-
-  const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
-  setText("phrasal-count", typeof PHRASALS !== "undefined" ? `${PHRASALS.length} ${plural(PHRASALS.length, "сочетание", "сочетания", "сочетаний")}` : "");
-  setText("home-mistakes-count", `${allMistakes().length} с разбором`);
-  setText("home-rules-count", typeof RULES !== "undefined" ? (() => {
-    const learned = RULES.filter((r) => buildRuleIndex().byRule[r.id].words.length && ruleLearnedInfo(r.id)).length;
-    return `${RULES.length} ${plural(RULES.length, "правило", "правила", "правил")}` + (learned ? ` · выучено ${learned}` : "");
-  })() : "");
-
-  const mastered = countMastered();
-  const learning = countLearning();
-  const share = (n) => WORDS_DATA.length ? (n / WORDS_DATA.length * 100).toFixed(1) : 0;
-  document.getElementById("home-breakdown").innerHTML =
-    `<div class="progressbar-outer split"><div class="progressbar-inner" style="width:${share(mastered)}%"></div><div class="progressbar-learning" style="width:${share(learning)}%"></div></div>
-     <div class="breakdown">
-        <span><i class="sw mastered"></i>закреплено <b>${mastered}</b></span>
-        <span><i class="sw learning"></i>учится <b>${learning}</b></span>
-        <span><i class="sw difficult"></i>сложные <b>${countDifficult()}</b></span>
-     </div>`;
+  renderReviewHome();
 }
 
 /* ============ Сессия повторения ============ */
@@ -387,10 +364,11 @@ function transcriptionHtml(w) {
 function renderCard() {
   const total = SESSION.queue.length;
   const idx = SESSION.idx;
-  document.getElementById("session-progress-text").textContent = `${Math.min(idx + 1, total)} / ${total}`;
+  document.getElementById("session-progress-text").textContent = `${reviewStepLabel()}${Math.min(idx + 1, total)} / ${total}`;
   document.getElementById("session-progress-bar").style.width = `${(Math.min(idx, total) / total) * 100}%`;
 
   if (idx >= total) {
+    if (SESSION.mode === "review") { renderReviewStepEnd(); return; }
     if (SESSION.mode === "learn") {
       const enListJson = JSON.stringify(SESSION.learnEnList).replace(/'/g, "&#39;");
       document.getElementById("flash-area").innerHTML = `
@@ -432,14 +410,11 @@ function renderCard() {
     renderLearnCard();
     return;
   }
-  if (SESSION.mode === "phrasal") {
-    renderPhrasalCard();
-    return;
-  }
-  if (SESSION.mode === "keyphrase") {
-    renderKeyPhraseCard();
-    return;
-  }
+  // тип карточки определяется самим заданием — так в одном повторении идут слова, тренажёры и правила
+  const curItem = SESSION.queue[SESSION.idx];
+  if (curItem.ph) { renderPhrasalCard(); return; }
+  if (curItem.kp) { renderKeyPhraseCard(); return; }
+  if (curItem.ruleTask) { renderRuleTaskCard(); return; }
 
   const w = currentWord();
   const dir = currentDir();
@@ -497,8 +472,10 @@ function renderCard() {
   }
 }
 function checkTyped() {
-  if (SESSION && SESSION.mode === "phrasal") { checkPhrasalGap(); return; }
-  if (SESSION && SESSION.mode === "keyphrase") { checkKeyPhrase(); return; }
+  const curItem = SESSION && SESSION.queue[SESSION.idx];
+  if (curItem && curItem.ph) { checkPhrasalGap(); return; }
+  if (curItem && curItem.kp) { checkKeyPhrase(); return; }
+  if (curItem && curItem.ruleTask) { checkRuleTask(); return; }
   const input = document.getElementById("type-answer-input");
   const value = input ? input.value.trim() : "";
   const item = currentItem();
@@ -513,6 +490,7 @@ function checkTyped() {
   SESSION.revealed = true;
 
   registerReview(w.en, correct);
+  if (typeof reviewTrack === "function") reviewTrack("w:" + w.en, correct);
   if (SESSION.ruleExam) {
     if (!SESSION.examSeen) { SESSION.examSeen = {}; SESSION.examFirstCorrect = 0; }
     if (!SESSION.examSeen[w.en]) { SESSION.examSeen[w.en] = true; if (correct) SESSION.examFirstCorrect++; }
@@ -1466,6 +1444,7 @@ function finishPhrasalAnswer(correct) {
   SESSION.typedCorrect = correct;
   SESSION.revealed = true;
   registerReview(item.ph.en, correct);
+  if (typeof reviewTrack === "function") reviewTrack("p:" + item.ph.en, correct);
   if (correct) SESSION.correctCount++;
   else if (SESSION.queue.filter((x) => x.ph === item.ph).length < 2) {
     const at = Math.min(SESSION.queue.length, SESSION.idx + 4);
@@ -1648,6 +1627,7 @@ function checkKeyPhrase() {
   SESSION.typedCorrect = r.ok;
   SESSION.revealed = true;
   registerReview(item.kp.en, r.ok);
+  if (typeof reviewTrack === "function") reviewTrack("k:" + item.kp.en, r.ok);
   if (r.ok) SESSION.correctCount++;
   else if (SESSION.queue.filter((x) => x.kp === item.kp).length < 2) {
     SESSION.queue.splice(Math.min(SESSION.queue.length, SESSION.idx + 4), 0, { kp: item.kp });
@@ -1716,7 +1696,7 @@ function escapeHtml(s) {
 
 /* ============ настройки: экспорт/импорт/сброс ============ */
 function exportData() {
-  const blob = new Blob([JSON.stringify({ PROGRESS, HISTORY, STREAK }, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify({ PROGRESS, HISTORY, STREAK, RULE_STATE, REVIEW_STATE, DIARY, BACKLOG }, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = `english-words-progress-${todayStr()}.json`;
@@ -1731,6 +1711,11 @@ function importData(file) {
       if (data.PROGRESS) PROGRESS = data.PROGRESS;
       if (data.HISTORY) HISTORY = data.HISTORY;
       if (data.STREAK) STREAK = data.STREAK;
+      if (data.RULE_STATE) { RULE_STATE = data.RULE_STATE; saveRuleState(); }
+      if (data.REVIEW_STATE) REVIEW_STATE = data.REVIEW_STATE;
+      if (data.DIARY) DIARY = data.DIARY;
+      if (data.BACKLOG) BACKLOG = data.BACKLOG;
+      saveReviewData();
       saveProgress(); saveHistory(); saveStreak();
       alert("Прогресс импортирован!");
       renderHome();
@@ -1748,11 +1733,9 @@ function resetProgress() {
 /* ============ инициализация ============ */
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nav-home").addEventListener("click", () => showView("home"));
-  document.getElementById("nav-words").addEventListener("click", () => showView("words"));
-  document.getElementById("nav-rules").addEventListener("click", () => showView("rules"));
-  document.getElementById("nav-assoc").addEventListener("click", () => showView("assoc"));
   document.getElementById("nav-texts").addEventListener("click", () => showView("texts"));
-  document.getElementById("nav-duo").addEventListener("click", () => showView("duo"));
+  document.getElementById("nav-diary").addEventListener("click", () => showView("diary"));
+  document.getElementById("nav-archive").addEventListener("click", () => showView("archive"));
 
   document.getElementById("btn-15").addEventListener("click", () => startSession(15));
   document.getElementById("btn-25").addEventListener("click", () => startSession(25));

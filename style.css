@@ -721,3 +721,58 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .flashcard .ru-word { animation: ink-settle-still 0.6s var(--ease); }
 @keyframes ink-settle-still { from { opacity: 0.25; filter: blur(3px); } }
 .type-answer-row, .flash-wrap > .reveal-btn { min-height: 52px; }
+
+/* ===== Главная: только повторение ===== */
+.review-cta { margin-top: 8px; }
+.review-cta span { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left; }
+.review-cta small { font-size: 13px; font-weight: 400; opacity: 0.8; }
+.review-list { border-top: 1px solid var(--rule); }
+.review-item { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.review-date { font-size: 12px; color: var(--red); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.review-label { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--ink); margin-top: 2px; }
+.review-sub { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+.review-empty { text-align: center; padding: 40px 12px 20px; }
+.review-empty h2 { font-family: var(--serif); font-size: 24px; margin: 14px 0 6px; }
+.review-empty p { color: var(--ink-2); }
+.review-today { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
+.review-today a { color: var(--blue); }
+
+/* ===== Оценки ===== */
+.grade-big { width: 84px; height: 84px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 44px; font-weight: 650; color: var(--on-ink); background: var(--ink-3); }
+.grade-big .ico { width: 40px; height: 40px; }
+.g5 { background: var(--moss); color: var(--on-ink); }
+.g4 { background: var(--blue); color: var(--on-ink); }
+.g3 { background: var(--amber); color: var(--on-ink); }
+.g2 { background: var(--red); color: var(--on-ink); }
+.grade-chip { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%;
+  font-family: var(--serif); font-weight: 650; font-size: 15px; }
+.grade-chip.big { width: 44px; height: 44px; font-size: 24px; flex-shrink: 0; }
+.review-done .grade-big { margin-bottom: 4px; }
+.grade-rows { width: 100%; max-width: 260px; margin: 6px 0 14px; border-top: 1px solid var(--rule); }
+.grade-row { display: flex; justify-content: space-between; padding: 7px 2px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.next-step { color: var(--ink-2); font-size: 14px; }
+.review-done .reveal-btn { width: 100%; margin-top: 8px; }
+.review-step-done .reveal-btn { width: 100%; }
+.step-dots { display: flex; gap: 6px; margin-bottom: 12px; }
+.step-dots span { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--sheet-2); color: var(--ink-3); }
+.step-dots span.on { background: var(--ink); color: var(--on-ink); }
+.rule-task-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--red-ink); margin-bottom: 6px; }
+
+/* ===== Дневник ===== */
+.diary-ledger { margin-bottom: 8px; }
+.diary-date { text-transform: capitalize; }
+.diary-entry { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.diary-groups { font-size: 14.5px; color: var(--ink); line-height: 1.45; }
+.diary-groups .muted { color: var(--ink-3); font-size: 12.5px; }
+.diary-steps { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; }
+
+/* ===== Архив ===== */
+.archive-back { display: inline-flex; align-items: center; gap: 4px; border: none; background: none; color: var(--ink-2);
+  font-size: 13.5px; padding: 4px 0; margin: 0 0 2px; cursor: pointer; }
+.archive-back:hover { color: var(--red); }
+.arc-free { justify-content: flex-start; margin: 0 0 8px; }
+.sched { border-top: 1px solid var(--rule); }
+.sched-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 13.5px; }
+.sched-label { color: var(--ink); min-width: 0; }
+.sched-next { color: var(--ink-2); white-space: nowrap; }

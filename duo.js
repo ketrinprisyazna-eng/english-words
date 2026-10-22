@@ -11,7 +11,7 @@
 // }
 const DUO_LOG = [
   {
-    id: "duo-unit-news", date: "2026-10-21", source: "duo",
+    id: "duo-unit-news", date: "2026-10-21", source: "duo", units: [210],
     lessons: [
       { skill: "Аэропорт и поездки", lessonNum: "Попроси помощи в аэропорту ✓" },
       { skill: "Аэропорт и поездки", lessonNum: "Расскажи о своём приезде ✓" },
@@ -90,7 +90,7 @@ const DUO_LOG = [
     ],
   },
   {
-    id: "duo-unit-flight", date: "2026-10-16", source: "duo",
+    id: "duo-unit-flight", date: "2026-10-16", source: "duo", units: [205],
     lessons: [
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Купить одежду со скидкой ✓" },
       { skill: "Уточни детали перелёта", lessonNum: "раздел пройден ✓" },
@@ -127,7 +127,7 @@ const DUO_LOG = [
     ],
   },
   {
-    id: "duo-unit-74", date: "2026-10-13", source: "duo",
+    id: "duo-unit-74", date: "2026-10-13", source: "duo", units: [200],
     lessons: [
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Обосновать выбор одежды ✓" },
       { skill: "Раздел 74 · Одежда и покупки", lessonNum: "Оценить качество одежды ✓" },
@@ -192,7 +192,7 @@ const DUO_LOG = [
     ],
   },
   {
-    id: "duo-unit-73", date: "2026-10-09", source: "duo",
+    id: "duo-unit-73", date: "2026-10-09", source: "duo", units: [195],
     lessons: [{ skill: "Люди и семья", lessonNum: "новые слова, выученные до раздела 74" }],
     newWords: ["barber", "haircut", "marriage", "niece", "nephew", "spouse", "divorced", "lesbian", "gay", "a blind", "firefighter", "retire"],
     rules: [

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <!-- Иконки: Tabler Icons (MIT, github.com/tabler/tabler-icons) -->
@@ -53,25 +53,44 @@
   <!-- ===================== ГЛАВНАЯ ===================== -->
   <div class="view active" id="view-home">
     <header class="topbar">
-      <h1>Мой английский</h1>
+      <h1>Повторение</h1>
       <p class="today" id="today-date"></p>
     </header>
+    <div id="review-home"></div>
+  </div>
 
-    <div class="ledger">
-      <div class="ledger-cell due"><div class="num" id="stat-due">0</div><div class="label">ждут повтора</div></div>
-      <div class="ledger-cell"><div class="num" id="stat-today">0</div><div class="label">повторено сегодня</div></div>
-      <div class="ledger-cell"><div class="num" id="stat-progress-pct">0%</div><div class="label">пройдено из <span id="stat-total">0</span></div></div>
+  <!-- ===================== ДНЕВНИК ===================== -->
+  <div class="view" id="view-diary">
+    <h1 class="view-title">Дневник</h1>
+    <p class="view-lead">Оценки за каждое повторение: 5 — от 90% верных с первой попытки, 4 — от 75%, 3 — от 60%, 2 — меньше.</p>
+    <div id="diary-list"></div>
+  </div>
+
+  <!-- ===================== АРХИВ ===================== -->
+  <div class="view" id="view-archive">
+    <h1 class="view-title">Архив</h1>
+    <p class="view-lead">Всё, что пришло из Duolingo и Puzzle English. Повторение само берёт отсюда материал по расписанию — сюда заходи, только если хочешь что-то найти.</p>
+    <div class="toc">
+      <button class="toc-item" onclick="showView('words')"><svg class="ico" aria-hidden="true"><use href="#i-books"></use></svg><span class="toc-line"><span class="toc-text">Слова</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-words"></small></span></button>
+      <button class="toc-item" onclick="showView('rules')"><svg class="ico" aria-hidden="true"><use href="#i-ruler-2"></use></svg><span class="toc-line"><span class="toc-text">Правила</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-rules"></small></span></button>
+      <button class="toc-item" onclick="showView('duo'); setDuoTab('mistakes')"><svg class="ico" aria-hidden="true"><use href="#i-circle-x"></use></svg><span class="toc-line"><span class="toc-text">Ошибки</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-mistakes"></small></span></button>
+      <button class="toc-item" onclick="showView('duo'); setDuoTab('lessons')"><svg class="ico" aria-hidden="true"><use href="#i-school"></use></svg><span class="toc-line"><span class="toc-text">Конспекты уроков</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-lessons"></small></span></button>
+      <button class="toc-item" onclick="showView('duo'); setDuoTab('phrases')"><svg class="ico" aria-hidden="true"><use href="#i-list"></use></svg><span class="toc-line"><span class="toc-text">Ключевые фразы</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-phrases"></small></span></button>
+      <button class="toc-item" onclick="showView('phrasal')"><svg class="ico" aria-hidden="true"><use href="#i-puzzle"></use></svg><span class="toc-line"><span class="toc-text">Фразовые глаголы</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-phrasal"></small></span></button>
+      <button class="toc-item" onclick="showView('assoc')"><svg class="ico" aria-hidden="true"><use href="#i-bulb"></use></svg><span class="toc-line"><span class="toc-text">Ассоциации</span><span class="toc-leader" aria-hidden="true"></span><small id="arc-assoc"></small></span></button>
     </div>
-    <div id="home-breakdown"></div>
 
-    <button class="cta" id="btn-25"><span>Повторить 25 слов</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-right"></use></svg></button>
-    <div class="cta-alt">
-      <span>или</span>
+    <h2 class="section-title">Расписание повторов</h2>
+    <div class="sched" id="arc-schedule"></div>
+
+    <h2 class="section-title">Свободная тренировка слов</h2>
+    <div class="cta-alt arc-free">
       <button class="link-btn" id="btn-15">15 слов</button>
+      <span aria-hidden="true">·</span>
+      <button class="link-btn" id="btn-25">25 слов</button>
       <span aria-hidden="true">·</span>
       <button class="link-btn" id="btn-40">40 слов</button>
     </div>
-
     <div class="dir-links" id="dir-toggle" role="group" aria-labelledby="dir-label">
       <span id="dir-label">Перевод:</span>
       <button type="button" class="filter-chip active" data-dir="en-ru">EN → RU</button>
@@ -79,22 +98,6 @@
       <button type="button" class="filter-chip" data-dir="ru-en">RU → EN</button>
       <span aria-hidden="true">·</span>
       <button type="button" class="filter-chip" data-dir="mixed">вперемешку</button>
-    </div>
-
-    <h2 class="section-title">Тренажёры</h2>
-    <div class="toc">
-      <button class="toc-item" onclick="showView('phrasal')">
-        <svg class="ico" aria-hidden="true"><use href="#i-puzzle"></use></svg>
-        <span class="toc-line"><span class="toc-text">Фразовые глаголы</span><span class="toc-leader" aria-hidden="true"></span><small id="phrasal-count"></small></span>
-      </button>
-      <button class="toc-item" onclick="showView('duo'); setDuoTab('mistakes')">
-        <svg class="ico" aria-hidden="true"><use href="#i-circle-x"></use></svg>
-        <span class="toc-line"><span class="toc-text">Мои ошибки</span><span class="toc-leader" aria-hidden="true"></span><small id="home-mistakes-count"></small></span>
-      </button>
-      <button class="toc-item" onclick="showView('rules')">
-        <svg class="ico" aria-hidden="true"><use href="#i-ruler-2"></use></svg>
-        <span class="toc-line"><span class="toc-text">Правила</span><span class="toc-leader" aria-hidden="true"></span><small id="home-rules-count"></small></span>
-      </button>
     </div>
 
     <h2 class="section-title">Синхронизация</h2>
@@ -114,6 +117,7 @@
 
   <!-- ===================== СЛОВА ===================== -->
   <div class="view" id="view-words">
+    <button class="archive-back" onclick="showView('archive')"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Архив</button>
     <h1 class="view-title">Слова</h1>
     <input type="search" id="words-search" placeholder="Слово на английском или русском" aria-label="Поиск слова">
     <div class="filter-row" id="words-filters">
@@ -134,6 +138,7 @@
 
   <!-- ===================== ПРАВИЛА ===================== -->
   <div class="view" id="view-rules">
+    <button class="archive-back" onclick="showView('archive')"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Архив</button>
     <h1 class="view-title">Правила</h1>
     <input type="search" id="rules-search" placeholder="Правило или слово" aria-label="Поиск правила">
     <div class="list-count" id="rules-summary"></div>
@@ -142,6 +147,7 @@
 
   <!-- ===================== АССОЦИАЦИИ ===================== -->
   <div class="view" id="view-assoc">
+    <button class="archive-back" onclick="showView('archive')"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Архив</button>
     <h1 class="view-title">Ассоциации</h1>
     <input type="search" id="assoc-search" placeholder="Найди слово, чтобы увидеть ассоциацию" aria-label="Поиск ассоциации">
     <p class="view-lead">Сложные слова и картинки-подсказки к ним.</p>
@@ -177,6 +183,7 @@
 
   <!-- ===================== УРОКИ: DUOLINGO + PUZZLE ENGLISH ===================== -->
   <div class="view" id="view-duo">
+    <button class="archive-back" onclick="showView('archive')"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Архив</button>
     <h1 class="view-title">Уроки</h1>
     <div class="seg wide" id="duo-tabs">
       <button type="button" class="filter-chip active" data-tab="lessons">Уроки и слова</button>
@@ -215,7 +222,7 @@
   <!-- ===================== ТРЕНАЖЁР ФРАЗОВЫХ ГЛАГОЛОВ ===================== -->
   <div class="view" id="view-phrasal">
     <div class="view-head">
-      <button class="icon-btn" onclick="showView('home')" aria-label="На главную"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg></button>
+      <button class="icon-btn" onclick="showView('archive')" aria-label="В архив"><svg class="ico" aria-hidden="true"><use href="#i-arrow-left"></use></svg></button>
       <h1 class="view-title">Фразовые глаголы</h1>
     </div>
     <div class="card">
@@ -238,12 +245,10 @@
 </div>
 
 <nav class="bottom-nav" aria-label="Разделы">
-  <button class="nav-btn active" id="nav-home"><svg class="ico" aria-hidden="true"><use href="#i-home"></use></svg>Главная</button>
-  <button class="nav-btn" id="nav-words"><svg class="ico" aria-hidden="true"><use href="#i-books"></use></svg>Слова</button>
-  <button class="nav-btn" id="nav-rules"><svg class="ico" aria-hidden="true"><use href="#i-ruler-2"></use></svg>Правила</button>
-  <button class="nav-btn" id="nav-assoc"><svg class="ico" aria-hidden="true"><use href="#i-bulb"></use></svg>Ассоциации</button>
+  <button class="nav-btn active" id="nav-home"><svg class="ico" aria-hidden="true"><use href="#i-refresh"></use></svg>Повторение</button>
   <button class="nav-btn" id="nav-texts"><svg class="ico" aria-hidden="true"><use href="#i-messages"></use></svg>Диалог</button>
-  <button class="nav-btn" id="nav-duo"><svg class="ico" aria-hidden="true"><use href="#i-school"></use></svg>Уроки</button>
+  <button class="nav-btn" id="nav-diary"><svg class="ico" aria-hidden="true"><use href="#i-book"></use></svg>Дневник</button>
+  <button class="nav-btn" id="nav-archive"><svg class="ico" aria-hidden="true"><use href="#i-books"></use></svg>Архив</button>
 </nav>
 
 <!-- ===================== СЕССИЯ ПОВТОРЕНИЯ (оверлей) ===================== -->
@@ -280,18 +285,19 @@
 
 <script src="words.js?v=6"></script>
 <script src="assoc.js?v=1"></script>
-<script src="duo.js?v=6"></script>
+<script src="duo.js?v=7"></script>
 <script src="rules.js?v=7"></script>
 <script src="mistakes.js?v=3"></script>
 <script src="phrasal.js?v=2"></script>
 <script src="keyphrases.js?v=2"></script>
 <script src="mic.js?v=4"></script>
-<script src="app.js?v=7"></script>
-<script src="dialog.js?v=1"></script>
+<script src="app.js?v=8"></script>
+<script src="dialog.js?v=2"></script>
+<script src="review.js?v=1"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js?v=1"></script>
-<script src="sync.js?v=4"></script>
+<script src="sync.js?v=5"></script>
 </body>
 </html>

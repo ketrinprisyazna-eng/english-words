@@ -20,7 +20,7 @@ Built from her own material, not a generic course: every word, rule, mistake and
 
 ## Operating Context
 
-- Daily ritual on the phone; the review session (15 / 25 / 40 words) is the core loop.
+- Daily ritual on the phone: one tap on Home starts today's spaced review of what she studied on earlier days; the grade goes to the Diary.
 - New Duolingo/Puzzle English units are added to the data files after each completed section.
 - Pronunciation check uses the browser microphone (Chrome only); the dialogue partner and its answer checks use her own Google Gemini key stored in the browser.
 - Progress syncs between phone and computer through Firebase, sharing the account with a sibling Spanish-words app.
@@ -29,7 +29,7 @@ Built from her own material, not a generic course: every word, rule, mistake and
 
 - Static site: plain HTML, CSS and JavaScript, no build step or framework. Scripts are cache-busted with `?v=` query strings.
 - Interface language is Russian; studied language is English (EN → RU, RU → EN, mixed).
-- Screens: Home, Words (≈2 800 words, filters by status and source), Rules (63, learned ones struck out), Associations (91 mnemonics), Dialogue (AI partner speaks only her words; she translates her Russian reply into English and gets each mistake explained), Lessons (lesson notes, key phrases of 147 units, analysed Duolingo + dialogue mistakes), Phrasal verbs trainer (81 combinations), full-screen review session, login modal.
+- Screens (bottom nav: Повторение · Диалог · Дневник · Архив): Home shows only today's review — study-day groups due by the 1/3/7/14/30/60/120/240-day schedule (new Duolingo/Puzzle material, that day's mistakes, plus a daily 15-word portion of the old dictionary); a review runs words → trainers (phrasal verbs, key phrases) → rules (her own mistakes and rule words) and ends with a 5/4/3/2 grade. Diary lists every grade with week/month averages. Archive holds everything else: Words, Rules (learned ones struck out), Mistakes, lesson notes, key phrases, phrasal verbs, associations, the review schedule, free word practice, sync and backup. Dialogue: AI partner limited to her vocabulary.
 - Review uses typed answers with a "Check" step, a five-box spaced-repetition schedule (0, 1, 3, 7, 14, 30 days), and an optional association hint.
 - Data files (words.js, rules.js, phrasal.js, mistakes.js, assoc.js, duo.js) and sync (sync.js, firebase-config.js) are content/infrastructure, not design surface.
 
