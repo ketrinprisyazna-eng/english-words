@@ -790,13 +790,3 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .import-done { font-family: var(--serif); font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px; color: var(--moss); margin-bottom: 8px; }
 .import-card .grade-rows { max-width: none; }
 .import-card .reveal-btn { width: 100%; margin-top: 8px; }
-
-/* ===== Обновление в одно касание ===== */
-.topbar-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.topbar-sync { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule-2); background: var(--sheet);
-  color: var(--ink-2); border-radius: 999px; padding: 7px 12px; font-size: 13.5px; cursor: pointer; flex-shrink: 0; }
-.topbar-sync:hover { color: var(--ink); border-color: var(--ink-3); }
-.topbar-sync[hidden] { display: none; }
-.onetap-help ol { margin: 8px 0 0; padding-left: 20px; }
-.onetap-help li { margin-bottom: 6px; }
-.onetap-help a { word-break: break-all; color: var(--blue); }

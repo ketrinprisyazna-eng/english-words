@@ -243,18 +243,6 @@ function closeImport() {
   showView("home");
 }
 
-/* ---------- одно касание (Firefox + Tampermonkey + english-sync.user.js) ---------- */
-const SYNC_URLS = {
-  duo: "https://www.duolingo.com/learn#enapp-sync",
-  puzzle: "https://puzzle-english.com/dictionary#enapp-sync",
-};
-function userscriptInstalled() {
-  try { return !!localStorage.getItem("enapp_userscript"); } catch (e) { return false; }
-}
-function syncFromSite(site) {
-  location.href = SYNC_URLS[site] || SYNC_URLS.duo;
-}
-
 /* ---------- блок в Архиве ---------- */
 function copyBookmarklet(btn) {
   const href = bookmarkletHref();
@@ -266,27 +254,8 @@ function renderImportBox() {
   const el = document.getElementById("import-box");
   if (!el) return;
   const fmt = (ts) => ts ? new Date(ts).toLocaleString("ru-RU", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) : "ещё не было";
-  const installed = userscriptInstalled();
-  const userscriptUrl = appBaseUrl() + "english-sync.user.js";
   el.innerHTML = `
-    ${installed ? `
-      <p class="block-note" style="margin-top:0;">${ico("check")} Обновление в одно касание включено: кнопка «Обновить» на главной сама заберёт новое из Duolingo.</p>
-      <div class="settings-row" style="margin-top:0;">
-        <button class="small-btn learn-btn" onclick="syncFromSite('duo')">${ico("refresh")} Обновить из Duolingo</button>
-        <button class="small-btn" onclick="syncFromSite('puzzle')">${ico("refresh")} Обновить из Puzzle English</button>
-      </div>` : `
-      <details class="import-help onetap-help" open>
-        <summary>Одно касание на телефоне (через Firefox)</summary>
-        <ol>
-          <li>Установи <b>Firefox</b> из Google Play.</li>
-          <li>В Firefox: <b>⋮ → Дополнения → Менеджер дополнений</b>, найди <b>Tampermonkey</b> и нажми <b>«+»</b> → «Добавить».</li>
-          <li>Открой в Firefox эту ссылку — Tampermonkey предложит установить скрипт, нажми <b>«Установить»</b>:<br><a href="${userscriptUrl}">${escapeHtml(userscriptUrl)}</a></li>
-          <li>Открой в Firefox приложение (эту страницу) и войди в аккаунт: <b>Архив → Синхронизация</b> — прогресс подтянется. Ключ Gemini вставь заново на странице «Диалог».</li>
-          <li>В Firefox один раз войди на <b>duolingo.com</b> (и на puzzle-english.com, если нужно).</li>
-          <li>Готово: на главной появится кнопка <b>«↻ Обновить»</b>. Совет: ⋮ → «Добавить на главный экран» — приложение будет открываться как обычное.</li>
-        </ol>
-      </details>`}
-    <p class="block-note">Закладка сама заберёт новые слова, ошибки и ключевые фразы и добавит их сюда — без Claude. Нажимай её на duolingo.com или puzzle-english.com, когда пройдёшь новые уроки.</p>
+    <p class="block-note" style="margin-top:0;">Закладка сама заберёт новые слова, ошибки и ключевые фразы и добавит их сюда — без Claude. Нажимай её на duolingo.com или puzzle-english.com, когда пройдёшь новые уроки.</p>
     <div class="settings-row" style="margin-top:0;">
       <a class="bookmarklet" href="${bookmarkletHref().replace(/"/g, "&quot;")}" onclick="alert('Это закладка: перетащи кнопку на панель закладок браузера (или скопируй код — инструкция ниже). Нажимать её нужно на сайте Duolingo или Puzzle English.'); return false;">${ico("bookmark")} Мой английский</a>
       <button class="small-btn" onclick="copyBookmarklet(this)">${ico("copy")} Скопировать код закладки</button>
