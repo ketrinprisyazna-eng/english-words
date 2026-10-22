@@ -368,6 +368,8 @@ function renderReviewHome() {
   if (!el) return;
   const dateEl = document.getElementById("today-date");
   if (dateEl) dateEl.textContent = fmtDay(todayStr(), true);
+  const syncBtn = document.getElementById("home-sync");
+  if (syncBtn) syncBtn.hidden = !(typeof userscriptInstalled === "function" && userscriptInstalled());
   const today = todayStr();
   const due = dueGroups();
   const sessionGroups = sessionSlice(due);

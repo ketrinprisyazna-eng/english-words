@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <!-- Иконки: Tabler Icons (MIT, github.com/tabler/tabler-icons) -->
@@ -54,7 +54,10 @@
   <!-- ===================== ГЛАВНАЯ ===================== -->
   <div class="view active" id="view-home">
     <header class="topbar">
-      <h1>Повторение</h1>
+      <div class="topbar-row">
+        <h1>Повторение</h1>
+        <button class="topbar-sync" id="home-sync" hidden onclick="syncFromSite('duo')" aria-label="Обновить материал из Duolingo"><svg class="ico" aria-hidden="true"><use href="#i-refresh"></use></svg> Обновить</button>
+      </div>
       <p class="today" id="today-date"></p>
     </header>
     <div id="review-home"></div>
@@ -302,11 +305,11 @@
 <script src="mistakes.js?v=5"></script>
 <script src="phrasal.js?v=2"></script>
 <script src="keyphrases.js?v=3"></script>
-<script src="import.js?v=3"></script>
+<script src="import.js?v=4"></script>
 <script src="mic.js?v=4"></script>
 <script src="app.js?v=8"></script>
 <script src="dialog.js?v=2"></script>
-<script src="review.js?v=2"></script>
+<script src="review.js?v=3"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
