@@ -11,6 +11,36 @@
 // }
 const DUO_LOG = [
   {
+    id: "duo-unit-world-news", date: "2026-10-22", source: "duo", units: [210],
+    lessons: [
+      { skill: "Новости", lessonNum: "Обсуди новости мира ✓" },
+      { skill: "Новости", lessonNum: "Расскажи об ограблении — 5 из 7" },
+    ],
+    newWords: ["jail", "in court", "crime", "embassy", "mess", "report"],
+    rules: [
+      {
+        title: "GO TO JAIL — без артикля",
+        explanation:
+          "She went to jail for stealing a car. — Она села в тюрьму за угон машины.\n" +
+          "Когда речь о назначении места, артикль не нужен: go to jail, be in court, go to school, go to bed.\n" +
+          "A car — машина одна, какая-то → A.",
+      },
+      {
+        title: "A MESS — «беспорядок» с глаголом BE",
+        explanation:
+          "This room is a mess! — В этой комнате беспорядок!\n" +
+          "По-русски «в комнате беспорядок», по-английски «комната ЕСТЬ беспорядок»: is a mess. Не «look mess».",
+      },
+      {
+        title: "Present Continuous: «закрывает» прямо сейчас / в эти дни",
+        explanation:
+          "The country is closing its embassy. — Страна закрывает своё посольство.\n" +
+          "IS + -ING обязательно вместе: is closing (не «closing» без is).\n" +
+          "«Своё» о стране — ITS (или their, если думаем о людях страны).",
+      },
+    ],
+  },
+  {
     id: "duo-unit-news", date: "2026-10-21", source: "duo", units: [210],
     lessons: [
       { skill: "Аэропорт и поездки", lessonNum: "Попроси помощи в аэропорту ✓" },

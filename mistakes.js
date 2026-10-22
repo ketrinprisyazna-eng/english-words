@@ -6,6 +6,73 @@
 // type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
 const MISTAKES = [
   {
+    id: "m2026-10-22-1", date: "2026-10-22", type: "to-en",
+    prompt: "Она села в тюрьму за угон автомобиля.",
+    yours: "She went to a jail for stealing car",
+    correct: "She went to jail for stealing a car.",
+    why: [
+      "GO TO JAIL — без артикля: речь не о здании, а о «наказании» (как go to school, go to bed).",
+      "Машина одна, какая-то — нужен A: stealing a car.",
+      "FOR + -ING = «за то, что»: for stealing — за кражу. Тут у тебя верно 👍",
+    ],
+    rules: ["articles", "verb-to-ing"], words: ["jail", "steal", "car"],
+  },
+  {
+    id: "m2026-10-22-2", date: "2026-10-22", type: "to-ru",
+    prompt: "What were their crimes?",
+    yours: "Какие будут преступления",
+    correct: "Какие преступления они совершили?",
+    why: [
+      "WERE — прошедшее время (были), а не будущее. «Будут» было бы will be.",
+      "THEIR — «их»: какие у них были преступления → какие преступления они совершили.",
+    ],
+    rules: ["past-simple", "pronouns"], words: ["crime", "were", "their"],
+  },
+  {
+    id: "m2026-10-22-3", date: "2026-10-22", type: "to-en",
+    prompt: "В этой комнате беспорядок!",
+    yours: "This room look mess",
+    correct: "This room is a mess!",
+    why: [
+      "«Беспорядок» с комнатой — это BE: This room IS a mess. В английском без глагола нельзя.",
+      "MESS здесь с артиклем: a mess — «сплошной беспорядок».",
+      "LOOK значило бы «выглядит» — и тогда с -S: This room looks messy.",
+    ],
+    rules: ["be-required", "articles"], words: ["mess", "room"],
+  },
+  {
+    id: "m2026-10-22-4", date: "2026-10-22", type: "to-en",
+    prompt: "Отчёт длинный?",
+    yours: "Is long",
+    correct: "Is the report long?",
+    why: [
+      "В английском подлежащее обязательно: IS + THE REPORT + long? — нельзя просто «Is long?».",
+      "Вопрос с BE: глагол вперёд, потом кто/что: Is the report long?",
+    ],
+    rules: ["be-required", "do-does-did"], words: ["report", "long"],
+  },
+  {
+    id: "m2026-10-22-5", date: "2026-10-22", type: "to-en",
+    prompt: "Страна закрывает своё посольство.",
+    yours: "The country closing embassy",
+    correct: "The country is closing their embassy.",
+    why: [
+      "«Закрывает» сейчас — Present Continuous: IS + closing. Без is -ING не работает.",
+      "«Своё» — притяжательное перед вещью: its / their embassy. Без него фраза звучит незаконченно.",
+    ],
+    rules: ["continuous", "pronouns"], words: ["embassy", "country", "close"],
+  },
+  {
+    id: "m2026-10-22-6", date: "2026-10-22", type: "gap",
+    prompt: "Как сказать «в суде»?",
+    yours: "",
+    correct: "in court",
+    why: [
+      "IN COURT — без артикля, когда речь о судебном процессе: The lawyer stood next to the man in court.",
+    ],
+    rules: ["articles", "at-on-in"], words: ["in court"],
+  },
+  {
     id: "m2026-10-21-1", date: "2026-10-21", type: "to-en",
     prompt: "Этот проездной позволяет тебе ездить на любом поезде в течение одной недели!",
     yours: "This pass lets you ride any train one week",
