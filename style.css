@@ -776,3 +776,17 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .sched-row { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 13.5px; }
 .sched-label { color: var(--ink); min-width: 0; }
 .sched-next { color: var(--ink-2); white-space: nowrap; }
+
+/* ===== Обновление закладкой ===== */
+.bookmarklet { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: var(--r);
+  background: var(--ink); color: var(--on-ink); font-weight: 600; font-size: 14.5px; text-decoration: none; cursor: grab; }
+.bookmarklet .ico { color: var(--on-ink); }
+.import-help { margin-top: 10px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.import-help summary { cursor: pointer; color: var(--blue); font-weight: 500; }
+.import-help p { margin: 8px 0 0; }
+.import-card { max-width: 380px; width: calc(100% - 32px); }
+.import-line { font-size: 14px; color: var(--ink); padding: 4px 0; display: flex; align-items: center; gap: 6px; }
+.import-line.muted { color: var(--ink-3); }
+.import-done { font-family: var(--serif); font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 8px; color: var(--moss); margin-bottom: 8px; }
+.import-card .grade-rows { max-width: none; }
+.import-card .reveal-btn { width: 100%; margin-top: 8px; }

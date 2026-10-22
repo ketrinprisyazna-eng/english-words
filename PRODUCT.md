@@ -21,7 +21,7 @@ Built from her own material, not a generic course: every word, rule, mistake and
 ## Operating Context
 
 - Daily ritual on the phone: one tap on Home starts today's spaced review of what she studied on earlier days; the grade goes to the Diary.
-- New Duolingo/Puzzle English units are added to the data files after each completed section.
+- New Duolingo/Puzzle English material arrives two ways: a bookmarklet run on duolingo.com / puzzle-english.com (import.js: new words, mistakes and key phrases are stored in the browser, translated and explained with her Gemini key, and become a study day), or a manual sync by Claude into the data files.
 - Pronunciation check uses the browser microphone (Chrome only); the dialogue partner and its answer checks use her own Google Gemini key stored in the browser.
 - Progress syncs between phone and computer through Firebase, sharing the account with a sibling Spanish-words app.
 

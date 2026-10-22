@@ -6,6 +6,17 @@
 // type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
 const MISTAKES = [
   {
+    id: "m2026-10-13-3", date: "2026-10-13", type: "to-en",
+    prompt: "Что за странный предмет был в коробке?",
+    yours: "What the strange object was in the box",
+    correct: "What was the strange object in the box?",
+    why: [
+      "В вопросе глагол BE встаёт ПЕРЕД подлежащим: What WAS the strange object…? — а не «What the object was».",
+      "Обычный порядок (the object was) — только в утверждении или внутри фразы: I know what the object was.",
+    ],
+    rules: ["do-does-did", "wh"], words: ["object", "strange", "box"],
+  },
+  {
     id: "m2026-10-22-1", date: "2026-10-22", type: "to-en",
     prompt: "Она села в тюрьму за угон автомобиля.",
     yours: "She went to a jail for stealing car",

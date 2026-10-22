@@ -459,6 +459,7 @@ function renderArchive() {
   setText("arc-phrases", `${typeof KEY_PHRASES !== "undefined" ? KEY_PHRASES.length : 0} разделов`);
   setText("arc-phrasal", `${typeof PHRASALS !== "undefined" ? PHRASALS.length : 0}`);
   setText("arc-assoc", `${Object.keys(ASSOC_OVERRIDES).length}`);
+  if (typeof renderImportBox === "function") renderImportBox();
   // расписание повторов
   const sched = document.getElementById("arc-schedule");
   if (sched) {

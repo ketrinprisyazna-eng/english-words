@@ -42,6 +42,7 @@
       EN_REVIEW: typeof REVIEW_STATE !== "undefined" ? REVIEW_STATE : {},
       EN_DIARY: typeof DIARY !== "undefined" ? DIARY : [],
       EN_BACKLOG: typeof BACKLOG !== "undefined" ? BACKLOG : { portions: [] },
+      EN_IMPORTED: typeof IMPORTED !== "undefined" ? JSON.parse(JSON.stringify(IMPORTED)) : null,
       EN_DIALOG_MISTAKES: typeof DIALOG_MISTAKES !== "undefined" ? DIALOG_MISTAKES : [],
       EN_updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
@@ -63,6 +64,16 @@
       if (data.EN_REVIEW && typeof REVIEW_STATE !== "undefined") { REVIEW_STATE = data.EN_REVIEW; saveJSON(LS_REVIEW, REVIEW_STATE); }
       if (data.EN_DIARY && typeof DIARY !== "undefined") { DIARY = data.EN_DIARY; saveJSON(LS_DIARY, DIARY); }
       if (data.EN_BACKLOG && typeof BACKLOG !== "undefined") { BACKLOG = data.EN_BACKLOG; saveJSON(LS_BACKLOG, BACKLOG); }
+      // материал, добавленный закладкой на другом устройстве: сохраняем и перезапускаем страницу, чтобы он встроился в данные
+      if (data.EN_IMPORTED && typeof IMPORTED !== "undefined" && JSON.stringify(data.EN_IMPORTED) !== JSON.stringify(IMPORTED)) {
+        const remote = data.EN_IMPORTED;
+        const localCount = IMPORTED.words.length + IMPORTED.mistakes.length + IMPORTED.log.length;
+        const remoteCount = (remote.words || []).length + (remote.mistakes || []).length + (remote.log || []).length;
+        if (remoteCount >= localCount) {
+          saveJSON(LS_IMPORTED, remote);
+          if (!SESSION && document.getElementById("import-modal").style.display === "none") location.reload();
+        }
+      }
       if (data.EN_DIALOG_MISTAKES && typeof DIALOG_MISTAKES !== "undefined") { DIALOG_MISTAKES = data.EN_DIALOG_MISTAKES; saveJSON(LS_DIALOG_MISTAKES, DIALOG_MISTAKES); }
       // Перерисовываем экран, только если DOM уже готов — иначе app.js сам отрисует
       // актуальные данные через DOMContentLoaded/showView("home").
