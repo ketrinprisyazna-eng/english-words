@@ -40,23 +40,27 @@ function enappCollector(APP) {
             skills[sid].finishedSessions += l.finishedSessions || 0;
           }
         }
-        const lx = await fetch(`/2017-06-30/users/${uid}/courses/${L}/${F}/learned-lexemes?limit=300&sortBy=LEARNED_DATE&startIndex=0`, {
-          method: "POST", headers: { ...H, "Content-Type": "application/json" }, credentials: "include",
-          body: JSON.stringify({ lastTotalLexemeCount: 0, progressedSkills: Object.values(skills) }),
-        }).then((r) => r.json());
-        const mk = await fetch(`/v2/mistakes/users/${uid}/courses/${cc.id}?includeListening=true&includeSpeaking=true&limit=500&requestType=INBOX`, { headers: H, credentials: "include" })
-          .then((r) => r.json()).catch(() => ({ mistakes: [] }));
+        note("Собираю новые слова и ошибки…");
+        const [lx, mk] = await Promise.all([
+          fetch(`/2017-06-30/users/${uid}/courses/${L}/${F}/learned-lexemes?limit=300&sortBy=LEARNED_DATE&startIndex=0`, {
+            method: "POST", headers: { ...H, "Content-Type": "application/json" }, credentials: "include",
+            body: JSON.stringify({ lastTotalLexemeCount: 0, progressedSkills: Object.values(skills) }),
+          }).then((r) => r.json()),
+          fetch(`/v2/mistakes/users/${uid}/courses/${cc.id}?includeListening=true&includeSpeaking=true&limit=500&requestType=INBOX`, { headers: H, credentials: "include" })
+            .then((r) => r.json()).catch(() => ({ mistakes: [] })),
+        ]);
         const recent = units.filter((x) => x.p > 0).sort((a, b) => a.i - b.i).slice(-12);
         const st = (x) => (x && x.styledString && x.styledString.text) || "";
+        note("Собираю ключевые фразы пройденных разделов…");
         const guides = {};
-        for (const g of [...new Set(recent.map((x) => x.g).filter(Boolean))]) {
+        await Promise.all([...new Set(recent.map((x) => x.g).filter(Boolean))].map(async (g) => {
           try {
             const j = await fetch(g).then((r) => r.json());
             const ph = [];
             for (const e of j.elements || []) if (e.type === "dialogue") for (const p of e.element.phrases) ph.push([st(p.text), st(p.subtext)]);
             guides[g] = ph;
           } catch (e) {}
-        }
+        }));
         payload = {
           src: "duo", at: Date.now(), total: lx.pagination && lx.pagination.totalLexemes,
           words: (lx.learnedLexemes || []).map((l) => [l.text, (l.translations || []).slice(0, 3).join(", ")]),

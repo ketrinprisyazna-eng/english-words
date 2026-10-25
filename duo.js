@@ -11,6 +11,33 @@
 // }
 const DUO_LOG = [
   {
+    id: "auto-duo-2026-10-25", date: "2026-10-25", source: "duo", units: [210],
+    lessons: [{ skill: "Расскажи об ограблении", lessonNum: "раздел пройден ✓" }],
+    newWords: ["court", "jail", "steal", "check in", "flight"],
+    rules: [
+      {
+        title: "Время до события: ONE HOUR BEFORE THE FLIGHT",
+        explanation:
+          "We have to check in one hour before the flight. — Нужно зарегистрироваться за час до вылета.\n" +
+          "Сколько времени — без артикля: one hour, two days before…  Само событие конкретное — с THE: the flight, the party.\n" +
+          "Наоборот, «через час после» — one hour after the flight.",
+      },
+      {
+        title: "HAVE + событие: have a band, have a party",
+        explanation:
+          "Next time we should have a band instead of a DJ. — В следующий раз лучше пригласить группу, а не диджея.\n" +
+          "HAVE часто значит «устроить, чтобы было»: have a party (устроить вечеринку), have a picnic, have a barbecue, have a band.\n" +
+          "После SHOULD / CAN / MUST глагол обязателен: we should HAVE…, а не «we should a band».",
+      },
+      {
+        title: "WON'T SHE…? — «Разве она не…? / Не… ли она?»",
+        explanation:
+          "Won't she go to court for stealing? — Не предстанет ли она перед судом за кражу?\n" +
+          "WON'T = will not: вопрос с отрицанием о будущем. Так же: Won't you come? — Ты разве не придёшь?",
+      },
+    ],
+  },
+  {
     id: "duo-unit-world-news", date: "2026-10-22", source: "duo", units: [210],
     lessons: [
       { skill: "Новости", lessonNum: "Обсуди новости мира ✓" },

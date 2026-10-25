@@ -6,6 +6,42 @@
 // type: "to-en" — перевод на английский, "to-ru" — перевод на русский, "gap" — вставить слово, "listen" — аудирование
 const MISTAKES = [
   {
+    id: "auto-e9927e0af2ef4aa6a24dc82b0979156f:1792858213462", date: "2026-10-24", type: "to-en",
+    prompt: "В следующий раз нам лучше пригласить группу, а не диджея.",
+    yours: "Next time we should a band instead of DJ",
+    correct: "Next time we should have a band instead of a DJ.",
+    why: [
+      "После SHOULD нужен глагол: we should HAVE a band. «Пригласить группу (на праздник)» по-английски — просто have a band: у нас будет группа.",
+      "DJ — одна профессия, один человек → с артиклем: instead of A DJ (как a teacher, a doctor).",
+      "INSTEAD OF — «вместо, а не» — ты поставила верно 👍",
+    ],
+    rules: ["modals", "articles"], words: ["should", "band", "instead of", "dj"],
+  },
+  {
+    id: "auto-f0a7b4dfd7b320e90e9a1f2a6af710ad:1792858213461", date: "2026-10-24", type: "to-en",
+    prompt: "Мы должны зарегистрироваться за один час до вылета.",
+    yours: "We have to check in the one hour before flight",
+    correct: "We have to check in one hour before the flight.",
+    why: [
+      "«За час до…» — ONE HOUR BEFORE, без артикля: время мы считаем, а не показываем на конкретный час.",
+      "А рейс конкретный, наш → с артиклем: before THE flight.",
+      "HAVE TO + check in — «должны зарегистрироваться» — верно 👍",
+    ],
+    rules: ["articles", "modals", "airport"], words: ["check in", "flight", "before", "have to"],
+  },
+  {
+    id: "auto-98f9ec2c8eaed636a173af5a06f7d583:1792756500922", date: "2026-10-23", type: "to-ru",
+    prompt: "Won't she go to court for stealing?",
+    yours: "Не получить ли она",
+    correct: "Не предстанет ли она перед судом за кражу?",
+    why: [
+      "WON'T = will not. Won't she…? — вопрос с отрицанием о будущем: «Разве она не…? / Не… ли она?».",
+      "GO TO COURT — «пойти под суд, предстать перед судом» (без артикля, как go to jail).",
+      "FOR STEALING — «за кражу»: FOR + -ING = «за то, что…».",
+    ],
+    rules: ["negative-questions", "future", "articles"], words: ["won't", "court", "steal"],
+  },
+  {
     id: "m2026-10-13-3", date: "2026-10-13", type: "to-en",
     prompt: "Что за странный предмет был в коробке?",
     yours: "What the strange object was in the box",
