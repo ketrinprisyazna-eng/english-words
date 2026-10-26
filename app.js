@@ -285,7 +285,7 @@ function getAssociation(en, ru) {
 }
 
 /* ============ Навигация ============ */
-const views = ["home", "words", "rules", "assoc", "texts", "duo", "phrasal", "diary", "archive"];
+const views = ["home", "words", "rules", "assoc", "texts", "duo", "phrasal", "puzzle", "diary", "archive"];
 // разделы архива: в меню подсвечивается «Архив»
 const NAV_OF_VIEW = { words: "archive", rules: "archive", assoc: "archive", duo: "archive", phrasal: "archive" };
 function showView(name) {
@@ -301,6 +301,7 @@ function showView(name) {
   if (name === "duo") renderDuo();
   if (name === "rules") renderRules();
   if (name === "phrasal") renderPhrasalPage();
+  if (name === "puzzle") renderPuzzle();
   if (name === "diary") renderDiary();
   if (name === "archive") renderArchive();
   window.scrollTo(0, 0);
@@ -1696,7 +1697,7 @@ function escapeHtml(s) {
 
 /* ============ настройки: экспорт/импорт/сброс ============ */
 function exportData() {
-  const blob = new Blob([JSON.stringify({ PROGRESS, HISTORY, STREAK, RULE_STATE, REVIEW_STATE, DIARY, BACKLOG }, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify({ PROGRESS, HISTORY, STREAK, RULE_STATE, REVIEW_STATE, DIARY, BACKLOG, PUZZLE }, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url; a.download = `english-words-progress-${todayStr()}.json`;
@@ -1715,6 +1716,7 @@ function importData(file) {
       if (data.REVIEW_STATE) REVIEW_STATE = data.REVIEW_STATE;
       if (data.DIARY) DIARY = data.DIARY;
       if (data.BACKLOG) BACKLOG = data.BACKLOG;
+      if (data.PUZZLE) { PUZZLE = data.PUZZLE; savePuzzle(); mergePuzzleNotes(); }
       saveReviewData();
       saveProgress(); saveHistory(); saveStreak();
       alert("Прогресс импортирован!");
@@ -1734,6 +1736,7 @@ function resetProgress() {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("nav-home").addEventListener("click", () => showView("home"));
   document.getElementById("nav-texts").addEventListener("click", () => showView("texts"));
+  document.getElementById("nav-puzzle").addEventListener("click", () => { puzzleOpenNote = null; showView("puzzle"); });
   document.getElementById("nav-diary").addEventListener("click", () => showView("diary"));
   document.getElementById("nav-archive").addEventListener("click", () => showView("archive"));
 

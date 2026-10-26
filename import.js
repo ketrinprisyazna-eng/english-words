@@ -221,6 +221,12 @@ async function runImport(b64) {
   try {
     step("Получила данные, распаковываю…");
     const data = await decodeImport(b64);
+    if (data.src === "puzzle-lesson") {
+      const r = await processPuzzleLesson(data, step);
+      importDoneView = r.view;
+      body.innerHTML = r.html + `<button class="reveal-btn" onclick="closeImport()">Открыть</button>`;
+      return;
+    }
     const res = data.src === "puzzle" ? await processPuzzleImport(data, step) : await processDuoImport(data, step);
     const nothing = !res.words && !res.mistakes && !res.units;
     body.innerHTML = `
@@ -238,9 +244,11 @@ async function runImport(b64) {
     body.innerHTML = `<div class="import-line">Не получилось обработать данные: ${escapeHtml(e.message)}</div><button class="reveal-btn" onclick="closeImport()">Закрыть</button>`;
   }
 }
+let importDoneView = "home";
 function closeImport() {
   document.getElementById("import-modal").style.display = "none";
-  showView("home");
+  showView(importDoneView);
+  importDoneView = "home";
 }
 
 /* ---------- блок в Архиве ---------- */

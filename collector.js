@@ -70,6 +70,19 @@ function enappCollector(APP) {
           })),
           units: recent.map((x) => ({ i: x.i, t: x.t, c: x.c, p: x.p, n: x.n, ph: (x.g && guides[x.g]) || [] })),
         };
+      } else if (/(^|\.)puzzle-english\.com$/.test(location.hostname) && /[?&]lesson=\d+/.test(location.search)) {
+        // урок «Метода Тичера»: задания и ответы со страницы «Смотреть мои ответы»
+        const lesson = location.search.match(/[?&]lesson=(\d+)/)[1];
+        const boxes = [...document.querySelectorAll(".teacher-test-result")];
+        if (!boxes.length) throw new Error("открой в уроке «Смотреть мои ответы» и нажми закладку ещё раз");
+        note("Собираю задания урока и твои ответы…");
+        const tests = boxes.map((e) => {
+          const t = e.textContent.replace(/\s+/g, " ").replace(/послушать|Послушать|Без ошибок/g, "").trim();
+          const m = t.match(/^(.*?)Вопрос \d+ из \d+(.*)$/);
+          const text = m ? ((m[1].split(/(?<=[.!?]) /).pop() || "").slice(0, 60) + " :: " + m[2].trim()) : t;
+          return { ok: /right-answer/.test(e.className), t: text.slice(0, 500) };
+        });
+        payload = { src: "puzzle-lesson", at: Date.now(), lesson, title: document.title, tests };
       } else if (/(^|\.)puzzle-english\.com$/.test(location.hostname)) {
         note("Собираю слова из «Моего словаря» Puzzle English…");
         const out = [];

@@ -42,8 +42,10 @@
       EN_REVIEW: typeof REVIEW_STATE !== "undefined" ? REVIEW_STATE : {},
       EN_DIARY: typeof DIARY !== "undefined" ? DIARY : [],
       EN_BACKLOG: typeof BACKLOG !== "undefined" ? BACKLOG : { portions: [] },
-      EN_IMPORTED: typeof IMPORTED !== "undefined" ? JSON.parse(JSON.stringify(IMPORTED)) : null,
+      // строкой JSON: Firestore не хранит массивы внутри массивов (фразы, слова конспектов)
+      EN_IMPORTED: typeof IMPORTED !== "undefined" ? JSON.stringify(IMPORTED) : null,
       EN_DIALOG_MISTAKES: typeof DIALOG_MISTAKES !== "undefined" ? DIALOG_MISTAKES : [],
+      EN_PUZZLE: typeof PUZZLE !== "undefined" ? JSON.stringify(PUZZLE) : null,
       EN_updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
   }
@@ -65,8 +67,9 @@
       if (data.EN_DIARY && typeof DIARY !== "undefined") { DIARY = data.EN_DIARY; saveJSON(LS_DIARY, DIARY); }
       if (data.EN_BACKLOG && typeof BACKLOG !== "undefined") { BACKLOG = data.EN_BACKLOG; saveJSON(LS_BACKLOG, BACKLOG); }
       // материал, добавленный закладкой на другом устройстве: сохраняем и перезапускаем страницу, чтобы он встроился в данные
-      if (data.EN_IMPORTED && typeof IMPORTED !== "undefined" && JSON.stringify(data.EN_IMPORTED) !== JSON.stringify(IMPORTED)) {
-        const remote = data.EN_IMPORTED;
+      const remoteImported = typeof data.EN_IMPORTED === "string" ? JSON.parse(data.EN_IMPORTED) : data.EN_IMPORTED;
+      if (remoteImported && typeof IMPORTED !== "undefined" && JSON.stringify(remoteImported) !== JSON.stringify(IMPORTED)) {
+        const remote = remoteImported;
         const localCount = IMPORTED.words.length + IMPORTED.mistakes.length + IMPORTED.log.length;
         const remoteCount = (remote.words || []).length + (remote.mistakes || []).length + (remote.log || []).length;
         if (remoteCount >= localCount) {
@@ -74,6 +77,7 @@
           if (!SESSION && document.getElementById("import-modal").style.display === "none") location.reload();
         }
       }
+      if (data.EN_PUZZLE && typeof PUZZLE !== "undefined") { PUZZLE = typeof data.EN_PUZZLE === "string" ? JSON.parse(data.EN_PUZZLE) : data.EN_PUZZLE; saveJSON(LS_PUZZLE, PUZZLE); mergePuzzleNotes(); }
       if (data.EN_DIALOG_MISTAKES && typeof DIALOG_MISTAKES !== "undefined") { DIALOG_MISTAKES = data.EN_DIALOG_MISTAKES; saveJSON(LS_DIALOG_MISTAKES, DIALOG_MISTAKES); }
       // Перерисовываем экран, только если DOM уже готов — иначе app.js сам отрисует
       // актуальные данные через DOMContentLoaded/showView("home").

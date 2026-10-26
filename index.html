@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..600&display=swap">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 <!-- Иконки: Tabler Icons (MIT, github.com/tabler/tabler-icons) -->
@@ -223,6 +223,16 @@
     </div>
   </div>
 
+  <!-- ===================== PUZZLE ENGLISH ===================== -->
+  <div class="view" id="view-puzzle">
+    <h1 class="view-title">Puzzle English</h1>
+    <div class="seg wide" id="puzzle-tabs">
+      <button type="button" class="filter-chip active" data-tab="lessons">Уроки</button>
+      <button type="button" class="filter-chip" data-tab="notes">Нотатник <span id="puzzle-notes-count"></span></button>
+    </div>
+    <div id="puzzle-body" style="margin-top:14px;"></div>
+  </div>
+
   <!-- ===================== ТРЕНАЖЁР ФРАЗОВЫХ ГЛАГОЛОВ ===================== -->
   <div class="view" id="view-phrasal">
     <div class="view-head">
@@ -251,6 +261,7 @@
 <nav class="bottom-nav" aria-label="Разделы">
   <button class="nav-btn active" id="nav-home"><svg class="ico" aria-hidden="true"><use href="#i-refresh"></use></svg>Повторение</button>
   <button class="nav-btn" id="nav-texts"><svg class="ico" aria-hidden="true"><use href="#i-messages"></use></svg>Диалог</button>
+  <button class="nav-btn" id="nav-puzzle"><svg class="ico" aria-hidden="true"><use href="#i-puzzle"></use></svg>Puzzle English</button>
   <button class="nav-btn" id="nav-diary"><svg class="ico" aria-hidden="true"><use href="#i-book"></use></svg>Дневник</button>
   <button class="nav-btn" id="nav-archive"><svg class="ico" aria-hidden="true"><use href="#i-books"></use></svg>Архив</button>
 </nav>
@@ -302,15 +313,16 @@
 <script src="mistakes.js?v=7"></script>
 <script src="phrasal.js?v=2"></script>
 <script src="keyphrases.js?v=4"></script>
-<script src="import.js?v=4"></script>
+<script src="import.js?v=5"></script>
 <script src="mic.js?v=4"></script>
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 <script src="dialog.js?v=2"></script>
-<script src="review.js?v=2"></script>
+<script src="puzzle.js?v=1"></script>
+<script src="review.js?v=4"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js?v=1"></script>
-<script src="sync.js?v=6"></script>
+<script src="sync.js?v=7"></script>
 </body>
 </html>
