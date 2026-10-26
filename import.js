@@ -8,7 +8,7 @@
    Всё импортированное хранится в браузере и синхронизируется через Firebase. */
 
 const LS_IMPORTED = "enapp_imported_v1";
-const IMPORT_BASELINE_UNIT = 211; // разделы Duolingo до этого номера уже разобраны вручную
+const IMPORT_BASELINE_UNIT = 217; // разделы Duolingo до этого номера уже разобраны вручную
 let IMPORTED = (() => {
   try { return JSON.parse(localStorage.getItem(LS_IMPORTED)) || null; } catch (e) { return null; }
 })() || { words: [], mistakes: [], log: [], units: [], meta: {} };
@@ -141,7 +141,7 @@ async function processDuoImport(data, step) {
   });
 
   // разделы: новые пройденные и их ключевые фразы
-  const maxSeen = IMPORTED.meta.maxUnit != null ? IMPORTED.meta.maxUnit : IMPORT_BASELINE_UNIT;
+  const maxSeen = Math.max(IMPORTED.meta.maxUnit != null ? IMPORTED.meta.maxUnit : 0, IMPORT_BASELINE_UNIT);
   const passedNew = (data.units || []).filter((u) => u.i > maxSeen && u.n && u.p >= u.n);
   const linkUnits = [];
   const newUnits = [];

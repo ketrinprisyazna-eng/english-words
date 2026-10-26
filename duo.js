@@ -11,8 +11,41 @@
 // }
 const DUO_LOG = [
   {
+    id: "auto-duo-2026-10-26", date: "2026-10-26", source: "duo", units: [215],
+    lessons: [
+      { skill: "Расскажи о диких животных", lessonNum: "раздел пройден ✓" },
+      { skill: "Обсуди диких животных", lessonNum: "раздел пройден ✓" },
+      { skill: "Опиши животных на сафари", lessonNum: "раздел пройден ✓" },
+    ],
+    newWords: ["ahead", "the environment", "go back", "leaf", "loudly", "quietly", "penguin", "giraffe", "dolphin", "beside", "earth", "zebra", "parrot", "jungle", "stone", "tiger"],
+    rules: [
+      {
+        title: "THERE'S A LION… — когда предмет появляется впервые",
+        explanation:
+          "Oh, there's a lion beside that tree! — Ой, рядом с тем деревом лев!\n" +
+          "Говорим о чём-то впервые («там есть…») — начинаем с THERE IS / THERE'S. Один лев — IS, не are.",
+      },
+      {
+        title: "HARD TO FIND — прилагательное + TO + глагол",
+        explanation:
+          "Wild tigers are hard to find. — Диких тигров трудно найти.\n" +
+          "Схема: кто + BE + hard / easy / nice + TO + глагол. Глагол BE обязателен: are hard.",
+      },
+      {
+        title: "LOUD → LOUDLY, QUIET → QUIETLY",
+        explanation:
+          "Прилагательное отвечает на «какой?» (a loud parrot), наречие с -LY — на «как?» (it talks loudly).\n" +
+          "LEAF → LEAVES: f меняется на v во множественном числе.",
+      },
+    ],
+  },
+  {
     id: "auto-duo-2026-10-25", date: "2026-10-25", source: "duo", units: [210],
-    lessons: [{ skill: "Расскажи об ограблении", lessonNum: "раздел пройден ✓" }],
+    lessons: [
+      { skill: "Расскажи об ограблении", lessonNum: "раздел пройден ✓" },
+      { skill: "Поговорить о правосудии", lessonNum: "раздел пройден ✓" },
+      { skill: "Обсуди фейковые новости", lessonNum: "раздел пройден ✓" },
+    ],
     newWords: ["court", "jail", "steal", "check in", "flight"],
     rules: [
       {
