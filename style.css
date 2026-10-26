@@ -888,3 +888,11 @@ a.cta { text-decoration: none; box-sizing: border-box; }
 .pz-howto .ico { width: 15px; height: 15px; vertical-align: -2px; color: var(--blue); }
 .nb-entry:disabled { cursor: default; }
 .nb-entry-num .ico { width: 18px; height: 18px; }
+
+.pz-block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 18px 0 0;
+  font-family: var(--serif); font-weight: 650; font-size: 16.5px; }
+.pz-block-head small { font-family: var(--sans); font-weight: 500; font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.pz-current .pz-block-head + .pz-items { margin-top: 8px; }
+.pz-break { margin: 14px 0 0; padding: 10px 12px; border-radius: var(--r-sm); background: var(--moss-tint); color: var(--moss);
+  font-size: 13.5px; line-height: 1.4; }
+.pz-break .ico { width: 15px; height: 15px; vertical-align: -2px; }

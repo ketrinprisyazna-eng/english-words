@@ -1,6 +1,7 @@
 /* ============ Puzzle English: уроки из заданий, слов, диалогов, книг и подкастов ============
-   «Создай урок» собирает урок ≈25 минут под твой уровень (Pre-Intermediate, A2–B1):
-   урок грамматики + видеопазл + диалог + подкаст или глава книги + тренировка слов.
+   «Создай урок» собирает урок ≈80 минут под твой уровень (Pre-Intermediate, A2–B1): три блока
+   по ~25 минут с перерывами — грамматика (2 урока + видео), слушаем и говорим (2 диалога +
+   подкаст), читаем и закрепляем (глава книги + видео B1 + тренировка слов).
    Ссылки ведут прямо в Puzzle English. Пройденное отмечается галочкой или закладкой
    «Мой английский» (она читает «Историю» Puzzle). Закладка же собирает материалы урока —
    описание грамматики, субтитры видео, реплики диалога, текст подкаста — и Gemini пишет
@@ -375,16 +376,16 @@ const pzLines = (s) => s.split("\n").map((l) => l.split("|"));
 // азы для начинающих из трека Elementary — пропускаем, это ниже твоего уровня
 const PZ_GRAMMAR_BASICS = new Set(["sentence", "subject-verb1", "subject-verb2", "object", "family-vocabulary", "adjectives-beginner", "articles-101", "noun_cases"]);
 const PZ_GRAMMAR = pzLines(PZ_DATA.grammar).filter(([slug]) => !PZ_GRAMMAR_BASICS.has(slug))
-  .map(([slug, title]) => ({ type: "grammar", path: "/exercise/" + slug, title, min: 8, level: "A2–B1" }));
+  .map(([slug, title]) => ({ type: "grammar", path: "/exercise/" + slug, title, min: 10, level: "A2–B1" }));
 // уровень рубрики видеопазлов
 const PZ_VIDEO_LEVEL = { "Starting Out": "A2", "Диалоги": "A2", "Английский с Гэбби": "A2", "Простой английский": "A2–B1", "New Headway": "A2–B1" };
 const PZ_VIDEOS = pzLines(PZ_DATA.video).map(([slug, title, cat, ph]) => ({
-  type: "video", path: "/video/" + slug, title, cat, min: +ph > 60 ? 7 : +ph > 30 ? 5 : 3, level: PZ_VIDEO_LEVEL[cat] || "B1",
+  type: "video", path: "/video/" + slug, title, cat, min: +ph > 60 ? 10 : +ph > 30 ? 7 : 4, level: PZ_VIDEO_LEVEL[cat] || "B1",
 }));
-const PZ_DIALOGS = pzLines(PZ_DATA.dialogs).map(([slug, en, ru]) => ({ type: "dialog", path: "/dialogs/" + slug, title: `${en} — ${ru}`, min: 4, level: "A2" }));
-const PZ_PODCASTS = pzLines(PZ_DATA.podcasts).map(([slug, title]) => ({ type: "podcast", path: "/podcast/" + slug, title: "Английский за шесть минут: " + title, min: 8, level: "B1" }));
-const PZ_BOOK_ITEM = { type: "book", path: "/books/" + PZ_DATA.book.slug, title: `${PZ_DATA.book.title} — следующая глава`, min: 12, level: "A2–B1" };
-const PZ_WORDS_ITEM = { type: "words", path: "/words", title: "Тренировка слов из «Моего словаря»", min: 4, level: "" };
+const PZ_DIALOGS = pzLines(PZ_DATA.dialogs).map(([slug, en, ru]) => ({ type: "dialog", path: "/dialogs/" + slug, title: `${en} — ${ru}`, min: 5, level: "A2" }));
+const PZ_PODCASTS = pzLines(PZ_DATA.podcasts).map(([slug, title]) => ({ type: "podcast", path: "/podcast/" + slug, title: "Английский за шесть минут: " + title, min: 10, level: "B1" }));
+const PZ_BOOK_ITEM = { type: "book", path: "/books/" + PZ_DATA.book.slug, title: `${PZ_DATA.book.title} — следующая глава`, min: 15, level: "A2–B1" };
+const PZ_WORDS_ITEM = { type: "words", path: "/words", title: "Тренировка слов из «Моего словаря»", min: 5, level: "" };
 const PZ_TYPE = {
   grammar: { label: "Грамматика", icon: "school" },
   video: { label: "Видеопазл", icon: "target" },
@@ -394,8 +395,11 @@ const PZ_TYPE = {
   words: { label: "Слова", icon: "books" },
 };
 const PZ_ALL = [...PZ_GRAMMAR, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS];
-function pzItem(path) { return PZ_ALL.find((x) => x.path === path) || (path === PZ_BOOK_ITEM.path ? PZ_BOOK_ITEM : path === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null); }
-function pzHref(path) { return PZ_URL + path + (/^\/books\//.test(path) ? "/work" : ""); }
+function pzItem(path) {
+  const p = String(path).split("#")[0];
+  return PZ_ALL.find((x) => x.path === p) || (p === PZ_BOOK_ITEM.path ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null);
+}
+function pzHref(path) { const p = String(path).split("#")[0]; return PZ_URL + p + (/^\/books\//.test(p) ? "/work" : ""); }
 // адрес из «Истории» Puzzle → путь как в каталоге
 function pzNormPath(p) {
   p = String(p || "").replace(/^https?:\/\/puzzle-english\.com/, "").replace(/\/work$/, "").replace(/\/$/, "");
@@ -490,25 +494,35 @@ function allPuzzleNotes() {
 /* ---------- «Создай урок»: ~25 минут под твой уровень ---------- */
 function pzFree(list) { return list.filter((x) => !pzIsDone(x.path) && !pzIsPlanned(x.path) && !(PUZZLE.skipped || {})[x.path]); }
 function pzWordsOf(s) { return new Set(String(s).toLowerCase().match(/[a-z]{3,}/g) || []); }
+const PZ_BREAK_MIN = 5;
+const PZ_TARGET_MIN = 80;
 function puzzleBuildLesson() {
   const n = PUZZLE.lessons.length + 1;
-  const items = [];
-  const grammar = pzFree(PZ_GRAMMAR)[0];
-  if (grammar) items.push(grammar);
-  // видео: сначала то, что перекликается с грамматикой урока, иначе чередуем A2 и B1
-  const videos = pzFree(PZ_VIDEOS);
-  const gw = grammar ? pzWordsOf(grammar.title) : new Set();
-  const match = videos.find((v) => [...pzWordsOf(v.title)].some((w) => gw.has(w)));
-  const wantLevel = n % 2 ? "A2" : "B1";
-  const video = match || videos.find((v) => v.level.startsWith(wantLevel)) || videos[0];
-  if (video) items.push(video);
-  const dialog = pzFree(PZ_DIALOGS)[0];
-  if (dialog) items.push(dialog);
-  // чтение и аудирование по очереди: книга / подкаст
-  const podcast = pzFree(PZ_PODCASTS)[0];
-  items.push(n % 2 && podcast ? podcast : PZ_BOOK_ITEM);
-  items.push(PZ_WORDS_ITEM);
-  return { id: "pl-" + n, n, at: todayStr(), items: items.map((x) => x.path), finished: null };
+  const used = new Set();
+  const take = (list, pred) => { const x = pzFree(list).find((v) => !used.has(v.path) && (!pred || pred(v))); if (x) used.add(x.path); return x; };
+  const tag = (it) => ({ ...it, path: it.path + "#" + n });
+  // блок 1: грамматика + видео по её теме
+  const g1 = take(PZ_GRAMMAR), g2 = take(PZ_GRAMMAR);
+  const gw = new Set([...(g1 ? pzWordsOf(g1.title) : []), ...(g2 ? pzWordsOf(g2.title) : [])]);
+  const v1 = take(PZ_VIDEOS, (v) => [...pzWordsOf(v.title)].some((w) => gw.has(w))) || take(PZ_VIDEOS, (v) => v.level.startsWith("A2"));
+  // блок 2: слушаем и говорим
+  const d1 = take(PZ_DIALOGS), d2 = take(PZ_DIALOGS), pod = take(PZ_PODCASTS);
+  // блок 3: читаем и закрепляем — видео уровнем выше, чтобы тянуться к B1
+  const v2 = take(PZ_VIDEOS, (v) => v.level === "B1") || take(PZ_VIDEOS);
+  const blocks = [
+    { t: "Грамматика", items: [g1, g2, v1] },
+    { t: "Слушаем и говорим", items: [d1, d2, pod] },
+    { t: "Читаем и закрепляем", items: [tag(PZ_BOOK_ITEM), v2, tag(PZ_WORDS_ITEM)] },
+  ].map((b) => ({ t: b.t, items: b.items.filter(Boolean).map((x) => x.path) })).filter((b) => b.items.length);
+  // если чего-то не хватило (каталог кончился) — добираем грамматикой до ~80 минут
+  const mins = () => blocks.reduce((s, b) => s + b.items.reduce((a, q) => a + pzItem(q).min, 0), 0) + PZ_BREAK_MIN * (blocks.length - 1);
+  while (mins() < PZ_TARGET_MIN - 8) { const g = take(PZ_GRAMMAR) || take(PZ_VIDEOS); if (!g) break; blocks[0].items.push(g.path); }
+  return { id: "pl-" + n, n, at: todayStr(), blocks, items: blocks.flatMap((b) => b.items), finished: null };
+}
+function pzLessonBlocks(l) { return l.blocks || [{ t: "", items: l.items }]; }
+function pzLessonMinutes(l) {
+  const b = pzLessonBlocks(l);
+  return b.reduce((s, x) => s + x.items.reduce((a, q) => a + ((pzItem(q) || {}).min || 0), 0), 0) + PZ_BREAK_MIN * (b.length - 1);
 }
 function puzzleCreateLesson() {
   if (pzCurrentLesson()) return;
@@ -534,6 +548,7 @@ function puzzleSwapItem(path) {
   const next = pzFree(pool)[0];
   if (!next) { delete PUZZLE.skipped[path]; return; }
   l.items = l.items.map((p) => (p === path ? next.path : p));
+  if (l.blocks) l.blocks.forEach((b) => { b.items = b.items.map((p) => (p === path ? next.path : p)); });
   savePuzzle();
   renderPuzzle();
 }
@@ -633,7 +648,7 @@ async function processPuzzleHistory(data, step) {
   let note = null;
   if (lesson) {
     const mats = items.filter((m) => lesson.items.includes(m.path) && ((m.c && m.c.length) || m.x));
-    const left = lesson.items.filter((p) => !pzIsDone(p) && p !== PZ_WORDS_ITEM.path && p !== PZ_BOOK_ITEM.path);
+    const left = lesson.items.filter((p) => !pzIsDone(p) && !["words", "book"].includes((pzItem(p) || {}).type));
     if (!left.length && !lesson.finished) lesson.finished = todayStr();
     if (mats.length && !PUZZLE.notes[lesson.id]) {
       if (!loadAiKey()) step(`Конспект урока ${lesson.n} напишет Claude (ключа Gemini нет) — скажи «законспектируй урок ${lesson.n}».`);
@@ -683,21 +698,28 @@ function renderPuzzleLessons() {
   const cur = pzCurrentLesson();
   let html = `<p class="pz-level">${ico("target")} Подобрано под твой уровень: <b>${PZ_LEVEL}</b></p>`;
   if (cur) {
-    const total = cur.items.reduce((s, p) => s + ((pzItem(p) || {}).min || 0), 0);
+    const total = pzLessonMinutes(cur);
     const left = cur.items.filter((p) => !pzIsDone(p)).length;
+    const blocks = pzLessonBlocks(cur);
     html += `<div class="card pz-current">
       <div class="pz-kicker">Урок ${cur.n} · ≈${total} мин</div>
       <h2 class="pz-h">${escapeHtml(pzLessonTitle(cur).replace(/^Урок \d+ · /, ""))}</h2>
-      <div class="pz-items">${cur.items.map((p) => pzItemRow(p, cur)).join("")}</div>
+      ${blocks.map((b, i) => {
+        const bm = b.items.reduce((a, q) => a + ((pzItem(q) || {}).min || 0), 0);
+        const bd = b.items.filter(pzIsDone).length;
+        return `${i ? `<div class="pz-break">${ico("bolt")} Перерыв ${PZ_BREAK_MIN} минут: встань, выпей воды, не листай ленту</div>` : ""}
+        ${b.t ? `<div class="pz-block-head"><span>Блок ${i + 1}. ${b.t}</span><small>${bd}/${b.items.length} · ≈${bm} мин</small></div>` : ""}
+        <div class="pz-items">${b.items.map((p) => pzItemRow(p, cur)).join("")}</div>`;
+      }).join("")}
       <p class="block-note pz-howto">${ico("bookmark")} Прошла всё? Открой любую страницу puzzle-english.com и нажми закладку «Мой английский» — она отметит пройденное и сделает конспект в Нотатник.</p>
       <div class="cta-alt"><button class="link-btn" onclick="puzzleFinishLesson()">${ico("check")} ${left ? "Закончить урок" : "Урок пройден"}</button></div>
     </div>`;
   } else {
     const preview = puzzleBuildLesson();
-    const total = preview.items.reduce((s, p) => s + ((pzItem(p) || {}).min || 0), 0);
+    const total = pzLessonMinutes(preview);
     html += `<div class="card pz-current pz-empty">
       <div class="pz-kicker">Следующий · урок ${preview.n}</div>
-      <p class="pz-topic">Внутри: ${preview.items.map((p) => PZ_TYPE[pzItem(p).type].label.toLowerCase()).join(", ")} — ≈${total} мин</p>
+      <p class="pz-topic">≈${total} мин: ${pzLessonBlocks(preview).map((b) => b.t.toLowerCase()).join(" → ")}, между блоками перерывы по ${PZ_BREAK_MIN} минут</p>
       <button class="cta" onclick="puzzleCreateLesson()">Создай урок ${ico("sparkles")}</button>
     </div>`;
   }
