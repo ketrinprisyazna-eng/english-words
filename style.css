@@ -794,50 +794,11 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 /* ===== Puzzle English: уроки ===== */
 .nav-btn { text-align: center; line-height: 1.15; }
 a.cta { text-decoration: none; box-sizing: border-box; }
-.pz-progress { margin: 4px 0 16px; }
-.pz-course { font-size: 13.5px; color: var(--ink-2); margin-bottom: 6px; }
-.pz-bar { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
-.pz-bar span { display: block; height: 100%; background: var(--moss); }
-.pz-stat { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; font-variant-numeric: tabular-nums; }
 .pz-current { margin-bottom: 14px; }
 .pz-current .cta { margin-top: 16px; }
 .pz-kicker { font-size: 12.5px; color: var(--red-ink); font-weight: 600; letter-spacing: 0.02em; }
 .pz-h { font-family: var(--serif); font-weight: 650; font-size: 22px; line-height: 1.2; margin: 4px 0 2px; }
 .pz-topic { color: var(--ink-2); font-size: 14px; margin: 0; }
-.pz-steps { margin: 14px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
-.pz-steps li { margin-bottom: 6px; }
-.pz-steps b { color: var(--ink); font-weight: 600; }
-.pz-prep { border-top: 1px solid var(--rule); margin: 4px 0 10px; }
-.pz-prep .toc-item { min-height: 44px; padding: 8px 2px; }
-.pz-skipped .ico { width: 16px; height: 16px; vertical-align: -3px; margin-right: 2px; color: var(--amber); }
-.pz-theme .pz-old summary { display: flex; justify-content: flex-start; font-family: var(--sans); font-weight: 400; align-items: center; gap: 8px; padding: 10px 2px; border-top: 1px dashed var(--rule); cursor: pointer;
-  font-size: 14px; color: var(--ink-2); list-style: none; }
-.pz-old summary::-webkit-details-marker { display: none; }
-.pz-old summary .ico { width: 18px; height: 18px; }
-.pz-skipped a { color: var(--ink); }
-.pz-theme { border-top: 1px solid var(--rule); }
-.pz-theme:last-of-type { border-bottom: 1px solid var(--rule); }
-.pz-theme summary { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 2px; cursor: pointer;
-  font-family: var(--serif); font-weight: 650; font-size: 16.5px; list-style: none; }
-.pz-theme summary::-webkit-details-marker { display: none; }
-.pz-theme summary small { font-family: var(--sans); font-weight: 500; font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.pz-list { padding-bottom: 8px; }
-.pz-row { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-top: 1px dashed var(--rule); }
-.pz-num { flex: none; width: 30px; font-family: var(--serif); font-size: 15px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.pz-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.pz-title { font-size: 14.5px; color: var(--ink); }
-.pz-text small { font-size: 12.5px; color: var(--ink-3); }
-.pz-row.passed .pz-title { color: var(--ink-2); }
-.pz-row.exam .pz-title { font-weight: 600; }
-.pz-row.current { background: var(--amber-tint); border-radius: var(--r-sm); border-top-color: transparent; padding-left: 8px; padding-right: 8px; }
-.pz-mark { flex: none; width: 20px; display: flex; justify-content: center; }
-.pz-mark .ico { width: 18px; height: 18px; }
-.pz-ok { color: var(--moss); }
-.pz-cur { color: var(--red); }
-.pz-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule-2); }
-.pz-note-link { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 6px 2px; font-size: 13px; color: var(--blue); }
-.pz-note-link .ico { width: 16px; height: 16px; }
-#view-puzzle .sched-next { white-space: normal; text-align: right; }
 
 /* ===== Нотатник ===== */
 .nb-index { border-top: 1px solid var(--rule); }
@@ -901,3 +862,29 @@ a.cta { text-decoration: none; box-sizing: border-box; }
 .nb-foot { margin-top: var(--line); font-size: 12.5px; color: var(--ink-3); }
 .nb-foot a { color: var(--ink-2); }
 @media (min-width: 560px) { .nb-words { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
+
+/* ===== Puzzle English: пункты урока ===== */
+.pz-level { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 0 0 12px; }
+.pz-level .ico { width: 16px; height: 16px; vertical-align: -3px; margin-right: 2px; color: var(--amber); }
+.pz-level b { color: var(--ink); font-weight: 600; }
+.pz-items { margin-top: 12px; border-top: 1px solid var(--rule); }
+.pz-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.pz-check { flex: none; width: 26px; height: 26px; margin-top: 2px; border-radius: 50%; border: 1.5px solid var(--rule-2);
+  background: none; display: grid; place-items: center; cursor: pointer; color: var(--on-ink); padding: 0; }
+.pz-check .ico { width: 16px; height: 16px; }
+.pz-item.done .pz-check { background: var(--moss); border-color: var(--moss); }
+.pz-item-main { flex: 1; min-width: 0; }
+.pz-item-kicker { font-size: 12.5px; line-height: 1.45; color: var(--ink-3); }
+.pz-item-kicker .ico { width: 14px; height: 14px; vertical-align: -2px; }
+.pz-lvl { color: var(--amber); font-weight: 600; }
+.pz-item-title { display: block; margin-top: 2px; font-size: 15.5px; font-weight: 500; color: var(--ink); text-decoration: underline;
+  text-decoration-color: var(--rule-2); text-underline-offset: 4px; line-height: 1.35; }
+.pz-item-title:hover { text-decoration-color: var(--red); }
+.pz-item.done .pz-item-title { color: var(--ink-3); text-decoration-line: line-through; }
+.pz-swap { flex: none; border: none; background: none; color: var(--ink-3); padding: 4px; cursor: pointer; }
+.pz-swap .ico { width: 18px; height: 18px; }
+.pz-swap:hover { color: var(--red); }
+.pz-howto { margin: 12px 0 0; }
+.pz-howto .ico { width: 15px; height: 15px; vertical-align: -2px; color: var(--blue); }
+.nb-entry:disabled { cursor: default; }
+.nb-entry-num .ico { width: 18px; height: 18px; }

@@ -70,19 +70,6 @@ function enappCollector(APP) {
           })),
           units: recent.map((x) => ({ i: x.i, t: x.t, c: x.c, p: x.p, n: x.n, ph: (x.g && guides[x.g]) || [] })),
         };
-      } else if (/(^|\.)puzzle-english\.com$/.test(location.hostname) && /[?&]lesson=\d+/.test(location.search)) {
-        // урок «Метода Тичера»: задания и ответы со страницы «Смотреть мои ответы»
-        const lesson = location.search.match(/[?&]lesson=(\d+)/)[1];
-        const boxes = [...document.querySelectorAll(".teacher-test-result")];
-        if (!boxes.length) throw new Error("открой в уроке «Смотреть мои ответы» и нажми закладку ещё раз");
-        note("Собираю задания урока и твои ответы…");
-        const tests = boxes.map((e) => {
-          const t = e.textContent.replace(/\s+/g, " ").replace(/послушать|Послушать|Без ошибок/g, "").trim();
-          const m = t.match(/^(.*?)Вопрос \d+ из \d+(.*)$/);
-          const text = m ? ((m[1].split(/(?<=[.!?]) /).pop() || "").slice(0, 60) + " :: " + m[2].trim()) : t;
-          return { ok: /right-answer/.test(e.className), t: text.slice(0, 500) };
-        });
-        payload = { src: "puzzle-lesson", at: Date.now(), lesson, title: document.title, tests };
       } else if (/(^|\.)puzzle-english\.com$/.test(location.hostname)) {
         note("Собираю слова из «Моего словаря» Puzzle English…");
         const out = [];
@@ -98,7 +85,46 @@ function enappCollector(APP) {
         const pages = Math.max(1, ...[...first.querySelectorAll("a")].map((a) => { try { return +new URL(a.href).searchParams.get("page") || 0; } catch (e) { return 0; } }));
         parse(first);
         for (let n = 2; n <= pages; n++) parse(await page(n));
-        payload = { src: "puzzle", at: Date.now(), words: out.filter((w) => w[0]) };
+        // «История» Puzzle: что пройдено за последние 4 дня, и материалы для конспекта
+        note("Смотрю, что ты прошла, и собираю материалы для конспекта…");
+        const since = Date.now() / 1000 - 4 * 86400;
+        const hist = await fetch("/api2/userLK/getHistory?offset=0", { credentials: "include" }).then((r) => r.json()).catch(() => ({}));
+        const recent = ((hist.response && hist.response.historyItems) || [])
+          .filter((h) => h.user_activity_date > since && /^(post|translate|dialogs|syncpodcast|book|writing)$/.test(h.post_type) && h.permalink)
+          .slice(0, 10);
+        const html = (p) => fetch(p, { credentials: "include" }).then((r) => r.text());
+        const jsonAfter = (src, key) => {
+          const k = src.indexOf(key);
+          if (k < 0) return null;
+          const st = src.indexOf("[", k);
+          let dep = 0, e = st;
+          for (; e < src.length; e++) { if (src[e] === "[") dep++; else if (src[e] === "]" && !--dep) break; }
+          try { return JSON.parse(src.slice(st, e + 1)); } catch (x) { return null; }
+        };
+        const items = await Promise.all(recent.map(async (h) => {
+          const path = h.permalink.replace(/^https?:\/\/puzzle-english\.com/, "").replace(/\/work$/, "");
+          const it = { p: path, t: h.post_title || h.name_ru || "", ty: h.post_type, v: +h.value || 0, ts: h.user_activity_date };
+          try {
+            if (h.post_type === "post") {
+              const subs = jsonAfter(await html(path), "var SUBTITLES");
+              if (subs) it.c = subs.slice(0, 90).map((s) => [s.en, s.ru === s.en ? "" : s.ru]);
+            } else if (h.post_type === "translate") {
+              const d = new DOMParser().parseFromString(await html(path), "text/html");
+              it.x = ((d.querySelector(".b-exersises__text") || {}).textContent || "").replace(/\s+/g, " ").trim().slice(0, 1500);
+            } else if (h.post_type === "dialogs") {
+              const j = await fetch("/api2/dialogs/dialog?title=" + path.split("/").pop(), { credentials: "include" }).then((r) => r.json());
+              it.c = (j.phrases || []).map((p) => [p.text, p.translation]);
+            } else if (h.post_type === "syncpodcast") {
+              const slug = path.split("/").pop();
+              const par = jsonAfter(await html("/podcast/" + slug), "App.podcast.paragraphs") || [];
+              it.c = par.flatMap((pp) => pp.sentences || []).slice(0, 70).map((s) => [
+                (s.pieces || []).flatMap((pc) => pc.tokens || []).map((tk) => tk.text + (tk.after || "")).join("").trim(), s.translation || "",
+              ]);
+            }
+          } catch (e) {}
+          return it;
+        }));
+        payload = { src: "puzzle", at: Date.now(), words: out.filter((w) => w[0]), items };
       } else {
         alert("Открой duolingo.com или puzzle-english.com и нажми закладку там.");
         return;

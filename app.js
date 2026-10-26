@@ -1716,7 +1716,7 @@ function importData(file) {
       if (data.REVIEW_STATE) REVIEW_STATE = data.REVIEW_STATE;
       if (data.DIARY) DIARY = data.DIARY;
       if (data.BACKLOG) BACKLOG = data.BACKLOG;
-      if (data.PUZZLE) { PUZZLE = data.PUZZLE; savePuzzle(); mergePuzzleNotes(); }
+      if (data.PUZZLE && Array.isArray(data.PUZZLE.lessons)) { PUZZLE = data.PUZZLE; savePuzzle(); mergePuzzleNotes(); }
       saveReviewData();
       saveProgress(); saveHistory(); saveStreak();
       alert("Прогресс импортирован!");

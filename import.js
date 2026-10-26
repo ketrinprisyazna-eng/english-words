@@ -209,7 +209,9 @@ async function processPuzzleImport(data, step) {
     WORDS_DATA.unshift(item);
   }
   resetDataCaches();
-  return { words: words.length, mistakes: 0, units: 0, phrases: 0 };
+  const pz = typeof processPuzzleHistory === "function" ? await processPuzzleHistory(data, step) : { marked: 0, note: null };
+  if (pz.note || pz.marked) importDoneView = "puzzle";
+  return { words: words.length, mistakes: 0, units: 0, phrases: 0, pzMarked: pz.marked, pzNote: pz.note };
 }
 
 async function runImport(b64) {
@@ -221,19 +223,14 @@ async function runImport(b64) {
   try {
     step("Получила данные, распаковываю…");
     const data = await decodeImport(b64);
-    if (data.src === "puzzle-lesson") {
-      const r = await processPuzzleLesson(data, step);
-      importDoneView = r.view;
-      body.innerHTML = r.html + `<button class="reveal-btn" onclick="closeImport()">Открыть</button>`;
-      return;
-    }
     const res = data.src === "puzzle" ? await processPuzzleImport(data, step) : await processDuoImport(data, step);
-    const nothing = !res.words && !res.mistakes && !res.units;
+    const nothing = !res.words && !res.mistakes && !res.units && !res.pzMarked && !res.pzNote;
     body.innerHTML = `
       <div class="import-done">${ico("check")} ${nothing ? "Нового пока нет — всё уже в приложении." : "Готово!"}</div>
       ${nothing ? "" : `<div class="grade-rows">
         <div class="grade-row"><span>Новые слова</span><b>${res.words}</b></div>
-        ${data.src === "puzzle" ? "" : `<div class="grade-row"><span>Ошибки с разбором</span><b>${res.mistakes}</b></div>
+        ${data.src === "puzzle" ? `<div class="grade-row"><span>Отмечено пройденным</span><b>${res.pzMarked || 0}</b></div>
+        <div class="grade-row"><span>Конспект урока</span><b>${res.pzNote ? "готов" : "—"}</b></div>` : `<div class="grade-row"><span>Ошибки с разбором</span><b>${res.mistakes}</b></div>
         <div class="grade-row"><span>Пройденные разделы</span><b>${res.units}</b></div>
         <div class="grade-row"><span>Ключевые фразы</span><b>${res.phrases}</b></div>`}
       </div>

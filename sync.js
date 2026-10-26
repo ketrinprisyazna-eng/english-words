@@ -77,7 +77,10 @@
           if (!SESSION && document.getElementById("import-modal").style.display === "none") location.reload();
         }
       }
-      if (data.EN_PUZZLE && typeof PUZZLE !== "undefined") { PUZZLE = typeof data.EN_PUZZLE === "string" ? JSON.parse(data.EN_PUZZLE) : data.EN_PUZZLE; saveJSON(LS_PUZZLE, PUZZLE); mergePuzzleNotes(); }
+      if (data.EN_PUZZLE && typeof PUZZLE !== "undefined") {
+        const pz = typeof data.EN_PUZZLE === "string" ? JSON.parse(data.EN_PUZZLE) : data.EN_PUZZLE;
+        if (pz && Array.isArray(pz.lessons)) { PUZZLE = pz; saveJSON(LS_PUZZLE, PUZZLE); mergePuzzleNotes(); } // старый формат (курс Тичера) пропускаем
+      }
       if (data.EN_DIALOG_MISTAKES && typeof DIALOG_MISTAKES !== "undefined") { DIALOG_MISTAKES = data.EN_DIALOG_MISTAKES; saveJSON(LS_DIALOG_MISTAKES, DIALOG_MISTAKES); }
       // Перерисовываем экран, только если DOM уже готов — иначе app.js сам отрисует
       // актуальные данные через DOMContentLoaded/showView("home").
