@@ -195,6 +195,10 @@
     }
   }
 
+  // закладка ждёт этого, чтобы разбирать импорт уже на свежих данных из облака (урок мог быть создан на телефоне)
+  let readyResolve;
+  const ready = new Promise(function (r) { readyResolve = r; });
+
   auth.onAuthStateChanged(async function (user) {
     currentUser = user;
     renderAccountBox();
@@ -205,6 +209,7 @@
       unsubscribeSnapshot();
       unsubscribeSnapshot = null;
     }
+    readyResolve();
   });
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -217,7 +222,7 @@
     if (btnClose) btnClose.addEventListener("click", closeLoginModal);
   });
 
-  window.CloudSync = { enabled: true, schedulePush: schedulePush };
+  window.CloudSync = { enabled: true, schedulePush: schedulePush, ready: ready };
 })();
 
 function renderAccountBoxOffline() {

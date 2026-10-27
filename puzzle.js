@@ -848,6 +848,65 @@ const PUZZLE_NOTES = [
     mistakes: [],
     remember: "grateful TO you FOR the call · contact (без with) your friends · ON the phone · PICK UP the phone.",
   },
+  {
+    id: "pl-1", kicker: "Puzzle English", title: "Урок 1 · Is there что-нибудь в парке?", date: "2026-10-27", by: "Claude", score: "7 заданий на 100%, книга — 16%",
+    items: ["/exercise/there-is-are-pro", "/exercise/present_simple_present_continuous", "/video/simpleenglish_going_to_present_continuous", "/dialogs/do-you-know-trevor", "/dialogs/what-are-you-reading", "/podcast/sme090319", "/video/stark4-1"],
+    summary: "Грамматика: there is / there are, Present Simple или Present Continuous и как говорить о планах (going to или Present Continuous). Слушали подкаст BBC о бумажных письмах и друзьях по переписке, два диалога (о книге «Сумерки» и о знакомом Треворе) и серию про Джека Старка и секретную миссию.",
+    rules: [
+      {
+        title: "THERE IS — одно, THERE ARE — много",
+        text: "Говорим, что что-то где-то есть или существует. Is — перед единственным числом, are — перед множественным. Переводим с места: «В комнате…».",
+        ex: [["There are many students in the room.", "В комнате много студентов."], ["There'll be a lot of traffic on the highway tomorrow.", "Завтра на шоссе будет много машин."]],
+      },
+      {
+        title: "Вопрос: IS THERE…? Ответ: Yes, there is",
+        text: "В вопросе is/are встаёт вперёд. Краткий ответ — тоже с there: Yes, there is (are) / No, there isn't (aren't).",
+        ex: [["What do you see? Is there a problem?", "Что ты видишь? Есть какая-то проблема?"]],
+      },
+      {
+        title: "Present Simple — регулярно, факты, расписание",
+        text: "Что делаем обычно, что верно всегда и что идёт по расписанию. He/she/it — с -s: he works, the train leaves.",
+        ex: [["I drink coffee every day.", "Я пью кофе каждый день."], ["The train leaves at half past four.", "Поезд отходит в половине пятого."]],
+      },
+      {
+        title: "Present Continuous — то, что идёт сейчас",
+        text: "am / is / are + глагол с -ing: действие происходит прямо сейчас, в этот период.",
+        ex: [["What are you reading?", "Что ты читаешь?"], ["Are you really reading that book?", "Ты правда читаешь эту книгу?"]],
+      },
+      {
+        title: "Планы: GOING TO — намерение, -ING — договорились",
+        text: "Going to — то, что я собираюсь сделать. Present Continuous — то, о чём уже договорились с людьми (встреча, вечеринка). Часто подходят оба.",
+        ex: [["We're going to have dinner together.", "Мы собираемся поужинать вместе."], ["He's coming to my party on Friday.", "Он придёт на мою вечеринку в пятницу."]],
+      },
+      {
+        title: "С GO — просто I'm going",
+        text: "«I'm going to go» правильно, но звучит тяжело и повторяется. С глаголом go говорим через Present Continuous.",
+        ex: [["I'm going on foot.", "Я пойду пешком."], ["I'm going by bus.", "Я поеду на автобусе."]],
+      },
+    ],
+    words: [
+      ["put pen to paper", "взяться за перо, написать"], ["come through", "прийти (о письме, посылке)"], ["take the time", "найти время, потрудиться"],
+      ["exclusively", "исключительно, только для одного"], ["tactile", "приятный на ощупь"], ["long-standing", "давний, многолетний"],
+      ["pen pal", "друг по переписке"], ["snail mail", "обычная почта (шутливо)"], ["link up with", "связаться, найти друг друга"],
+      ["keep in touch", "поддерживать связь"], ["die out", "исчезать, отмирать"], ["seldom", "редко"],
+      ["job interview", "собеседование"], ["highway", "шоссе"], ["on foot", "пешком"], ["prediction", "предсказание"],
+      ["arrangement", "договорённость"], ["intention", "намерение"], ["odd", "странный"], ["leather jacket", "кожаная куртка"],
+      ["wallet", "кошелёк"], ["silly", "глупый"], ["observant", "наблюдательный"], ["fasten your seat belt", "пристегнуть ремень"],
+      ["heads or tails", "орёл или решка"],
+    ],
+    phrases: [
+      ["How about going to a restaurant for dinner?", "Как насчёт ужина в ресторане?"],
+      ["I've already reserved a table for two.", "Я уже заказал столик на двоих."],
+      ["Pleased to meet you. — The pleasure is mine.", "Приятно познакомиться. — Взаимно."],
+      ["I'd like to know more about this.", "Я хотела бы узнать об этом побольше."],
+      ["Could you please get my wallet?", "Можешь, пожалуйста, достать мой кошелёк?"],
+      ["I don't really like that kind of book.", "Мне не очень нравятся такие книги."],
+      ["I don't like the look of him.", "Мне не нравится, как он выглядит."],
+      ["Actually, he's a good laugh.", "Вообще-то с ним весело."],
+    ],
+    mistakes: [],
+    remember: "There IS + одно, there ARE + много · going to — собираюсь, I'm meeting — уже договорились · с go: I'm going home.",
+  },
 ];
 
 /* ---------- состояние ---------- */
@@ -1029,13 +1088,14 @@ async function processPuzzleHistory(data, step) {
   }
   if (items.length) step(`Пройдено в Puzzle за последние дни: ${items.filter((m) => m.v >= 100).length}`);
   // урок для конспекта: текущий или последний законченный без конспекта
-  const lesson = pzCurrentLesson() || [...PUZZLE.lessons].reverse().find((l) => l.finished && !PUZZLE.notes[l.id]);
+  const lesson = pzCurrentLesson() || [...PUZZLE.lessons].reverse().find((l) => l.finished && !puzzleNote(l.id));
   let note = null;
+  if (!lesson && items.some((m) => m.v >= 100)) step("В этом браузере нет урока из приложения — войди в аккаунт: «Архив» → «Войти и синхронизировать» и нажми закладку ещё раз.");
   if (lesson) {
     const mats = items.filter((m) => lesson.items.includes(m.path) && ((m.c && m.c.length) || m.x));
     const left = lesson.items.filter((p) => !pzIsDone(p) && !["words", "book"].includes((pzItem(p) || {}).type));
     if (!left.length && !lesson.finished) lesson.finished = todayStr();
-    if (mats.length && !PUZZLE.notes[lesson.id]) {
+    if (mats.length && !puzzleNote(lesson.id)) {
       if (!loadAiKey()) step(`Конспект урока ${lesson.n} напишет Claude (ключа Gemini нет) — скажи «законспектируй урок ${lesson.n}».`);
       else {
         step(`Пишу конспект урока ${lesson.n}: правила, слова, фразы…`);

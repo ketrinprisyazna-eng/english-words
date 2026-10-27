@@ -223,6 +223,7 @@ async function runImport(b64) {
   try {
     step("Получила данные, распаковываю…");
     const data = await decodeImport(b64);
+    if (window.CloudSync && window.CloudSync.ready) await Promise.race([window.CloudSync.ready, new Promise((r) => setTimeout(r, 8000))]);
     const res = data.src === "puzzle" ? await processPuzzleImport(data, step) : await processDuoImport(data, step);
     const nothing = !res.words && !res.mistakes && !res.units && !res.pzMarked && !res.pzNote;
     body.innerHTML = `
