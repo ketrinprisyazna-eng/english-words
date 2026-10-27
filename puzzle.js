@@ -1,6 +1,6 @@
 /* ============ Puzzle English: уроки из заданий, слов, диалогов, книг и подкастов ============
    «Создай урок» собирает урок ≈80 минут под твой уровень (Pre-Intermediate, A2–B1): три блока
-   по ~25 минут с перерывами — грамматика (2 урока + видео), слушаем и говорим (2 диалога +
+   по ~25 минут с перерывами — грамматика (урок трека + урок из каталога + видео), слушаем и говорим (2 диалога +
    подкаст), читаем и закрепляем (глава книги + видео B1 + тренировка слов).
    Ссылки ведут прямо в Puzzle English. Пройденное отмечается галочкой или закладкой
    «Мой английский» (она читает «Историю» Puzzle). Закладка же собирает материалы урока —
@@ -155,6 +155,378 @@ hobbies|Знакомство. Часть 2. Рассказываем о себе
 airport-english-1|Английский в аэропорту. Часть 1
 airport-english-2|Английский в аэропорту. Часть 2
 top-10-travel|ТОП-10 фразовых глаголов для путешествий`,
+
+  // каталог видео-уроков Puzzle (947): уровень сложности 1–2, без азов, без пройденного — slug|название|сложность|фраз
+  catalog: `articles-georgaphical-names|Артикли с географическими названиями|1|19
+scam|Говорим о мошенничестве на английском|1|11
+15-phrases-shopping|15 фраз для шоппинга|1|15
+store-names|Английские названия магазинов|1|15
+surprise-expr|Удивляемся по-английски|2|12
+pronunciation-mc6|Мастер-класс по произношению. Beg или Bag?|1|19
+pronunciation-mc5|Мастер-класс по произношению. Love или Laugh?|1|16
+present-tenses-practice|Present Tenses (настоящие времена)|2|24
+tool-expr|Устойчивые сочетания с инструментами|2|11
+pronunciation-mc4|Мастер-класс по произношению. Work или Walk?|1|19
+very-important|«Очень важный» по-английски: essential, vital, crucial|2|10
+pronunciation-mc3|Мастер-класс по произношению. Pot или Port?|1|17
+still-yet|Still или yet? Что выбрать?|2|15
+still|STILL: значения и позиция в предложении|2|17
+best-expr|Устойчивые сочетания со словом BEST|2|16
+pronunciation-mc2|Мастер-класс по произношению. Full или Fool?|1|17
+prepositions-business|Предлоги в деловом английском|1|19
+pronunciation-mc1|Мастер-класс по произношению. Live или Leave?|1|21
+past-tenses-practice|Past Tenses (прошедшие времена)|2|24
+answer-reply-response|Answer, reply или response?|1|12
+start-synonyms|С чистого листа: синонимы START|2|11
+how-to-interrupt|Как вежливо перебить по-английски?|2|21
+tags-plus|Разделительные вопросы для продолжающих|2|22
+student-vocabulary|Рассказываем об учёбе по-английски|2|15
+imperative-inter|Повелительное наклонение для продолжающих|2|15
+remember-remind-recall|Remember, remind или recall?|2|12
+english-when-annoyed|Английский, когда всё бесит|2|15
+open-and-co|«Открывать» и «раскрывать» по-английски|2|15
+get-passive|Пассивный залог с GET|2|13
+crash-crush|Crash или Crush?|2|14
+ok|Как использовать и чем заменить OK?|1|21
+phrasal-verbs-synonyms2|Ещё фразовые глаголы и их эквиваленты|2|19
+double-negation|Что такое двойное отрицание?|2|15
+than-then|THAN или THEN?|2|16
+phrasal-verbs-synonyms|Фразовые глаголы и их эквиваленты|2|16
+negative-questions2|Отрицательные вопросы: выражаем эмоции|2|10
+negative-questions1|Отрицательные вопросы: порядок слов и ответы|2|14
+live-life-alive-lively|Live, life, alive, lively. В чём разница?|1|10
+for-to-infinitive2|Инфинитивная конструкция с предлогом FOR. Часть 2|2|13
+small-talk|Small Talk. Как поддержать беседу?|1|10
+for-to-infinitive1|Инфинитивная конструкция с предлогом FOR. Часть 1|2|17
+can-be-able-to|Can или be able to?|2|14
+once-use|Как использовать Once?|1|10
+miss-lack|Miss или Lack. Что выбрать?|1|10
+vague-and-polite-language|Как звучать вежливее и мягче в английском|2|15
+once|Выражения со словом Once|2|12
+doubt|Способы выразить неуверенность на английском|1|13
+4-ways-to-use-should|Should: 4 варианта употребления|2|9
+work|Выражения со словом Work|1|11
+findout-figureout|Find out и Figure out. В чём разница?|1|10
+taste-flavour|Flavour и Taste. В чём разница?|1|10
+decision-solution|Decision и Solution. В чём разница?|1|10
+normal|6 способов сказать «обычный» по-английски|2|14
+styles|Стили: формальное и неформальное в английском|2|21
+hope|Как использовать Hope?|2|9
+all-whole|All или Whole?|1|12
+omit-that|Когда that можно опустить?|2|16
+power-strength-force|Power, Strength, Force. В чём разница?|1|11
+quite-pretty-rather|Quite, pretty, rather, fairly. В чём разница?|2|11
+singular-they|They в значении единственного числа|1|12
+smart-clever|Разные способы сказать «умный» по-английски|2|10
+other-another-different|«Другой» по-английски: other, another или different?|2|14
+cost-price-worth|Cost, price, worth, value, charge, fare. В чём разница?|2|11
+give-2|Ещё несколько выражений со словом Give|2|10
+give-expressions|Выражения со словом Give|2|10
+else|Как использовать ELSE|2|14
+mind2|Ещё пять выражений со словом Mind|2|10
+congratulations|Универсальные способы поздравить по-английски|1|14
+mind|Пять выражений со словом Mind|2|9
+stupid-dumb-silly-foolish|Stupid, dumb, silly и foolish. В чём разница?|1|10
+specially-especially|Specially или Especially?|1|9
+too-enough-expr|ТОП-10 выражений с TOO и ENOUGH|2|15
+sep-insep-phrasal-verbs|Разделяемые и неразделяемые фразовые глаголы|2|11
+word-choice|Слова «место», «удобный» и «тень» по-английски|2|16
+go-more|Выражения с глаголом Go. Часть 2|2|10
+compound-nouns|Составные существительные|2|12
+all|Устойчивые выражения с All|2|10
+noun-suffixes|Словообразование: суффиксы существительных|2|16
+stand-stay|Stand или Stay?|1|12
+adjective-suffixes2|Суффиксы прилагательных. Часть 2|2|15
+go|Выражения с глаголом Go|2|10
+adjective-suffixes1|Суффиксы прилагательных. Часть 1|2|13
+take-2|Другие выражения с глаголом Take|2|9
+often-confused|Слова, которые часто путают|2|18
+expressions-take|Выражения с глаголом Take|2|10
+prefixes|Словообразование: приставки|2|15
+rob-steal|Rob или Steal?|1|10
+use-them-right|Слова, которые часто используют неверно|2|18
+win-beat|Win или Beat?|1|11
+good-time|Хорошо проводим время по-английски|2|10
+here-there-expressions|Выражения с here и there: there we go, here's to|2|13
+before-by-until-till|Before, by, until или till?|2|11
+had-better|Конструкция Had better|1|11
+negative-prefixes|Отрицательные приставки|2|25
+would_rather_prefer|Конструкции Would rather и Would prefer|2|14
+linking-verbs|Глаголы-связки и их особенности|1|15
+and|Чем заменить And?|2|10
+participle-clauses2|Причастный оборот с причастием прошедшего времени|2|15
+rise-raise-wakeup-getup|Get up и Wake up. Rise и Raise|1|12
+participle-clauses1|Причастный оборот с причастиями настоящего времени|2|15
+lay-lie-set-put|Класть и лежать по-английски|1|10
+participles|Причастие в английском языке|2|14
+imagination-dream-fantasy|Imagination, dream и fantasy. В чём разница?|1|9
+start-begin|Start или Begin?|1|12
+stuff-staff|Stuff и Staff. В чём разница?|1|10
+when-where-how-ever|Whenever, wherever и however|2|12
+wait-expect|Wait или Expect?|1|11
+what-which-who-ever|Whatever, whichever и whoever|2|12
+introductory-verbs4|Вводные глаголы + инфинитив или придаточные|2|15
+alone-lonely-lonesome-single|Об одиночестве по-английски|1|13
+introductory-verbs3|Вводные глаголы + форма –ING|2|12
+clauses-of-result|Придаточные предложения результата|2|15
+introductory-verbs2|Вводные глаголы + объект + инфинитив|2|11
+but|Чем заменить But?|2|11
+introductory-verbs1|Вводные глаголы + инфинитив|2|10
+football-idioms|Футбольные идиомы: get the ball rolling и др.|2|10
+overused-words|ТОП-5 слишком часто используемых слов|2|17
+person-human-man|Person, human, man. Что выбрать?|2|10
+suppose-supposed|Suppose или Be Supposed To?|2|11
+back-expressions|Выражения со словом Back|2|10
+get-expressions|Выражения со словом Get|2|11
+way-expressions|Выражения со словом Way|2|10
+replace-if|Что использовать вместо IF: as long as, provided|2|12
+clauses-of-purpose2|Придаточные предложения цели. Часть 2|2|10
+modals-past-and-deduction|Could, could have done или must have done|2|13
+clauses-of-purpose|Придаточные предложения цели. Часть 1|2|13
+what-or-that|«Что» и «который»: What, That, Which, Who, Whose, Whom|2|15
+clauses_of_reason|Придаточные предложения причины|2|15
+want-words|Чем заменить want?|1|15
+3waysto_surprise|Три способа выразить удивление по-английски|1|9
+expressions-so|Выражения с So|1|12
+3waysto_approve|Три способа узнать мнение и получить одобрение|1|10
+3waysto-hurry|Три способа поторопить по-английски|1|8
+3waysto_refuse|Три способа отказаться по-английски|1|8
+3waysto-agree|Три способа согласиться по-английски|1|8
+long-short-vowels|Долгота звука|1|8
+very-replace|Чем заменить слово very?|2|16
+3waysto_congratulate|Три способа поздравить по-английски|1|10
+adj-prep|Какой предлог нужен? Прилагательные|2|15
+fast-quick|Fast или Quick?|2|12
+verb-prep|Какой предлог нужен? Глаголы|2|20
+expr-by|Английские выражения с предлогом by|2|10
+3waysto_calmdown|Три способа успокоить по-английски|1|7
+3waysto_saythankyou|Три способа поблагодарить по-английски|1|10
+expr-the2|Выражения с артиклем the: in the distance, to the right|2|11
+expr-the1|Выражения с артиклем the: on the house, by the way|2|12
+expr-over-around|Английские выражения с over и around|2|12
+expr-out-of|Английские выражения с out of|2|7
+expr-up|Английские выражения с предлогом up|2|8
+worth|Прилагательное worth. Worth или worthwhile?|2|8
+used-to-vs-be-get-used-to|Used to или be/get used to?|1|11
+adj-adv-difference|Прилагательное или наречие? Как отличить?|2|17
+waking_up2|Фразы о пробуждении: early bird, night owl|2|8
+waking_up1|Фразы о пробуждении: rise and shine, it's time|2|8
+travel-2|Идиомы о путешествиях: hit the road, travel light|2|9
+wish|Wish: желания и сожаления|2|10
+travel_idioms1|Идиомы о путешествиях: pit stop, one for the road|2|8
+smb_smth|Это something для somebody|1|12
+expr-in|Английские выражения с предлогом in|2|6
+linking|Вводные слова: you know, by the way, kind of|2|20
+expr_for|Английские выражения с предлогом for|2|14
+disease_illness_or_sickness|Disease, illness или sickness?|2|9
+adverbial-clauses-time|Придаточные времени|2|9
+a-expressions-2|Выражения с артиклем a: at a loss, for a while|2|6
+a-expressions-1|Выражения с артиклем a: have a look, have a cold|2|6
+like-as|Like или As?|2|10
+do-does-did|Усилительные конструкции с do/does/did|2|10
+expressions-on|Английские выражения с предлогом on|2|12
+have-have-got|Have или have got?|1|11
+expressions-at|Английские выражения с предлогом at|2|18
+past-continuous|Past Continuous (Прошедшее продолженное время)|1|10
+pain-hurt-ache|Боль по-английски: pain, hurt, ache|2|9
+same-roots|Похожие слова: childish/childlike, hopeful/hopeless|2|11
+food-idioms-1|Съедобные идиомы: big cheese, bring home the bacon|2|6
+food-idioms-2|Съедобные идиомы: be full of beans, buy a lemon|2|7
+weather-idioms-1|Погодные идиомы: take a rain check, under a cloud|2|4
+weather-idioms-2|Погодные идиомы: storm in a teacup, under the weather|2|4
+time-expressions|Выражения со словом time|2|12
+complaints|Как пожаловаться по-английски|1|9
+one-two-word|Одно слово или два?|2|10
+present-perfect-cases|Present Perfect: когда, как и зачем?|1|10
+future-forms|Способы выражения будущего времени|2|12
+finally|Finally, at last, lastly или in the end?|2|8
+rumour-gossip|Rumour или gossip?|2|8
+switch-turn|Switch или turn?|2|9
+body-idioms|ТОП-5 идиом с частями тела|2|5
+travel-trip-journey|Travel, trip или journey?|2|9
+house-home|House или home?|2|7
+phrasal-verbs-home|Топ-10 фразовых глаголов, связанных с домом|2|10
+high-tall-big-large|High & tall, big & large и другие пары|1|10
+top-10-prepositions|ТОП-10 глаголов и выражений с предлогами|2|16
+complex-object-special|Сложное дополнение — особые случаи|2|10
+complex-object-inf-ing|Сложное дополнение: инфинитив без to и глагол + ing|2|10
+complex-object-to|Сложное дополнение: инфинитив с частицей to|2|10
+relative-pronouns|Относительные местоимения: Who, Which, That, Whose|1|10
+pronouns-define-2|Определительные местоимения: Each, Every, Other, Another|2|10
+pronouns-define-1|Определительные местоимения: all, both, either|2|10
+film-phrases|ТОП-10 английских фраз из фильмов|2|10
+english-fear|Страх по-английски|1|9
+7-idioms|ТОП-7 интересных английских идиом|2|10
+zero-first-conditional|Нулевой и первый тип условных предложений|2|10
+second-third-conditional|Второй и третий тип условных предложений|2|10
+confused-words|Слова, которые путают: advice - advise, farther - further|2|10
+taxi-english|Как использовать английский в такси?|1|20
+future-not-so-simple|Будущее простое время — или не такое уж простое?|1|10
+speech-verbs|Глаголы говорения|1|10
+its-cold|О холодах по-английски|1|6
+car-bodies-1|О машинах по-английски. Часть 1|1|7
+car-bodies-2|О машинах по-английски. Часть 2|2|8
+homographes-1|Омографы: Tear, Bow, Wind, Lead, Row|1|9
+mood-1|Настроение на английском. Часть 1|2|9
+mood-2|Настроение на английском. Часть 2|2|10
+homonyms|Омонимы в английском|1|15
+jail-prison|Jail или prison?|1|6
+issue-problem-trouble|Issue, problem или trouble?|2|6
+dinner-english-1|Английский в заведениях. Часть 1|1|10
+dinner-english-2|Английский в заведениях. Часть 2|1|9
+dinner-english-3|Английский в заведениях. Часть 3|1|11
+dinner-english-4|Английский в заведениях. Часть 4|1|12
+dinner-english-5|Английский в заведениях. Часть 5|1|10
+homophones-1|Омофоны в английском. Часть 1|1|14
+homophones-2|Омофоны в английском. Часть 2|1|14
+have-auxiliary|Have как вспомогательный глагол|2|8
+look-phrasal|Фразовые глаголы с Look|2|8
+dont-know-1|Я не знаю. Часть 1|1|5
+dont-know-2|Я не знаю. Часть 2|1|4
+from-memory-by-heart|From memory или by heart?|1|6
+colour-idioms-1|Идиомы с цветами. Часть 1|2|5
+colour-idioms-2|Идиомы с цветами. Часть 2|2|5
+allow-let-permit|Allow, let, permit|2|10
+goodbyes2|Прощания в английском. Часть 2|1|5
+conditional-second|Условные предложения второго типа|1|10
+zero-nil-naught|Ноль по-английски|2|10
+bored-boring|Bored или boring?|2|12
+polite-phrases-1|«Пожалуйста» по-английски|1|10
+polite-phrases-2|«Спасибо» по-английски|1|5
+active-and-passive-participles|Причастие в активном и пассивном залоге|2|9
+bre-ame-grammar-1|Британская и американская грамматика. Часть 1|2|10
+bre-ame-grammar-2|Британская и американская грамматика. Часть 2|1|8
+composite-prepositions|Производные предлоги|2|10
+word-formation|Словообразование|2|10
+study-learn-teach|Study, learn и teach|2|10
+another-other-others|Another, other и others|2|10
+tell-say-speak-talk|Tell, say, speak и talk|2|10
+funny-replies|Остроумные ответы на «How are you doing?»|2|10
+negative-words|Отрицательные местоимения|1|10
+complex-object|Сложное дополнение с глаголами восприятия|2|15
+perfect-adverbs|Наречия во временах группы Perfect|1|12
+verbs-and-prepositions|Глагол + предлог|2|10
+gonna-wanna|Сокращения в разговорной речи: gonna, wanna|2|10
+zero-article|Нулевой артикль|1|10
+be-about-to-or-going-to|Be about to или be going to?|2|10
+each-or-every-2|Each или every?|2|10
+keep-idioms|Идиомы с глаголом keep|2|10
+auxiliary-verbs-contractions|Сокращения вспомогательных глаголов|1|12
+have-something-done|Have something done|2|10
+infinitive-as-attribute|Инфинитив как определение|2|10
+polite-requests|Вежливые просьбы|1|10
+cant-help-doing|Can't help doing / can't help but do|2|10
+tag-questions|Разделительные вопросы (Tag questions)|2|11
+primary-interjections|Междометия|2|12
+future-continuous-doston|Future Continuous|2|10
+cool-synonyms|Синонимы слова «cool»|2|10
+place-of-adverbs|Позиция наречия в предложении|2|15
+loose-or-lose|Loose или lose?|2|10
+affect-or-effect|Affect или effect?|2|10
+all-tenses-doston|Как выучить все времена в английском?|2|11
+gerund-doston|Gerund (герундий)|2|15
+active-or-passive-voice|Как не перепутать Active и Passive Voice?|2|10
+passive-voice-doston|Passive Voice|2|14
+idioms-sports|Идиоматические выражения. Спорт|2|15
+idioms-sounds|Идиоматические выражения. Звуки|2|10
+the-dentist|The dentist|1|14
+used-to-forms|Used to, be used to или get used to?|2|15
+have-or-have-got|Have или have got?|1|17
+technology-words|Полезные слова и выражения. Технологии|1|15
+master-of-modals|Английский с Шерлоком. Master of modals|2|15
+used-to-vs-past-simple|Конструкция USED TO и PAST SIMPLE|1|15
+modal-verb-have-to|Модальная конструкция HAVE (GOT) TO|1|15
+modal-verb-ought-to|Модальный глагол OUGHT TO|2|15
+could-or-should|Could или Should — какой модальный глагол выбрать?|2|15
+modal-verb-dare|Модальный глагол DARE|2|15
+modal-verb-will-would|Модальный глагол WILL (WOULD)|2|15
+modal-verb-could|Модальный глагол COULD|2|15
+pronunciation-2-2|Произношение: Two/Too/To, Night/Knight, All/Owl|1|12
+pronunciation-1|Произношение: Are/Our/Hour, I/Eye/Aye, Eyes/Ice|1|14
+about-weather|Произношение. О погоде|1|20
+present-perfect-continuous-or-present-perfect|Present Perfect Continuous или Present Perfect?|2|15
+side-sight|Произношение: Site/Sight/Side, Son/Sun, Sleep/Slip|1|12
+rainbow|Произношение: цвета радуги|1|9
+bee|Произношение: BE/BEE, BEEN/BEAN/BIN|1|12
+hathadhead|Произношение: Hat/Had/Head|1|12
+weekweak|Произношение: Week/Weak, Word/World, Walk/Work|1|12
+advice|Произношение: Advice/Advise, Allowed/Aloud, Ant/Aunt|1|12
+adjectives_ending_en|Прилагательные-исключения на -en|2|13
+adjectives-suffix|Образование прилагательных с помощью суффиксов|2|12
+pronunciation-4|Произношение: Accept/Except, Excess/Access, Affect/Effect|2|13
+pronunciation-2|Произношение: Plane/Plain, Sea/See, Paw/Pore/Poor|1|12
+pronunciation-5|Произношение: This/These, Than/Then|1|15
+many_much_a_lot_of_lots_of|Many или Much, A lot of или Lots of|2|15
+look_watch_see|Look, Watch или See|2|15
+little_few_a_little_a_few|Little или few, A little или A few|2|15
+i_me-2|I или Me|2|13
+either_or_neither_nor|Either...or или Neither...nor|2|15
+either_as_well_too|Either или As well / too|2|15
+do_not_have_to_must_not|Do not have to или Must not|2|15
+by_until|By или Until|2|15
+above_over_below_under|Above или Over, Below или Under|2|15
+tell_say_speak_talk|Tell, Say, Speak или Talk?|2|15
+some_any_no|Some, Any или No?|2|15
+its_its|It's или Its?|2|15
+in_time_on_time|In time или On time?|2|15
+hard_hardly|Hard или Hardly?|2|15
+besides_except|Besides или Except?|2|15
+future_simple_future_continuous|Популярные ошибки: Future Simple и Future Continuous|2|20
+so_such|So или Such?|2|29
+articles_concrete_abstract_nouns|Артикль a/an с абстрактными и конкретными существительными|2|15
+lesson-not-only|Not Only (отрицательная инверсия)|2|9
+voices_active_passive|Залоги: активный и пассивный|2|15
+perfect_continuous_present|Present Perfect Continuous|2|15
+countable_uncountable|Исчисляемые и неисчисляемые существительные|1|18
+perfect_future|Future Perfect|2|15
+perfect_past|Past Perfect|2|15
+continuous_future|Future Continuous|2|15
+simple_future|Future Simple и be going to|2|15
+phrasal_1|Фразовые глаголы. Часть 1|2|15
+phrasal_2|Фразовые глаголы. Часть 2|2|15
+phrasal_3|Фразовые глаголы. Часть 3|2|15
+phrasal_4|Фразовые глаголы. Часть 4|2|15
+phrasal_5|Фразовые глаголы. Часть 5|2|15
+phrasal_6|Фразовые глаголы. Часть 6|2|15
+phrasal_7|Фразовые глаголы. Часть 7|2|15
+should|Модальный глагол Should|2|15
+verbs_types|Типы глаголов|2|15
+verbs_mixed|Смешанные глаголы|2|15
+interjections|Междометия (Interjections)|1|15
+adverbs_degrees_of_comparison|Степени сравнения наречий|2|15
+adverbs_place_in_sentence|Наречия и их место в предложении|2|15
+adverbs_types|Наречие в английском языке|2|15
+adjectives_degrees_comparison|Степени сравнения прилагательных|1|15
+adjectives_intro|Прилагательные: порядок перед существительными|1|15
+numerals_usage_secrets|Числительные — использование и секреты|2|15
+past-simple-continuous|Я спал, когда постучали… (Past Simple — Past Continuous)|1|16
+tense|Ах, эти времена… (Tenses)|2|12
+take-took-taken|Пристрастился к картам? (Take)|2|19
+future-simple-tense|Мы останемся на курорте (Future Simple)|2|18
+run|Он влез в долги (Run)|2|7
+put|Уничтожить коррупцию! (Put)|2|8
+mak|Чувствуйте себя как дома (Make)|2|8
+loo|Разве ты не видишь? (Look)|2|10
+keep|Он не курит и не пьёт (Keep)|2|11
+get|Почему кошки не ладят с собаками? (Get)|2|12
+prepositions|Употребление предлогов|2|15
+preposition|Вор проник в дом через окно… Предлоги|2|10
+may-might|Что здесь происходит? (May, Might)|2|10
+need|Мне нужна помощь… (Need)|1|10
+must|Должно быть… (Must)|1|15
+infinitive|Вы будете выступать первым… Инфинитив|1|15
+passive-voice|Ваше письмо отправлено… (Passive Voice)|2|15
+future-perfect-1|Я уже уйду… (Future Perfect)|2|10
+past|Такое разное прошлое (Past Simple и Past Continuous)|2|20
+present-perfect|Past Simple или Present Perfect?|2|20
+questions|Вопросительные предложения|2|12
+adverbs-how-to-use|Как правильно употреблять наречия|2|15
+twice_as_as|В два раза… (twice as… as)|2|10
+as_as|Так же… как (as… as)|1|9
+good|Сравнительная и превосходная степени (-er, -est)|2|10
+myself|Не ходи сегодня в школу (возвратные местоимения -self)|2|10
+much|Слишком много соли (much, many, little, a few)|1|15
+few_littl|Много, мало, несколько (few, a few, little, a little)|1|15`,
 
   // видеопазлы для уровня A2–B1: slug|название|рубрика|фраз
   video: `growup_simple|Как использовать grow и grow up? (часть 1)|Простой английский|55
@@ -388,13 +760,24 @@ const PZ_BOOK_ITEM = { type: "book", path: "/books/" + PZ_DATA.book.slug, title:
 const PZ_WORDS_ITEM = { type: "words", path: "/words", title: "Тренировка слов из «Моего словаря»", min: 5, level: "" };
 const PZ_TYPE = {
   grammar: { label: "Грамматика", icon: "school" },
+  lesson: { label: "Урок из каталога", icon: "school" },
   video: { label: "Видеопазл", icon: "target" },
   dialog: { label: "Диалог", icon: "messages" },
   podcast: { label: "Подкаст", icon: "volume" },
   book: { label: "Книга", icon: "book" },
   words: { label: "Слова", icon: "books" },
 };
-const PZ_ALL = [...PZ_GRAMMAR, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS];
+// уроки из каталога: грамматика или слова и выражения; сначала сложность 1, потом 2
+const PZ_GRAMMAR_RE = /present|past|future|perfect|continuous|passive|залог|услов|conditional|модальн|modal|should|must|might|could|need|dare|ought|инфинитив|infinitive|герунд|gerund|артикл|причаст|придаточн|местоимен|pronoun|наречи|adverb|прилагательн|adjective|сравнен|предлог|preposition|вопрос|question|used to|have|would|wish|сложное дополнение|tag|глагол|tense|времен|инверси|отрицан|числительн|существительн|either|neither|so или such|as\.\.\. as|as … as|some, any|many|much|few|little/i;
+const PZ_GRAMMAR_PATHS = new Set(PZ_GRAMMAR.map((x) => x.path));
+const PZ_CATALOG = pzLines(PZ_DATA.catalog)
+  .map(([slug, title, lvl, ph], i) => ({
+    type: "lesson", kind: PZ_GRAMMAR_RE.test(title) && !/^Произношение|идиом|выражени/i.test(title) ? "grammar" : "words",
+    path: "/exercise/" + slug, title, min: +ph > 18 ? 12 : 10, level: lvl === "1" ? "A2–B1" : "B1", order: +lvl * 1000 + i,
+  }))
+  .filter((x) => !PZ_GRAMMAR_PATHS.has(x.path))
+  .sort((a, b) => a.order - b.order);
+const PZ_ALL = [...PZ_GRAMMAR, ...PZ_CATALOG, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS];
 function pzItem(path) {
   const p = String(path).split("#")[0];
   return PZ_ALL.find((x) => x.path === p) || (p === PZ_BOOK_ITEM.path ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null);
@@ -484,7 +867,7 @@ function pzIsDone(path) { return !!PUZZLE.done[path] || PZ_DONE_BEFORE.has(path)
 function pzIsPlanned(path) { return PUZZLE.lessons.some((l) => l.items.includes(path)); }
 function pzCurrentLesson() { const l = PUZZLE.lessons[PUZZLE.lessons.length - 1]; return l && !l.finished ? l : null; }
 function pzLessonById(id) { return PUZZLE.lessons.find((l) => l.id === id) || null; }
-function pzLessonTitle(l) { const g = l.items.map(pzItem).find((x) => x && x.type === "grammar"); return `Урок ${l.n}${g ? " · " + g.title : ""}`; }
+function pzLessonTitle(l) { const g = l.items.map(pzItem).find((x) => x && (x.type === "grammar" || x.type === "lesson")); return `Урок ${l.n}${g ? " · " + g.title : ""}`; }
 function puzzleNote(id) { return PUZZLE.notes[id] || PUZZLE_NOTES.find((x) => x.id === String(id)) || null; }
 function allPuzzleNotes() {
   const ids = new Set([...PUZZLE_NOTES.map((x) => x.id), ...Object.keys(PUZZLE.notes)]);
@@ -502,7 +885,9 @@ function puzzleBuildLesson() {
   const take = (list, pred) => { const x = pzFree(list).find((v) => !used.has(v.path) && (!pred || pred(v))); if (x) used.add(x.path); return x; };
   const tag = (it) => ({ ...it, path: it.path + "#" + n });
   // блок 1: грамматика + видео по её теме
-  const g1 = take(PZ_GRAMMAR), g2 = take(PZ_GRAMMAR);
+  const catKind = n % 2 ? "grammar" : "words";
+  const g1 = take(PZ_GRAMMAR) || take(PZ_CATALOG, (x) => x.kind === "grammar");
+  const g2 = take(PZ_CATALOG, (x) => x.kind === catKind) || take(PZ_CATALOG);
   const gw = new Set([...(g1 ? pzWordsOf(g1.title) : []), ...(g2 ? pzWordsOf(g2.title) : [])]);
   const v1 = take(PZ_VIDEOS, (v) => [...pzWordsOf(v.title)].some((w) => gw.has(w))) || take(PZ_VIDEOS, (v) => v.level.startsWith("A2"));
   // блок 2: слушаем и говорим
@@ -516,7 +901,7 @@ function puzzleBuildLesson() {
   ].map((b) => ({ t: b.t, items: b.items.filter(Boolean).map((x) => x.path) })).filter((b) => b.items.length);
   // если чего-то не хватило (каталог кончился) — добираем грамматикой до ~80 минут
   const mins = () => blocks.reduce((s, b) => s + b.items.reduce((a, q) => a + pzItem(q).min, 0), 0) + PZ_BREAK_MIN * (blocks.length - 1);
-  while (mins() < PZ_TARGET_MIN - 8) { const g = take(PZ_GRAMMAR) || take(PZ_VIDEOS); if (!g) break; blocks[0].items.push(g.path); }
+  while (mins() < PZ_TARGET_MIN - 8) { const g = take(PZ_CATALOG) || take(PZ_VIDEOS); if (!g) break; blocks[0].items.push(g.path); }
   return { id: "pl-" + n, n, at: todayStr(), blocks, items: blocks.flatMap((b) => b.items), finished: null };
 }
 function pzLessonBlocks(l) { return l.blocks || [{ t: "", items: l.items }]; }
@@ -541,7 +926,7 @@ function puzzleSwapItem(path) {
   const l = pzCurrentLesson();
   const it = pzItem(path);
   if (!l || !it) return;
-  const pool = { grammar: PZ_GRAMMAR, video: PZ_VIDEOS, dialog: PZ_DIALOGS, podcast: PZ_PODCASTS }[it.type];
+  const pool = { grammar: PZ_GRAMMAR, lesson: PZ_CATALOG.filter((x) => x.kind === it.kind), video: PZ_VIDEOS, dialog: PZ_DIALOGS, podcast: PZ_PODCASTS }[it.type];
   if (!pool) return;
   PUZZLE.skipped = PUZZLE.skipped || {};
   PUZZLE.skipped[path] = todayStr();
@@ -675,7 +1060,7 @@ function pzItemRow(path, lesson) {
   if (!it) return "";
   const t = PZ_TYPE[it.type];
   const done = pzIsDone(path);
-  const canSwap = lesson && !lesson.finished && !done && ["grammar", "video", "dialog", "podcast"].includes(it.type);
+  const canSwap = lesson && !lesson.finished && !done && ["grammar", "lesson", "video", "dialog", "podcast"].includes(it.type);
   return `<div class="pz-item${done ? " done" : ""}">
     <button class="pz-check" onclick="puzzleToggleItem('${path}')" aria-label="${done ? "Отметить как непройденное" : "Отметить пройденным"}">${done ? ico("check") : ""}</button>
     <div class="pz-item-main">
@@ -688,7 +1073,8 @@ function pzItemRow(path, lesson) {
 function pzStats() {
   const cnt = (list) => list.filter((x) => pzIsDone(x.path)).length;
   return [
-    ["Грамматика", `${cnt(PZ_GRAMMAR)} из ${PZ_GRAMMAR.length}`],
+    ["Грамматика (трек Elementary)", `${cnt(PZ_GRAMMAR)} из ${PZ_GRAMMAR.length}`],
+    ["Уроки из каталога", `${cnt(PZ_CATALOG)} из ${PZ_CATALOG.length}`],
     ["Видеопазлы", `${cnt(PZ_VIDEOS)} из ${PZ_VIDEOS.length}`],
     ["Диалоги", `${cnt(PZ_DIALOGS)} из ${PZ_DIALOGS.length}`],
     ["Подкасты", `${cnt(PZ_PODCASTS)} из ${PZ_PODCASTS.length}`],
