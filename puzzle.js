@@ -907,6 +907,62 @@ const PUZZLE_NOTES = [
     mistakes: [],
     remember: "There IS + одно, there ARE + много · going to — собираюсь, I'm meeting — уже договорились · с go: I'm going home.",
   },
+  {
+    id: "pv-growup_simple", kicker: "Puzzle English · видео", title: "Grow или grow up?", date: "2026-10-28", by: "Claude",
+    items: ["/video/growup_simple"],
+    summary: "Видео «Как использовать grow и grow up? (часть 1)»: три значения grow — расти, увеличиваться, постепенно становиться — и чем от него отличается фразовый глагол grow up (только про людей).",
+    rules: [
+      {
+        title: "GROW — расти, становиться больше и выше",
+        text: "Про растения, животных, детей. Неправильный глагол: grow — grew — grown.",
+        ex: [["Plants grow. They get bigger and taller.", "Растения растут. Они становятся больше и выше."], ["Hey, you've grown since I last saw you.", "О, ты вырос с тех пор, как я тебя в последний раз видела."]],
+      },
+      {
+        title: "GROW — увеличиваться в размере и количестве",
+        text: "Растут очередь, население, компании, продажи, прибыль. На сколько выросло — через BY: grow by 50%.",
+        ex: [["Our profits have grown by fifty percent this year.", "Наша прибыль выросла на 50% в этом году."], ["The population of a country or city can grow.", "Население страны или города может расти."]],
+      },
+      {
+        title: "GROW + прилагательное = постепенно становиться",
+        text: "Как «становиться», но медленно, со временем: grow dark (темнеть), grow bored (заскучать), grow impatient (терять терпение), grow excited (приходить в восторг).",
+        ex: [["The sky is growing dark.", "Небо темнеет."]],
+      },
+      {
+        title: "GROW UP — только про людей",
+        text: "Вырасти из ребёнка во взрослого, повзрослеть. Растения и цифры — просто grow, никогда не grow up. Частая ошибка: plants grow up ✗ → plants grow ✓.",
+        ex: [["I grew up in Brooklyn, but now I live in Philadelphia.", "Я вырос в Бруклине, но теперь живу в Филадельфии."], ["What do you want to be when you grow up?", "Кем ты хочешь стать, когда вырастешь?"]],
+      },
+      {
+        title: "Grow up! — «повзрослей!»",
+        text: "Так говорят, когда человек ведёт себя по-детски и нужно, чтобы он вёл себя зрело и ответственно.",
+        ex: [["Oh, grow up, Jay!", "Ой, да повзрослей уже, Джей!"]],
+      },
+      {
+        title: "GROWN-UP — «взрослый»",
+        text: "Прилагательное: grown-up children — взрослые дети. Существительное a grown-up — то же, что an adult, но по-детски: так говорят с детьми.",
+        ex: [["Parents might say they have grown-up children.", "Родители могут сказать, что у них взрослые дети."], ["So, I'm a grown-up.", "Итак, я взрослый."]],
+      },
+    ],
+    words: [
+      ["grow — grew — grown", "расти"], ["grow up — grew up — grown up", "вырасти, повзрослеть"], ["puppy", "щенок"],
+      ["height", "рост"], ["tall", "высокий"], ["adult", "взрослый"], ["queue", "очередь"], ["population", "население"],
+      ["sales", "продажи"], ["profit", "прибыль"], ["increase", "увеличиваться"], ["gradually", "постепенно"],
+      ["bored", "скучающий"], ["impatient", "нетерпеливый"], ["excited", "взволнованный, в восторге"], ["human being", "человек"],
+      ["develop", "развиваться"], ["mature", "зрелый"], ["responsible", "ответственный"], ["behave", "вести себя"],
+      ["grown-up", "взрослый"], ["childish", "детский, ребяческий"],
+    ],
+    phrases: [
+      ["You've grown since I last saw you.", "Ты вырос с тех пор, как я тебя в последний раз видела."],
+      ["Do you know how tall you are?", "Ты знаешь, какой у тебя рост?"],
+      ["I'm almost five feet tall.", "У меня рост почти пять футов."],
+      ["We're doing very well.", "У нас всё идёт отлично."],
+      ["I think it's going to rain.", "Думаю, пойдёт дождь."],
+      ["What do you want to be when you grow up?", "Кем ты хочешь стать, когда вырастешь?"],
+      ["Oh, grow up!", "Ну повзрослей уже!"],
+    ],
+    mistakes: [],
+    remember: "Растения, цифры, очередь — GROW · человек взрослеет — GROW UP · grow + прилагательное = постепенно становиться (grow dark).",
+  },
 ];
 
 /* ---------- состояние ---------- */
