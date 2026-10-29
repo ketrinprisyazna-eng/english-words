@@ -936,3 +936,14 @@ a.cta { text-decoration: none; box-sizing: border-box; }
 .fill-answer { color: var(--moss); border-bottom: 2px solid var(--moss); }
 .fill-answer.bad { color: var(--red); border-bottom-color: var(--red); }
 .fill-word { margin-top: 8px; font-size: 14px; color: var(--ink-2); }
+
+/* разбор транслейта */
+.nb-tr { margin: 0 0 14px; padding: 6px 12px 8px; background: var(--sheet); border-left: 3px solid var(--moss); border-radius: 0 var(--r-sm) var(--r-sm) 0; line-height: 1.5; }
+.nb-tr-ru { display: flex; gap: 8px; align-items: baseline; color: var(--ink-2); font-size: 14.5px; }
+.nb-tr-en { font-family: var(--serif); font-style: italic; color: var(--blue); font-size: 16px; margin: 2px 0 0 18px; }
+.nb-tr p { margin: 4px 0 0 18px !important; font-size: 14px; color: var(--ink-2); }
+.tr-alt { font-size: 13px; color: var(--ink-3); margin: 2px 0 0 18px; }
+.ph-explain .tr-alt { margin-left: 0; }
+.tr-why { margin: 6px 0 0; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.pz-tr-btn { align-self: center; white-space: nowrap; }
+.nb-page a.small-btn { text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }

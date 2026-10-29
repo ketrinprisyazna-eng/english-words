@@ -397,6 +397,7 @@ function fillSentences() {
   if (typeof allPuzzleNotes === "function") for (const n of allPuzzleNotes()) {
     for (const p of n.phrases || []) add(p[0], p[1]);
     for (const r of n.rules || []) for (const e of r.ex || []) add(e[0], e[1]);
+    for (const l of n.lines || []) add(l.en, l.ru);
   }
   for (const u of (typeof KEY_PHRASES !== "undefined" ? KEY_PHRASES : [])) for (const [en, ru] of u.phrases) add(en, ru);
   for (const ph of (typeof PHRASALS !== "undefined" ? PHRASALS : [])) for (const e of ph.ex) add(e[0], e[1]);

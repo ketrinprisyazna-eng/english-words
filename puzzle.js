@@ -738,7 +738,75 @@ sme100218|Загрязнение пластиком`,
   book: { slug: "l_frank_baum_the_wizard_of_oz", title: "Удивительный волшебник из страны Оз", author: "Лаймен Фрэнк Баум" },
 
   // пройдено в Puzzle до 26.10.2026 (из «Истории»)
-  doneBefore: `/video/the-weather-for-kids /video/easy-eng-4 /video/whats-your-favourite-gadget /exercise/replace-good /exercise/replace-bad /exercise/demonstrative_pronouns-2 /exercise/demonstrative_pronouns /exercise/relative_pronouns /exercise/indefinite_pronouns /exercise/place_prepositions /exercise/reciprocal_pronouns /exercise/reflexive-pronouns /exercise/reflexive_pronouns /exercise/possessive_pronouns /exercise/no-not /exercise/possessive-pronouns /exercise/one-pronoun /exercise/many-much-lot /exercise/much-many-few-little /exercise/each-or-every /exercise/interrogative_pronouns /exercise/so-such /exercise/too-enough /exercise/i_me /exercise/conjunctions_usage_secrets /exercise/conjunctions_coordinating /exercise/conjunctions_subordinating /exercise/conjunctions_correlative /exercise/because-because-of /exercise/seem /exercise/prepositions_other_meanings /exercise/prep_of_time /exercise/prepositions_time /exercise/no-prepositions /exercise/prepositions_place /exercise/at-on-in /exercise/prepositions-place-direction /exercise/in-into-inside-within /exercise/among_between /exercise/particles /exercise/adj-adv-position /exercise/good_well /exercise/also-too-as-well /exercise/listen_hear /exercise/like /exercise/typical_mistakes /exercise/for-on-sale /exercise/borrow_lend /exercise/airport-english-2 /exercise/airport-english-1 /exercise/hobbies /exercise/meet_people /exercise/top-10-travel /exercise/near-next-to /exercise/from_a_to_b /exercise/order-adjectives /exercise/imperative-mood /exercise/adverbs-of-frequency /exercise/just-meanings /exercise/gold-golden /exercise/determiners /exercise/come-go /exercise/comparison-as-as /exercise/good-bad-at /exercise/been-gone /exercise/be-do /exercise/tags /exercise/little-bit /exercise/comparison /exercise/few_little /exercise/fun-funny /exercise/let /exercise/there-it /exercise/money_matters /exercise/look-see-watch /exercise/for_during_since /exercise/pronunciation-mc12 /exercise/so-neither-construction /exercise/do-play-go /exercise/indirect-questions /exercise/subject-questions /video/startingout_campsite /video/see-right-4 /video/at-the-hospital /video/would-like /dialogs/see-that-girl-over-there /dialogs/meeting-at-the-airport /dialogs/a-new-movie /dialogs/do-you-have-a-car /dialogs/asking-for-the-time`,
+  // транслейты (перевод текста на английский): сначала сложность 2, потом 1; без детских стишков и «Кто он?» — slug|название|сложность
+  writing: `compromise|Компромисс|2
+bumping-into-old-friend|Встреча со старым другом|2
+i-have-news|Есть новости|2
+great-start|Отличный старт!|2
+you-can-count-on-me|Можешь на меня рассчитывать|2
+culture|Итальянская культура|2
+wildfire|Лесной пожар|2
+present-for-grandpa|Подарок для дедушки|2
+reason-to-quit|Причина увольнения|2
+dont-give-up|Не сдавайся!|2
+time-to-say-goodbye|Время прощаться|2
+new-fitness-app|Новое фитнес-приложение|2
+trip-to-rome|Поездка в Рим|2
+barista-talk|Разговор с баристой|1
+talking-to-flight-attendant|Разговор с бортпроводником|1
+so-picky|Ты такая привередливая!|1
+lucky-accident|Счастливая случайность|1
+teens|Ох уж эти подростки!|1
+problems-computer|Проблемы с компьютером|1
+changed-plans|Изменившиеся планы|1
+story-from-childhood|История из детства|1
+emotions-online|Онлайн эмоции|1
+customer-survey|Опрос потребителей|1
+hotel-check-in|Заселение в гостиницу|1
+the-worst-gift-ever|Худший подарок|1
+plans-for-the-evening|Планы на вечер|1
+where_is_mom|Где мама?|1
+hard-journey|Тяжёлая поездка|1
+phone-call|Телефонный разговор|1
+problems-at-hotel|Проблемы в гостинице|1
+truth-or-dare|Правда или вызов?|1
+surprise-party-2|Вечеринка-сюрприз|1
+are-you-free-this-weekend|Что делаешь в эти выходные?|1
+so-did-i|Я тоже|1
+whose-is-it|Чьё это?|1
+saying-goodbye|Прощаемся по-английски|1
+new-furniture|Новая мебель|1
+buying-a-carpet|Покупка ковра|1
+siberian-huskies|Сибирские хаски|1
+i-did-not-buy-it|Проблема с кредиткой|1
+birthday-invitation|Приглашение на день рождения|1
+intense-match|Напряжённый матч|1
+can-you-cook|Умеешь готовить?|1
+the-chess-playing-dog|Собака, играющая в шахматы|1
+going-to-a-party|Идёшь на вечеринку?|1
+missing-school|Почему ты не был в школе?|1
+complimenting-someones-clothes|Отлично выглядишь!|1
+invitation-to-a-movie|Приглашение в кино|1
+what-to-do-in-the-neighborhood|В новом районе|1
+favorite-music|Диалог о музыке|1
+phrasal-verbs-with-put|Фразовые глаголы с Put|1
+phrasal-verbs-with-look|Фразовые глаголы с Look|1
+phrasal-verbs-with-up|Фразовые глаголы с Up|1
+phrasal-verbs-with-take|Фразовые глаголы с Take|1
+phrasal-verbs-with-be|Фразовые глаголы с Be|1
+passport-control|На паспортном контроле|1
+hotel-check-out|Выезд из отеля|1
+a-bit-down|Немного подавлена|1
+change-of-scene|Смена обстановки|1
+lark-or-owl|Жаворонок или сова|1
+become-profession|Кем вы хотели стать?|1
+son-problem|Проблема с сыном-подростком|1
+online-friendship|Дружба в режиме «онлайн»|1
+under-the-weather|Под погодой|1
+we_should_hang_out|Старые знакомые|1
+grass-is-greener|У соседа трава зеленее|1`,
+
+  doneBefore: `/writing/my-town /writing/the_riddle_of_the_week /writing/do-play-go /writing/the-browns-holiday /writing/myfridge /writing/schoolboy_letter /writing/apple-tree /writing/my-english-lessons /writing/healthy-food /writing/therapy /writing/penguins /writing/revenge /writing/strange-day /writing/unquiet-bob /writing/meet-rachel /writing/funny-parrot-gypsy /writing/pauls-day /writing/the-rainy-day /writing/monday-morning /writing/a-rude-waitress /writing/homework /video/the-weather-for-kids /video/easy-eng-4 /video/whats-your-favourite-gadget /exercise/replace-good /exercise/replace-bad /exercise/demonstrative_pronouns-2 /exercise/demonstrative_pronouns /exercise/relative_pronouns /exercise/indefinite_pronouns /exercise/place_prepositions /exercise/reciprocal_pronouns /exercise/reflexive-pronouns /exercise/reflexive_pronouns /exercise/possessive_pronouns /exercise/no-not /exercise/possessive-pronouns /exercise/one-pronoun /exercise/many-much-lot /exercise/much-many-few-little /exercise/each-or-every /exercise/interrogative_pronouns /exercise/so-such /exercise/too-enough /exercise/i_me /exercise/conjunctions_usage_secrets /exercise/conjunctions_coordinating /exercise/conjunctions_subordinating /exercise/conjunctions_correlative /exercise/because-because-of /exercise/seem /exercise/prepositions_other_meanings /exercise/prep_of_time /exercise/prepositions_time /exercise/no-prepositions /exercise/prepositions_place /exercise/at-on-in /exercise/prepositions-place-direction /exercise/in-into-inside-within /exercise/among_between /exercise/particles /exercise/adj-adv-position /exercise/good_well /exercise/also-too-as-well /exercise/listen_hear /exercise/like /exercise/typical_mistakes /exercise/for-on-sale /exercise/borrow_lend /exercise/airport-english-2 /exercise/airport-english-1 /exercise/hobbies /exercise/meet_people /exercise/top-10-travel /exercise/near-next-to /exercise/from_a_to_b /exercise/order-adjectives /exercise/imperative-mood /exercise/adverbs-of-frequency /exercise/just-meanings /exercise/gold-golden /exercise/determiners /exercise/come-go /exercise/comparison-as-as /exercise/good-bad-at /exercise/been-gone /exercise/be-do /exercise/tags /exercise/little-bit /exercise/comparison /exercise/few_little /exercise/fun-funny /exercise/let /exercise/there-it /exercise/money_matters /exercise/look-see-watch /exercise/for_during_since /exercise/pronunciation-mc12 /exercise/so-neither-construction /exercise/do-play-go /exercise/indirect-questions /exercise/subject-questions /video/startingout_campsite /video/see-right-4 /video/at-the-hospital /video/would-like /dialogs/see-that-girl-over-there /dialogs/meeting-at-the-airport /dialogs/a-new-movie /dialogs/do-you-have-a-car /dialogs/asking-for-the-time`,
 };
 
 /* ---------- каталоги ---------- */
@@ -756,8 +824,11 @@ const PZ_VIDEOS = pzLines(PZ_DATA.video).map(([slug, title, cat, ph]) => ({
 }));
 const PZ_DIALOGS = pzLines(PZ_DATA.dialogs).map(([slug, en, ru]) => ({ type: "dialog", path: "/dialogs/" + slug, title: `${en} — ${ru}`, min: 5, level: "A2" }));
 const PZ_PODCASTS = pzLines(PZ_DATA.podcasts).map(([slug, title]) => ({ type: "podcast", path: "/podcast/" + slug, title: "Английский за шесть минут: " + title, min: 10, level: "B1" }));
-const PZ_BOOK_ITEM = { type: "book", path: "/books/" + PZ_DATA.book.slug, title: `${PZ_DATA.book.title} — следующая глава`, min: 15, level: "A2–B1" };
+const PZ_BOOK_ITEM = { type: "book", path: "/books/" + PZ_DATA.book.slug, title: `${PZ_DATA.book.title} — следующая глава`, min: 10, level: "A2–B1" };
 const PZ_WORDS_ITEM = { type: "words", path: "/words", title: "Тренировка слов из «Моего словаря»", min: 5, level: "" };
+const PZ_WRITINGS = pzLines(PZ_DATA.writing).map(([slug, title, lvl]) => ({ type: "writing", path: "/writing/" + slug, title, min: 12, level: lvl === "2" ? "B1" : "A2–B1" }));
+// аудиопазлы — не каталог, а один бесконечный тренажёр на слух
+const PZ_LISTEN_ITEM = { type: "listening", path: "/listening", title: "Аудиопазлы: слушаем и собираем фразы", min: 7, level: "" };
 const PZ_TYPE = {
   grammar: { label: "Грамматика", icon: "school" },
   lesson: { label: "Урок из каталога", icon: "school" },
@@ -766,6 +837,8 @@ const PZ_TYPE = {
   podcast: { label: "Подкаст", icon: "volume" },
   book: { label: "Книга", icon: "book" },
   words: { label: "Слова", icon: "books" },
+  writing: { label: "Транслейт", icon: "language" },
+  listening: { label: "Аудиопазлы", icon: "volume" },
 };
 // уроки из каталога: грамматика или слова и выражения; сначала сложность 1, потом 2
 const PZ_GRAMMAR_RE = /present|past|future|perfect|continuous|passive|залог|услов|conditional|модальн|modal|should|must|might|could|need|dare|ought|инфинитив|infinitive|герунд|gerund|артикл|причаст|придаточн|местоимен|pronoun|наречи|adverb|прилагательн|adjective|сравнен|предлог|preposition|вопрос|question|used to|have|would|wish|сложное дополнение|tag|глагол|tense|времен|инверси|отрицан|числительн|существительн|either|neither|so или such|as\.\.\. as|as … as|some, any|many|much|few|little/i;
@@ -777,10 +850,10 @@ const PZ_CATALOG = pzLines(PZ_DATA.catalog)
   }))
   .filter((x) => !PZ_GRAMMAR_PATHS.has(x.path))
   .sort((a, b) => a.order - b.order);
-const PZ_ALL = [...PZ_GRAMMAR, ...PZ_CATALOG, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS];
+const PZ_ALL = [...PZ_GRAMMAR, ...PZ_CATALOG, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS, ...PZ_WRITINGS];
 function pzItem(path) {
   const p = String(path).split("#")[0];
-  return PZ_ALL.find((x) => x.path === p) || (/^\/books\//.test(p) ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null);
+  return PZ_ALL.find((x) => x.path === p) || (/^\/books\//.test(p) ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : p === PZ_LISTEN_ITEM.path ? PZ_LISTEN_ITEM : null);
 }
 function pzHref(path) { const p = String(path).split("#")[0]; return PZ_URL + (/^\/books\//.test(p) ? PZ_BOOK_ITEM.path : p); }
 // адрес из «Истории» Puzzle → путь как в каталоге
@@ -1027,6 +1100,51 @@ const PUZZLE_NOTES = [
     mistakes: [],
     remember: "Чьё у людей — Jack's, у вещей — the end of the film · Have you ever been to…? · hate / enjoy + -ing, но I'd love TO go.",
   },
+  {
+    id: "tr-bumping-into-old-friend", kicker: "Транслейт · разбор", title: "Встреча со старым другом", date: "2026-10-29", by: "Claude",
+    items: ["/writing/bumping-into-old-friend"],
+    summary: "Мия и Дэн случайно встречаются через годы после университета. Главное в тексте — разговорные связки: «сколько лет!», «поддерживать связь», «раньше тусовались», «отдалились», «давай не теряться». Сначала переведи сама — в Puzzle или кнопкой «Переведи сама», — потом сверься с разбором.",
+    lines: [
+      { ru: "— Мия, это правда ты?", en: "Mia, is that really you?", alt: ["Mia, is it really you?"],
+        why: "«Правда» здесь — не true, а усиление really. That — когда узнаёшь человека издалека, «тот, кого я вижу». В вопросе is выходит вперёд." },
+      { ru: "— Дэн! Сколько лет! Как ты?", en: "Dan! It's been ages! How are you?", alt: ["Dan! Long time no see! How are you?"],
+        why: "«Сколько лет!» дословно не переводим (How many years — это вопрос про возраст). Говорят It's been ages! или Long time no see! It's been — Present Perfect: мы не виделись с тех пор и до сейчас." },
+      { ru: "— Отлично! Слушай, а что там с теми девчонками, с которыми ты всегда была? Анна и Кейт.", en: "Great! Listen, what about those girls you were always with? Anna and Kate.", alt: ["Great! Listen, what happened to those girls you always hung out with? Anna and Kate."],
+        why: "«Что там с…?» — What about…? или What happened to…? «С которыми ты была» — предлог уходит в конец: the girls you were always with. Who/that можно не писать — в разговоре так и делают." },
+      { ru: "— Я всё ещё поддерживаю связь с Анной, а Кейт... Честно, понятия не имею, где она сейчас.", en: "I still keep in touch with Anna, but Kate... Honestly, I have no idea where she is now.", alt: ["I'm still in touch with Anna, but Kate... To be honest, I have no idea where she is now."],
+        why: "Keep in touch with — «поддерживать связь» (было в уроке 1). Still стоит перед смысловым глаголом. «Понятия не имею» — I have no idea. После where порядок прямой: where she is, а не where is she — это не вопрос, а часть предложения." },
+      { ru: "— Правда? Вы втроём раньше тусовались каждый день.", en: "Really? The three of you used to hang out every day.", alt: ["Really? You three used to hang out every day."],
+        why: "«Раньше делали, а теперь нет» — used to + глагол. «Вы втроём» — the three of you. «Тусоваться» — hang out." },
+      { ru: "— Я знаю. Была одна странная ситуация ближе к концу университета, и после этого мы с Кейт просто отдалились.", en: "I know. There was a strange situation near the end of university, and after that Kate and I just drifted apart.", alt: ["I know. Something weird happened towards the end of university, and after that Kate and I just grew apart."],
+        why: "«Была ситуация» — there was (there is в прошедшем, урок 1). «Мы с Кейт» — Kate and I: себя называем последней, «we with Kate» не говорят. «Отдалились» — drift apart или grow apart (тот же grow из видео: «постепенно»). Past Simple — всё закончилось в прошлом." },
+      { ru: "— Очень жаль. Вы были такими близкими подругами.", en: "That's a shame. You were such close friends.", alt: ["That's too bad. You were such close friends."],
+        why: "«Очень жаль» — That's a shame или That's too bad (не very pity). Such + прилагательное + существительное: such close friends. Без существительного — so: you were so close." },
+      { ru: "— Да. Ладно, а что ты? Ты всё ещё поддерживаешь связь с кем-нибудь из группы?", en: "Yeah. Anyway, what about you? Are you still in touch with anyone from our group?", alt: ["Yeah. Anyway, how about you? Do you still keep in touch with anyone from the group?"],
+        why: "«Ладно», когда меняем тему, — anyway. «А ты?» — what about you? В вопросе «кто-нибудь» — anyone (any- в вопросах, some- в утверждениях)." },
+      { ru: "— Только со Стивом. Он живёт неподалёку сейчас.", en: "Only with Steve. He lives nearby now.", alt: ["Just Steve. He lives close by now."],
+        why: "В кратком ответе предлог сохраняем: with Steve. He lives — Present Simple (живёт постоянно), у he — окончание -s. Nearby ставим в конец." },
+      { ru: "— О, Стив! У вас двоих было много общего тогда.", en: "Oh, Steve! You two had a lot in common back then.", alt: ["Oh, Steve! The two of you had a lot in common back then."],
+        why: "«У вас было» по-английски — «вы имели»: you had. «Иметь много общего» — have a lot in common. «Тогда», в прошлом, — back then." },
+      { ru: "— Действительно было. Одна и та же музыка, одно и то же странное чувство юмора.", en: "We really did. The same music, the same weird sense of humour.", alt: ["We did. Same music, same weird sense of humor."],
+        why: "«Действительно было» — подтверждаем вспомогательным глаголом: We did (вместо had), really усиливает. «Одна и та же» — the same, всегда с the. Weird — разговорное «странный», sense of humour — «чувство юмора» (humor — американское написание)." },
+      { ru: "— Надо бы нам всем снова собраться в эти выходные.", en: "We should all get together again this weekend.", alt: ["We should all meet up again this weekend."],
+        why: "«Надо бы» — мягкое предложение: should. All ставим после we, перед глаголом. «Собраться компанией» — get together. «В эти выходные» — this weekend, без предлога." },
+      { ru: "— С удовольствием. Давай не теряться опять.", en: "I'd love to. Let's not lose touch again.", alt: ["I'd love that. Let's not lose touch again."],
+        why: "«С удовольствием» в ответ на предложение — I'd love to (урок 2: would love TO). «Давай не…» — Let's not + глагол. «Теряться» — lose touch, противоположность keep in touch." },
+    ],
+    words: [
+      ["it's been ages", "сколько лет, сто лет не виделись"], ["long time no see", "давно не виделись"], ["keep in touch with", "поддерживать связь"],
+      ["be in touch with", "быть на связи"], ["lose touch", "потерять связь"], ["have no idea", "понятия не иметь"], ["hang out", "тусоваться, проводить время"],
+      ["used to", "раньше (а теперь нет)"], ["the three of you", "вы втроём"], ["drift apart", "постепенно отдалиться"], ["grow apart", "отдалиться со временем"],
+      ["that's a shame", "жаль"], ["close friends", "близкие друзья"], ["anyway", "ладно, так или иначе"], ["nearby", "поблизости"],
+      ["have a lot in common", "иметь много общего"], ["back then", "тогда, в то время"], ["sense of humour", "чувство юмора"], ["weird", "странный"],
+      ["get together", "собраться, встретиться"],
+    ],
+    phrases: [],
+    rules: [],
+    mistakes: [],
+    remember: "It's been ages! · keep in touch ↔ lose touch · used to = раньше · Kate and I · such close friends · I'd love to.",
+  },
 ];
 
 /* ---------- состояние ---------- */
@@ -1114,13 +1232,13 @@ function puzzleBuildLesson() {
   const gw = new Set([...(g1 ? pzWordsOf(g1.title) : []), ...(g2 ? pzWordsOf(g2.title) : [])]);
   const v1 = take(PZ_VIDEOS, (v) => [...pzWordsOf(v.title)].some((w) => gw.has(w))) || take(PZ_VIDEOS, (v) => v.level.startsWith("A2"));
   // блок 2: слушаем и говорим
-  const d1 = take(PZ_DIALOGS), d2 = take(PZ_DIALOGS), pod = take(PZ_PODCASTS);
-  // блок 3: читаем и закрепляем — видео уровнем выше, чтобы тянуться к B1
-  const v2 = take(PZ_VIDEOS, (v) => v.level === "B1") || take(PZ_VIDEOS);
+  const d1 = take(PZ_DIALOGS), pod = take(PZ_PODCASTS);
+  // блок 3: переводим и читаем — сначала транслейты, которые Claude уже разобрал
+  const tr = take(PZ_WRITINGS, (x) => puzzleNote(pzTrNoteId(x.path))) || take(PZ_WRITINGS);
   const blocks = [
     { t: "Грамматика", items: [g1, g2, v1] },
-    { t: "Слушаем и говорим", items: [d1, d2, pod] },
-    { t: "Читаем и закрепляем", items: [tag(PZ_BOOK_ITEM), v2, tag(PZ_WORDS_ITEM)] },
+    { t: "Слушаем и говорим", items: [d1, tag(PZ_LISTEN_ITEM), pod] },
+    { t: "Переводим и читаем", items: [tr, tag(PZ_BOOK_ITEM)] },
   ].map((b) => ({ t: b.t, items: b.items.filter(Boolean).map((x) => x.path) })).filter((b) => b.items.length);
   // если чего-то не хватило (каталог кончился) — добираем грамматикой до ~80 минут
   const mins = () => blocks.reduce((s, b) => s + b.items.reduce((a, q) => a + pzItem(q).min, 0), 0) + PZ_BREAK_MIN * (blocks.length - 1);
@@ -1149,7 +1267,7 @@ function puzzleSwapItem(path) {
   const l = pzCurrentLesson();
   const it = pzItem(path);
   if (!l || !it) return;
-  const pool = { grammar: PZ_GRAMMAR, lesson: PZ_CATALOG.filter((x) => x.kind === it.kind), video: PZ_VIDEOS, dialog: PZ_DIALOGS, podcast: PZ_PODCASTS }[it.type];
+  const pool = { grammar: PZ_GRAMMAR, lesson: PZ_CATALOG.filter((x) => x.kind === it.kind), video: PZ_VIDEOS, dialog: PZ_DIALOGS, podcast: PZ_PODCASTS, writing: PZ_WRITINGS }[it.type];
   if (!pool) return;
   PUZZLE.skipped = PUZZLE.skipped || {};
   PUZZLE.skipped[path] = todayStr();
@@ -1178,6 +1296,72 @@ function openPuzzleNote(id) {
   if (!document.getElementById("view-puzzle").classList.contains("active")) showView("puzzle");
   else renderPuzzle();
   window.scrollTo(0, 0);
+}
+
+/* ---------- разбор транслейта: перевод по предложениям и «почему так» ---------- */
+function pzTrNoteId(path) { return "tr-" + String(path).split("#")[0].replace(/^\/writing\//, ""); }
+// переведи сама: русское предложение → твой перевод → перевод Claude и почему так
+function puzzlePracticeTranslate(id) {
+  const n = puzzleNote(id);
+  if (!n || !(n.lines || []).length) return;
+  SESSION = {
+    mode: "quiz", practice: "Транслейт", queue: n.lines.map((l) => ({ tr: l })), idx: 0, correctCount: 0,
+    revealed: false, showAssoc: false, typedChecked: false, typedValue: "", typedCorrect: null,
+  };
+  document.getElementById("session-overlay").style.display = "flex";
+  renderCard();
+}
+function renderTrCard() {
+  const l = currentItem().tr;
+  const revealed = SESSION.revealed;
+  let feedback = "";
+  if (revealed) {
+    feedback = SESSION.typedCorrect
+      ? `<div class="typed-feedback good">${ico("check")} ${SESSION.trOwn ? "Засчитано: твой вариант" : "Верно"}</div>`
+      : `<div class="typed-feedback bad">${ico("x")} ${SESSION.typedValue ? `Твой перевод: «${escapeHtml(SESSION.typedValue)}»` : "Пропущено"}</div>`;
+    feedback += `<div class="ph-explain">
+      <div class="dlg-correct">${speakButtonHtml(l.en)}<span>${escapeHtml(l.en)}</span></div>
+      ${(l.alt || []).length ? `<div class="tr-alt">Можно и так: ${l.alt.map(escapeHtml).join(" / ")}</div>` : ""}
+      <p class="tr-why">${escapeHtml(l.why)}</p>
+    </div>`;
+  }
+  document.getElementById("flash-area").innerHTML = `
+    <div class="flash-wrap">
+      <div class="flashcard">
+        <div class="dir-badge learn-badge">Переведи</div>
+        <div class="ph-sentence">${escapeHtml(l.ru)}</div>
+        ${feedback}
+      </div>
+      ${!revealed ? `
+        <div class="type-answer-row">
+          <input type="text" id="type-answer-input" class="type-answer-input" placeholder="По-английски…" autocomplete="off" autocapitalize="off" spellcheck="false">
+          ${micAnswerButtonHtml("en-US")}
+          <button class="check-btn" onclick="checkTyped()">Проверить</button>
+        </div>` : `${!SESSION.typedCorrect && SESSION.typedValue ? `<button class="think-btn" onclick="puzzleTrOwnOk()">${ico("check")} Мой перевод тоже верный</button>` : ""}
+        <button class="reveal-btn" onclick="SESSION.trOwn = false; nextCard()">Далее</button>`}
+    </div>`;
+  if (!revealed) { const input = document.getElementById("type-answer-input"); if (input) input.focus({ preventScroll: true }); }
+}
+function checkTr() {
+  const input = document.getElementById("type-answer-input");
+  const value = input ? input.value.trim() : "";
+  const item = currentItem();
+  const l = item.tr;
+  // перевод свободный: сверяем со всеми вариантами, мелкие слова (a, the, so…) не считаем ошибкой
+  const ok = !!value && [l.en, ...(l.alt || [])].some((v) => kpCompare(value, v).ok);
+  SESSION.typedValue = value; SESSION.typedChecked = true; SESSION.typedCorrect = ok; SESSION.revealed = true;
+  if (ok) SESSION.correctCount++;
+  else if (SESSION.queue.filter((x) => x === item).length < 2) SESSION.queue.splice(Math.min(SESSION.queue.length, SESSION.idx + 3), 0, item);
+  renderCard();
+  speakEn(l.en);
+}
+// проверка строгая, а перевод бывает разный — если вариант верный по смыслу, засчитываем
+function puzzleTrOwnOk() {
+  const item = currentItem();
+  const i = SESSION.queue.lastIndexOf(item);
+  if (i > SESSION.idx) SESSION.queue.splice(i, 1);
+  SESSION.typedCorrect = true; SESSION.trOwn = true; SESSION.correctCount++;
+  renderCard();
 }
 
 /* ---------- конспекты → слова и день изучения в Повторении ---------- */
@@ -1262,7 +1446,7 @@ async function processPuzzleHistory(data, step) {
   if (!lesson && items.some((m) => m.v >= 100)) step("В этом браузере нет урока из приложения — войди в аккаунт: «Архив» → «Войти и синхронизировать» и нажми закладку ещё раз.");
   if (lesson) {
     const mats = items.filter((m) => lesson.items.includes(m.path) && ((m.c && m.c.length) || m.x));
-    const left = lesson.items.filter((p) => !pzIsDone(p) && !["words", "book"].includes((pzItem(p) || {}).type));
+    const left = lesson.items.filter((p) => !pzIsDone(p) && !["words", "book", "listening"].includes((pzItem(p) || {}).type));
     if (!left.length && !lesson.finished) lesson.finished = todayStr();
     if (mats.length && !puzzleNote(lesson.id)) {
       if (!loadAiKey()) step(`Конспект урока ${lesson.n} напишет Claude (ключа Gemini нет) — скажи «законспектируй урок ${lesson.n}».`);
@@ -1289,13 +1473,14 @@ function pzItemRow(path, lesson) {
   if (!it) return "";
   const t = PZ_TYPE[it.type];
   const done = pzIsDone(path);
-  const canSwap = lesson && !lesson.finished && !done && ["grammar", "lesson", "video", "dialog", "podcast"].includes(it.type);
+  const canSwap = lesson && !lesson.finished && !done && ["grammar", "lesson", "video", "dialog", "podcast", "writing"].includes(it.type);
   return `<div class="pz-item${done ? " done" : ""}">
     <button class="pz-check" onclick="puzzleToggleItem('${path}')" aria-label="${done ? "Отметить как непройденное" : "Отметить пройденным"}">${done ? ico("check") : ""}</button>
     <div class="pz-item-main">
       <div class="pz-item-kicker">${ico(t.icon)} ${t.label}${it.cat ? " · " + escapeHtml(it.cat) : ""} · ${it.min} мин${it.level ? ` · <span class="pz-lvl">${it.level}</span>` : ""}</div>
       <a class="pz-item-title" href="${pzHref(path)}" target="_blank" rel="noopener">${escapeHtml(it.title)}</a>
     </div>
+    ${it.type === "writing" && puzzleNote(pzTrNoteId(path)) ? `<button class="small-btn pz-tr-btn" onclick="openPuzzleNote('${pzTrNoteId(path)}')">${ico("language")} Разбор</button>` : ""}
     ${canSwap ? `<button class="pz-swap" onclick="puzzleSwapItem('${path}')" aria-label="Заменить">${ico("refresh")}</button>` : ""}
   </div>`;
 }
@@ -1307,6 +1492,7 @@ function pzStats() {
     ["Видеопазлы", `${cnt(PZ_VIDEOS)} из ${PZ_VIDEOS.length}`],
     ["Диалоги", `${cnt(PZ_DIALOGS)} из ${PZ_DIALOGS.length}`],
     ["Подкасты", `${cnt(PZ_PODCASTS)} из ${PZ_PODCASTS.length}`],
+    ["Транслейты", `${cnt(PZ_WRITINGS)} из ${PZ_WRITINGS.length}`],
   ];
 }
 function renderPuzzleLessons() {
@@ -1361,7 +1547,7 @@ function renderNotebookList() {
   if (!notes.length) return `<div class="empty-state">Нотатник пока пуст. Пройди урок — и здесь появится его конспект.</div>`;
   return `<div class="nb-index">${notes.map((x) => `<button class="nb-entry" onclick="openPuzzleNote('${x.id}')">
       <span class="nb-entry-num">${ico("book-2")}</span>
-      <span class="nb-entry-text"><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.kicker || "Puzzle English")} · ${(x.rules || []).length} ${plural((x.rules || []).length, "правило", "правила", "правил")} · ${(x.words || []).length + pzMineWords(x.id).length} ${plural((x.words || []).length + pzMineWords(x.id).length, "слово", "слова", "слов")}</small></span>
+      <span class="nb-entry-text"><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.kicker || "Puzzle English")} · ${(x.lines || []).length ? `${x.lines.length} ${plural(x.lines.length, "предложение", "предложения", "предложений")}` : `${(x.rules || []).length} ${plural((x.rules || []).length, "правило", "правила", "правил")}`} · ${(x.words || []).length + pzMineWords(x.id).length} ${plural((x.words || []).length + pzMineWords(x.id).length, "слово", "слова", "слов")}</small></span>
       ${ico("chevron-right")}
     </button>`).join("")}</div>`;
 }
@@ -1380,6 +1566,16 @@ function renderNotePage(id) {
       ${x.score ? `<div class="nb-meta">${escapeHtml(x.score)}</div>` : ""}
     </header>
     ${x.summary ? `<p class="nb-summary">${escapeHtml(x.summary)}</p>` : ""}
+    ${(x.lines || []).length ? `<div class="settings-row">
+        <button class="small-btn learn-btn" onclick="puzzlePracticeTranslate('${id}')">${ico("pencil")} Переведи сама</button>
+        ${(x.items || [])[0] ? `<a class="small-btn" href="${pzHref(x.items[0])}" target="_blank" rel="noopener">${ico("language")} Транслейт в Puzzle</a>` : ""}
+      </div>
+      <h3 class="nb-h">Перевод и почему так</h3>${x.lines.map((l, i) => `<section class="nb-tr">
+        <div class="nb-tr-ru"><span class="nb-rule-n">${i + 1}</span>${escapeHtml(l.ru)}</div>
+        <div class="nb-tr-en">${escapeHtml(l.en)}</div>
+        ${(l.alt || []).length ? `<div class="tr-alt">Можно и так: ${l.alt.map(escapeHtml).join(" / ")}</div>` : ""}
+        <p>${escapeHtml(l.why)}</p>
+      </section>`).join("")}` : ""}
     ${(x.rules || []).length ? `<h3 class="nb-h">Правила</h3>${x.rules.map((r, i) => `<section class="nb-rule">
         <div class="nb-rule-title"><span class="nb-rule-n">${i + 1}</span>${escapeHtml(r.title)}</div>
         <p>${escapeHtml(r.text)}</p>

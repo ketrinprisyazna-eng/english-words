@@ -114,6 +114,11 @@ function enappCollector(APP) {
             } else if (h.post_type === "dialogs") {
               const j = await fetch("/api2/dialogs/dialog?title=" + path.split("/").pop(), { credentials: "include" }).then((r) => r.json());
               it.c = (j.phrases || []).map((p) => [p.text, p.translation]);
+            } else if (h.post_type === "writing") {
+              const src = await html(path);
+              const k = src.indexOf("Текст задания на перевод");
+              if (k > 0) it.x = src.slice(k, k + 12000).replace(/<br\s*\/?>|<\/(p|div|li)>/g, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ")
+                .replace(/\s+/g, " ").replace(/^Текст задания на перевод:?\s*/, "").split(/ Категория:| Начать| Ваш перевод/)[0].trim().slice(0, 1500);
             } else if (h.post_type === "syncpodcast") {
               const slug = path.split("/").pop();
               const par = jsonAfter(await html("/podcast/" + slug), "App.podcast.paragraphs") || [];
