@@ -963,6 +963,70 @@ const PUZZLE_NOTES = [
     mistakes: [],
     remember: "Растения, цифры, очередь — GROW · человек взрослеет — GROW UP · grow + прилагательное = постепенно становиться (grow dark).",
   },
+  {
+    id: "pl-2", kicker: "Puzzle English", title: "Урок 2 · Притяжательный падеж существительных", date: "2026-10-29", by: "Claude", score: "7 заданий на 100%",
+    items: ["/exercise/possessive-case", "/exercise/scam", "/video/growup_simple", "/dialogs/have-you-been-there", "/dialogs/good-date", "/podcast/sme090326", "/video/stark4-2"],
+    summary: "Грамматика: притяжательный падеж ('s и of). Диалоги о путешествиях («Have you ever been to…?») и о свидании, подкаст BBC о недосыпе, вторая серия про Джека Старка — в ней много глаголов с -ing после like / hate / enjoy. Видео про grow и grow up — отдельный конспект в Нотатнике. Слова урока «Мошенничество» Puzzle показывает только внутри упражнения, поэтому их здесь нет — впиши их в блокнот блока.",
+    rules: [
+      {
+        title: "ЧЬЁ? — 's (люди и животные)",
+        text: "Принадлежность человеку или животному — апостроф + s: Jack's, the doctor's. Если слово во множественном числе уже кончается на -s — только апостроф: the girls'.",
+        ex: [["Why don't you rest your detective's head a little?", "Почему бы тебе не дать отдохнуть своей детективной голове?"]],
+      },
+      {
+        title: "Для вещей и организаций — OF",
+        text: "Неодушевлённое «чьё» — через of: the importance of sleep, the director of a company. Исключение — время: a good night's sleep (сон хорошей ночи).",
+        ex: [["Townsend Brown is director of Skymaster Aircraft.", "Таунсенд Браун — директор «Скаймастер Эйркрафт»."], ["Their aim is to remind us of the importance of getting a good night's sleep.", "Их цель — напомнить нам, как важно хорошо высыпаться."]],
+      },
+      {
+        title: "Опыт: HAVE YOU EVER BEEN TO…?",
+        text: "Бывала ли когда-нибудь — Present Perfect + ever. Ответ: I've never been there / I've been to… Been to = «побывать», после него — to.",
+        ex: [["Have you ever been to Brazil? — No, I've never been there.", "Ты когда-нибудь была в Бразилии? — Нет, никогда."], ["I've been to Argentina, the US and some other states in Brazil.", "Я был в Аргентине, США и других штатах Бразилии."]],
+      },
+      {
+        title: "Длится до сих пор: HAVE BEEN + FOR",
+        text: "Началось в прошлом и продолжается сейчас — Present Perfect. For — сколько времени, always — всегда так было.",
+        ex: [["We've been here for two days.", "Мы здесь уже два дня."], ["I've always been frightened of women.", "Я всегда боялся женщин."]],
+      },
+      {
+        title: "LIKE / LOVE / HATE / ENJOY + -ING",
+        text: "После этих глаголов и после предлогов (of, at, about) второй глагол — с -ing. Глагол с -ing может быть и подлежащим: Arriving late… — Опоздание…",
+        ex: [["I hate waiting!", "Ненавижу ждать!"], ["Are you afraid of falling in love with me?", "Ты боишься влюбиться в меня?"], ["Arriving late is against company rules!", "Опаздывать — против правил компании!"]],
+      },
+      {
+        title: "Но I'D LOVE TO + глагол",
+        text: "I love swimming — люблю вообще. I'd love to go / Would you like to come? — хотела бы, конкретное желание: после would — to + глагол.",
+        ex: [["I'd love to visit Europe, especially Italy and France.", "Я очень хотел бы побывать в Европе, особенно в Италии и Франции."], ["Would you like to come with me? — That would be great!", "Хочешь поехать со мной? — Было бы здорово!"]],
+      },
+      {
+        title: "«…не правда ли?» — хвостик-вопрос",
+        text: "В конце утверждения повторяем вспомогательный глагол с обратным знаком: it is → isn't it?, you enjoy → don't you?",
+        ex: [["It's a beautiful day today, isn't it?", "Сегодня прекрасный день, не правда ли?"], ["You enjoy laughing at me, don't you?", "Тебе нравится смеяться надо мной, да?"]],
+      },
+    ],
+    words: [
+      ["sleep deprivation", "недосып"], ["be deprived of", "быть лишённым чего-то"], ["sleep in", "поспать подольше; проспать"],
+      ["catch up on sleep", "отоспаться"], ["tempers are frayed", "нервы на пределе"], ["tetchy", "раздражительный, вспыльчивый"],
+      ["irritable", "раздражительный"], ["hostile", "враждебный"], ["concentration", "концентрация, сосредоточенность"],
+      ["vigilance", "бдительность"], ["obesity", "ожирение"], ["behave", "вести себя"], ["on average", "в среднем"],
+      ["flight", "перелёт, рейс"], ["definitely", "определённо"], ["date", "свидание"], ["jealous", "ревнивый; завидующий"],
+      ["frightened of", "напуганный, боящийся"], ["divorced", "в разводе"], ["forgive — forgave — forgiven", "прощать"],
+      ["waste time", "тратить время впустую"], ["against the rules", "против правил"], ["rent", "арендовать, снимать"],
+      ["falling star", "падающая звезда"], ["argue", "спорить"], ["decision", "решение"], ["experience", "опыт"],
+    ],
+    phrases: [
+      ["That would be great!", "Это было бы здорово!"],
+      ["We should go there together in the future.", "Нам стоит как-нибудь поехать туда вместе."],
+      ["By the way, is she pretty?", "Кстати, она симпатичная?"],
+      ["Okay. If you say so.", "Ладно. Как скажешь."],
+      ["Forgive me. It won't happen again.", "Простите меня. Этого не повторится."],
+      ["Seeing is believing.", "Пока не увижу — не поверю."],
+      ["Just in time.", "Как раз вовремя."],
+      ["It's your decision.", "Это твоё решение."],
+    ],
+    mistakes: [],
+    remember: "Чьё у людей — Jack's, у вещей — the end of the film · Have you ever been to…? · hate / enjoy + -ing, но I'd love TO go.",
+  },
 ];
 
 /* ---------- состояние ---------- */
