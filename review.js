@@ -215,6 +215,7 @@ function reviewTrack(key, correct) {
   if (correct) st.c++;
 }
 function reviewStepLabel() {
+  if (SESSION && SESSION.practice) return `${SESSION.practice} · `;
   if (!SESSION || SESSION.mode !== "review") return "";
   return `${REVIEW_STEP_TITLES[SESSION.steps[SESSION.stepIdx].key]} · `;
 }
@@ -362,6 +363,169 @@ function checkRuleTask() {
   speakEn(t.kind === "mistake" ? t.m.correct : t.word.en);
 }
 
+/* ---------- отдельные тренировки: только слова, только правила, «вставь слово» ----------
+   Дополнительная практика: расписание повторений не двигает и в дневник не пишет,
+   но ответы по словам учитываются в их прогрессе. Материал — то, что сегодня на повторении,
+   а если всё повторено — последние 5 дней изучения. */
+const PRACTICE_WORDS = 20;
+const PRACTICE_FILL = 12;
+const PRACTICE_TITLES = { words: "Слова", rules: "Правила", fill: "Вставь слово" };
+const FILL_STOP = new Set("a an the is are am was were be been being to of in on at by for with from and or but not no yes i you he she it we they me him her us them my your his its our their this that these those do does did have has had will would can could there here what who how so very just".split(" "));
+
+function practiceGroups() {
+  const due = todaysSessionGroups();
+  return due.length ? due : studyGroups().filter((g) => g.kind === "study").slice(-5);
+}
+function practiceWordItems(groups) {
+  const map = new Map();
+  for (const g of groups) for (const w of g.words) map.set(w.en, w);
+  // мало слов — добираем словами, которые уже встречались, но ещё плохо держатся
+  for (const w of shuffleArray(WORDS_DATA.filter((x) => { const p = getProgress(x.en); return p.total > 0 && p.box < 3; }))) {
+    if (map.size >= PRACTICE_WORDS) break;
+    map.set(w.en, w);
+  }
+  return shuffleArray([...map.values()]).slice(0, PRACTICE_WORDS).map((w) => ({ word: w, dir: pickCardDirection() }));
+}
+function practiceRuleItems(groups) {
+  const r = planForGroups(groups).rules;
+  return r.length ? r : planForGroups(studyGroups()).rules;
+}
+// предложения с переводом: фразы и примеры из конспектов, ключевые фразы разделов, исправленные ошибки
+function fillSentences() {
+  const out = [];
+  const add = (en, ru) => { en = String(en || "").replace(/[{}]/g, "").trim(); if (/[a-z]/i.test(en) && en.split(/\s+/).length >= 3 && en.length <= 140) out.push({ en, ru: String(ru || "") }); };
+  if (typeof allPuzzleNotes === "function") for (const n of allPuzzleNotes()) {
+    for (const p of n.phrases || []) add(p[0], p[1]);
+    for (const r of n.rules || []) for (const e of r.ex || []) add(e[0], e[1]);
+  }
+  for (const u of (typeof KEY_PHRASES !== "undefined" ? KEY_PHRASES : [])) for (const [en, ru] of u.phrases) add(en, ru);
+  for (const ph of (typeof PHRASALS !== "undefined" ? PHRASALS : [])) for (const e of ph.ex) add(e[0], e[1]);
+  for (const m of allMistakes()) if ((m.type === "to-en" || m.type === "dialog") && m.correct) add(m.correct, m.prompt);
+  const seen = new Set();
+  return out.filter((s) => { const k = s.en.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; });
+}
+// словарь для поиска: «keep in touch» → слово; строится один раз
+let FILL_VOCAB = null;
+function fillVocab() {
+  if (FILL_VOCAB && FILL_VOCAB.size0 === WORDS_DATA.length) return FILL_VOCAB;
+  const map = new Map();
+  for (const w of WORDS_DATA) {
+    const key = normalizeAnswer(w.en, true);
+    if (key.length < 3 || FILL_STOP.has(key) || !/^[a-z' ]+$/.test(key) || key.split(" ").length > 3) continue;
+    if (!map.has(key)) map.set(key, w);
+  }
+  FILL_VOCAB = { map, size0: WORDS_DATA.length };
+  return FILL_VOCAB;
+}
+// что пропустить: слово или пара слов из словаря, которые есть в предложении; сначала слова из дней повторения
+function fillPick(sentence, studied) {
+  const { map } = fillVocab();
+  const toks = [...sentence.matchAll(/[A-Za-z']+/g)];
+  let best = null;
+  for (let i = 0; i < toks.length; i++) {
+    for (let n = 1; n <= 3 && i + n <= toks.length; n++) {
+      const at = toks[i].index, end = toks[i + n - 1].index + toks[i + n - 1][0].length;
+      const text = sentence.slice(at, end);
+      if (n > 1 && !/^[A-Za-z' ]+$/.test(text)) break; // слова через запятую — не пара
+      const w = map.get(text.toLowerCase().replace(/\s+/g, " "));
+      if (!w) continue;
+      const score = (studied.has(w.en) ? 100 : 0) + n * 10 + text.length - getProgress(w.en).box * 3; // слабые слова — чаще
+      if (!best || score > best.score) best = { w, score, at, text };
+    }
+  }
+  return best;
+}
+function practiceFillItems(groups) {
+  const studied = new Set(groups.flatMap((g) => g.words.map((w) => w.en)));
+  const items = [];
+  for (const s of fillSentences()) {
+    const p = fillPick(s.en, studied);
+    if (p) items.push({ fill: { ...s, w: p.w, at: p.at, text: p.text, studied: studied.has(p.w.en) } });
+  }
+  // сначала предложения со словами этих дней, остальные — вперемешку; одно слово — один раз
+  const used = new Set();
+  return [...shuffleArray(items.filter((x) => x.fill.studied)), ...shuffleArray(items.filter((x) => !x.fill.studied))]
+    .filter((x) => !used.has(x.fill.w.en) && used.add(x.fill.w.en)).slice(0, PRACTICE_FILL);
+}
+function startPractice(kind) {
+  const groups = practiceGroups();
+  const queue = kind === "words" ? practiceWordItems(groups) : kind === "rules" ? practiceRuleItems(groups) : practiceFillItems(groups);
+  if (!queue.length) { alert("Пока нечего тренировать — сначала пройди урок или добавь слова."); return; }
+  SESSION = {
+    mode: "quiz", practice: PRACTICE_TITLES[kind], queue, idx: 0, correctCount: 0,
+    revealed: false, showAssoc: false, typedChecked: false, typedValue: "", typedCorrect: null,
+  };
+  document.getElementById("session-overlay").style.display = "flex";
+  renderCard();
+}
+
+function renderFillCard() {
+  const f = currentItem().fill;
+  const revealed = SESSION.revealed;
+  const before = f.en.slice(0, f.at), after = f.en.slice(f.at + f.text.length);
+  const gapWords = f.text.split(/\s+/);
+  const gap = revealed
+    ? `<b class="fill-answer${SESSION.typedCorrect ? "" : " bad"}">${escapeHtml(f.text)}</b>`
+    : gapWords.map((w) => `<span class="fill-gap">${SESSION.fillHint ? escapeHtml(w[0]) : ""}${"_".repeat(Math.max(3, w.length - (SESSION.fillHint ? 1 : 0)))}</span>`).join(" ");
+  let feedback = "";
+  if (revealed) {
+    feedback = SESSION.typedCorrect
+      ? `<div class="typed-feedback good">${ico("check")} Верно</div>`
+      : `<div class="typed-feedback bad">${ico("x")} ${SESSION.typedValue ? `Твой ответ: «${escapeHtml(SESSION.typedValue)}»` : "Пропущено"}</div>`;
+    feedback += `<div class="ph-explain"><div class="dlg-correct">${speakButtonHtml(f.en)}<span>${escapeHtml(f.en)}</span></div>
+      <div class="fill-word"><b>${escapeHtml(f.w.en)}</b> — ${escapeHtml(f.w.ru)}</div></div>`;
+  }
+  document.getElementById("flash-area").innerHTML = `
+    <div class="flash-wrap">
+      <div class="flashcard">
+        <div class="dir-badge learn-badge">Вставь ${gapWords.length > 1 ? `${gapWords.length} слова` : "слово"}</div>
+        <div class="ph-sentence">${escapeHtml(before)}${gap}${escapeHtml(after)}</div>
+        ${f.ru ? `<div class="dlg-task-label">${escapeHtml(f.ru)}</div>` : ""}
+        ${!revealed && SESSION.fillHint ? `<div class="fill-word">Подсказка: ${escapeHtml(f.w.ru)}</div>` : ""}
+        ${feedback}
+      </div>
+      ${!revealed ? `
+        <div class="type-answer-row">
+          <input type="text" id="type-answer-input" class="type-answer-input" placeholder="${gapWords.length > 1 ? "Пропущенные слова по порядку…" : "Пропущенное слово…"}" autocomplete="off" autocapitalize="off" spellcheck="false">
+          ${micAnswerButtonHtml("en-US")}
+          <button class="check-btn" onclick="checkTyped()">Проверить</button>
+        </div>
+        ${SESSION.fillHint ? "" : `<button class="think-btn" onclick="SESSION.fillHint = true; renderCard()">${ico("bulb")} Подсказка: первая буква и перевод</button>`}` : `<button class="reveal-btn" onclick="SESSION.fillHint = false; nextCard()">Далее</button>`}
+    </div>`;
+  if (!revealed) { const input = document.getElementById("type-answer-input"); if (input) input.focus({ preventScroll: true }); }
+}
+function checkFill() {
+  const input = document.getElementById("type-answer-input");
+  const value = input ? input.value.trim() : "";
+  const item = currentItem();
+  const f = item.fill;
+  // здесь важна точная форма слова (grew, а не grow), поэтому сравнение строгое — без подстрок
+  const norm = (s) => String(s).toLowerCase().replace(/[’‘`]/g, "'").replace(/[.,;:!?"«»]/g, "").replace(/\s+/g, " ").trim();
+  const ok = !!value && norm(value) === norm(f.text);
+  SESSION.typedValue = value; SESSION.typedChecked = true; SESSION.typedCorrect = ok; SESSION.revealed = true;
+  registerReview(f.w.en, ok && !SESSION.fillHint);
+  if (ok) SESSION.correctCount++;
+  else if (SESSION.queue.filter((x) => x === item).length < 2) SESSION.queue.splice(Math.min(SESSION.queue.length, SESSION.idx + 3), 0, item);
+  renderCard();
+  speakEn(f.en);
+}
+
+function renderPracticeBlock() {
+  const groups = practiceGroups();
+  const nW = practiceWordItems(groups).length;
+  const nR = new Set(practiceRuleItems(groups).map((r) => r.ruleTask.rule)).size;
+  const nF = practiceFillItems(groups).length;
+  const card = (kind, icon, title, sub, n) => `<button class="practice-card" onclick="startPractice('${kind}')"${n ? "" : " disabled"}>
+      <span class="practice-ico">${ico(icon)}</span><b>${title}</b><small>${n ? sub : "пока нечего"}</small></button>`;
+  return `<h2 class="section-title">Или потренируй отдельно</h2>
+    <div class="practice-grid">
+      ${card("words", "language", "Повторить слова", `${nW} ${plural(nW, "слово", "слова", "слов")}`, nW)}
+      ${card("rules", "ruler-2", "Повторить правила", `${nR} ${plural(nR, "правило", "правила", "правил")}`, nR)}
+      ${card("fill", "pencil", "Вставь слово", `${nF} ${plural(nF, "предложение", "предложения", "предложений")}`, nF)}
+    </div>
+    <p class="block-note">Дополнительная практика: расписание повторений не сдвигает. Материал — то, что сегодня на повторении, или последние дни изучения.</p>`;
+}
+
 /* ---------- главная: только повторение ---------- */
 function renderReviewHome() {
   const el = document.getElementById("review-home");
@@ -383,6 +547,7 @@ function renderReviewHome() {
       preview.rules.length ? `${new Set(preview.rules.map((r) => r.ruleTask.rule)).size} ${plural(new Set(preview.rules.map((r) => r.ruleTask.rule)).size, "правило", "правила", "правил")}` : "",
     ].filter(Boolean).join(" · ");
     html += `<button class="cta review-cta" onclick="startReview()"><span>Начать повторение<small>${escapeHtml(parts)}</small></span>${ico("arrow-right")}</button>`;
+    html += renderPracticeBlock();
     html += `<h2 class="section-title">Сегодня повторяем</h2><div class="review-list">`;
     for (const g of sessionGroups) {
       const st = groupState(g);
@@ -404,6 +569,7 @@ function renderReviewHome() {
       <h2>На сегодня всё повторено</h2>
       ${upcoming.length ? `<p>Следующее повторение — ${relDay(upcoming[0].next)}: ${escapeHtml(upcoming[0].g.label)}.</p>` : ""}
     </div>`;
+    html += renderPracticeBlock();
   }
   if (doneToday.length) {
     html += `<div class="review-today">${doneToday.map((d) => `<span class="grade-chip g${d.grade}">${d.grade}</span>`).join("")}<span>${plural(doneToday.length, "повторение", "повторения", "повторений")} сегодня · <a href="#" onclick="showView('diary'); return false;">дневник</a></span></div>`;

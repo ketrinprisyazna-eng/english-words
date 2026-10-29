@@ -416,6 +416,7 @@ function renderCard() {
   if (curItem.ph) { renderPhrasalCard(); return; }
   if (curItem.kp) { renderKeyPhraseCard(); return; }
   if (curItem.ruleTask) { renderRuleTaskCard(); return; }
+  if (curItem.fill) { renderFillCard(); return; }
 
   const w = currentWord();
   const dir = currentDir();
@@ -477,6 +478,7 @@ function checkTyped() {
   if (curItem && curItem.ph) { checkPhrasalGap(); return; }
   if (curItem && curItem.kp) { checkKeyPhrase(); return; }
   if (curItem && curItem.ruleTask) { checkRuleTask(); return; }
+  if (curItem && curItem.fill) { checkFill(); return; }
   const input = document.getElementById("type-answer-input");
   const value = input ? input.value.trim() : "";
   const item = currentItem();
