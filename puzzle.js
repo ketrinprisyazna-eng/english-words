@@ -735,7 +735,7 @@ sme100211|Кредитные карты
 sme100218|Загрязнение пластиком`,
 
   // книга, которую ты читаешь сейчас
-  book: { slug: "frances_hodgson_burnett_a_little_princess", title: "Маленькая принцесса", author: "Фрэнсис Бёрнетт" },
+  book: { slug: "l_frank_baum_the_wizard_of_oz", title: "Удивительный волшебник из страны Оз", author: "Лаймен Фрэнк Баум" },
 
   // пройдено в Puzzle до 26.10.2026 (из «Истории»)
   doneBefore: `/video/the-weather-for-kids /video/easy-eng-4 /video/whats-your-favourite-gadget /exercise/replace-good /exercise/replace-bad /exercise/demonstrative_pronouns-2 /exercise/demonstrative_pronouns /exercise/relative_pronouns /exercise/indefinite_pronouns /exercise/place_prepositions /exercise/reciprocal_pronouns /exercise/reflexive-pronouns /exercise/reflexive_pronouns /exercise/possessive_pronouns /exercise/no-not /exercise/possessive-pronouns /exercise/one-pronoun /exercise/many-much-lot /exercise/much-many-few-little /exercise/each-or-every /exercise/interrogative_pronouns /exercise/so-such /exercise/too-enough /exercise/i_me /exercise/conjunctions_usage_secrets /exercise/conjunctions_coordinating /exercise/conjunctions_subordinating /exercise/conjunctions_correlative /exercise/because-because-of /exercise/seem /exercise/prepositions_other_meanings /exercise/prep_of_time /exercise/prepositions_time /exercise/no-prepositions /exercise/prepositions_place /exercise/at-on-in /exercise/prepositions-place-direction /exercise/in-into-inside-within /exercise/among_between /exercise/particles /exercise/adj-adv-position /exercise/good_well /exercise/also-too-as-well /exercise/listen_hear /exercise/like /exercise/typical_mistakes /exercise/for-on-sale /exercise/borrow_lend /exercise/airport-english-2 /exercise/airport-english-1 /exercise/hobbies /exercise/meet_people /exercise/top-10-travel /exercise/near-next-to /exercise/from_a_to_b /exercise/order-adjectives /exercise/imperative-mood /exercise/adverbs-of-frequency /exercise/just-meanings /exercise/gold-golden /exercise/determiners /exercise/come-go /exercise/comparison-as-as /exercise/good-bad-at /exercise/been-gone /exercise/be-do /exercise/tags /exercise/little-bit /exercise/comparison /exercise/few_little /exercise/fun-funny /exercise/let /exercise/there-it /exercise/money_matters /exercise/look-see-watch /exercise/for_during_since /exercise/pronunciation-mc12 /exercise/so-neither-construction /exercise/do-play-go /exercise/indirect-questions /exercise/subject-questions /video/startingout_campsite /video/see-right-4 /video/at-the-hospital /video/would-like /dialogs/see-that-girl-over-there /dialogs/meeting-at-the-airport /dialogs/a-new-movie /dialogs/do-you-have-a-car /dialogs/asking-for-the-time`,
@@ -780,9 +780,9 @@ const PZ_CATALOG = pzLines(PZ_DATA.catalog)
 const PZ_ALL = [...PZ_GRAMMAR, ...PZ_CATALOG, ...PZ_VIDEOS, ...PZ_DIALOGS, ...PZ_PODCASTS];
 function pzItem(path) {
   const p = String(path).split("#")[0];
-  return PZ_ALL.find((x) => x.path === p) || (p === PZ_BOOK_ITEM.path ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null);
+  return PZ_ALL.find((x) => x.path === p) || (/^\/books\//.test(p) ? PZ_BOOK_ITEM : p === PZ_WORDS_ITEM.path ? PZ_WORDS_ITEM : null);
 }
-function pzHref(path) { const p = String(path).split("#")[0]; return PZ_URL + p + (/^\/books\//.test(p) ? "/work" : ""); }
+function pzHref(path) { const p = String(path).split("#")[0]; return PZ_URL + (/^\/books\//.test(p) ? PZ_BOOK_ITEM.path : p); }
 // адрес из «Истории» Puzzle → путь как в каталоге
 function pzNormPath(p) {
   p = String(p || "").replace(/^https?:\/\/puzzle-english\.com/, "").replace(/\/work$/, "").replace(/\/$/, "");
@@ -984,9 +984,53 @@ function pzCurrentLesson() { const l = PUZZLE.lessons[PUZZLE.lessons.length - 1]
 function pzLessonById(id) { return PUZZLE.lessons.find((l) => l.id === id) || null; }
 function pzLessonTitle(l) { const g = l.items.map(pzItem).find((x) => x && (x.type === "grammar" || x.type === "lesson")); return `Урок ${l.n}${g ? " · " + g.title : ""}`; }
 function puzzleNote(id) { return PUZZLE.notes[id] || PUZZLE_NOTES.find((x) => x.id === String(id)) || null; }
+// блокнот блока: lesson.blockNotes[i] = { q: вопросы, w: слова, n: заметки } — текст, по строке на пункт
+function pzLines2(s) { return String(s || "").split("\n").map((x) => x.trim()).filter(Boolean); }
+function pzWordPair(line) {
+  const m = line.match(/^(.+?)\s*(?:\s[—–-]\s|=|\t)\s*(.+)$/);
+  return m ? [m[1].trim(), m[2].trim()] : [line, ""];
+}
+function pzMine(l) {
+  if (!l) return [];
+  const bn = (l && l.blockNotes) || {};
+  return pzLessonBlocks(l).map((b, i) => {
+    const x = bn[i] || {};
+    return { t: b.t || `Блок ${i + 1}`, q: pzLines2(x.q), w: pzLines2(x.w).map(pzWordPair), n: String(x.n || "").trim() };
+  }).filter((x) => x.q.length || x.w.length || x.n);
+}
+function pzMineWords(id) { return pzMine(pzLessonById(id)).flatMap((b) => b.w); }
+// страница Нотатника: конспект, а если его ещё нет — хотя бы мои записи по уроку
+function puzzleNotePage(id) {
+  const note = puzzleNote(id);
+  if (note) return note;
+  const l = pzLessonById(id);
+  return l && pzMine(l).length ? { id: l.id, title: pzLessonTitle(l), date: l.finished || l.at, kicker: "Puzzle English · мои записи", by: "ты", items: l.items } : null;
+}
 function allPuzzleNotes() {
-  const ids = new Set([...PUZZLE_NOTES.map((x) => x.id), ...Object.keys(PUZZLE.notes)]);
-  return [...ids].map((id) => ({ ...puzzleNote(id), id })).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const ids = new Set([...PUZZLE_NOTES.map((x) => x.id), ...Object.keys(PUZZLE.notes), ...PUZZLE.lessons.filter((l) => pzMine(l).length).map((l) => l.id)]);
+  return [...ids].map((id) => ({ ...puzzleNotePage(id), id })).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+let pzNoteTimer = null;
+function puzzleBlockNote(lessonId, i, field, value) {
+  const l = pzLessonById(lessonId);
+  if (!l) return;
+  l.blockNotes = l.blockNotes || {};
+  l.blockNotes[i] = { ...(l.blockNotes[i] || {}), [field]: value };
+  clearTimeout(pzNoteTimer);
+  pzNoteTimer = setTimeout(() => { savePuzzle(); mergePuzzleNotes(); }, 600);
+}
+function pzBlockNotesHtml(l, i) {
+  const x = (l.blockNotes || {})[i] || {};
+  const q = pzLines2(x.q).length, w = pzLines2(x.w).length;
+  const cnt = [q ? `${q} ${plural(q, "вопрос", "вопроса", "вопросов")}` : "", w ? `${w} ${plural(w, "слово", "слова", "слов")}` : "", x.n && x.n.trim() ? "заметки" : ""].filter(Boolean).join(" · ");
+  const field = (f, label, ph) => `<label class="pz-nb-field"><span>${label}</span>
+    <textarea rows="2" placeholder="${ph}" oninput="puzzleBlockNote('${l.id}', ${i}, '${f}', this.value)">${escapeHtml(x[f] || "")}</textarea></label>`;
+  return `<details class="pz-nb"${cnt ? " open" : ""}>
+    <summary>${ico("pencil")} Блокнот блока${cnt ? ` <small>${cnt}</small>` : ""}</summary>
+    ${field("q", "Что не поняла", "Вопрос из задания или что осталось непонятным — по одному на строке")}
+    ${field("w", "Новые слова", "word — перевод, по одному на строке")}
+    ${field("n", "Заметки", "Правило своими словами, интересная фраза…")}
+  </details>`;
 }
 
 /* ---------- «Создай урок»: ~25 минут под твой уровень ---------- */
@@ -1077,8 +1121,8 @@ function puzzleNoteWordEn(s) { return String(s).split(" — ")[0].trim(); }
 function puzzleLogEntry(note) {
   return {
     id: "pe-" + note.id, date: note.date, source: "puzzle",
-    lessons: [{ skill: `Puzzle · ${note.title}`, lessonNum: "конспект" }],
-    newWords: (note.words || []).map((w) => puzzleNoteWordEn(w[0])),
+    lessons: [{ skill: `Puzzle · ${note.title}`, lessonNum: note.by === "ты" ? "мои записи" : "конспект" }],
+    newWords: [...new Set([...(note.words || []), ...pzMineWords(note.id)].filter((w) => w[1]).map((w) => puzzleNoteWordEn(w[0])))],
     rules: (note.rules || []).map((r) => ({ title: r.title, explanation: r.text + (r.ex && r.ex.length ? "\n" + r.ex.map((e) => `${e[0]} — ${e[1]}`).join("\n") : "") })),
   };
 }
@@ -1086,10 +1130,10 @@ function mergePuzzleNotes() {
   const have = new Set(WORDS_DATA.map((w) => importKey(w.en)));
   let maxId = WORDS_DATA.reduce((m, w) => Math.max(m, w.id), 0);
   for (const note of allPuzzleNotes()) {
-    for (const [en, ru] of note.words || []) {
+    for (const [en, ru] of [...(note.words || []), ...pzMineWords(note.id)]) {
       const e = puzzleNoteWordEn(en);
       const k = importKey(e);
-      if (!k || have.has(k)) continue;
+      if (!k || !ru || have.has(k)) continue;
       have.add(k);
       WORDS_DATA.unshift({ en: e, ru, src: "puzzle", id: ++maxId });
     }
@@ -1101,7 +1145,7 @@ function mergePuzzleNotes() {
   if (typeof resetDataCaches === "function") resetDataCaches();
 }
 mergePuzzleNotes();
-function puzzleNoteWords(id) { return (puzzleNote(id).words || []).map((w) => puzzleNoteWordEn(w[0])); }
+function puzzleNoteWords(id) { return [...new Set([...(puzzleNotePage(id).words || []), ...pzMineWords(id)].filter((w) => w[1]).map((w) => puzzleNoteWordEn(w[0])))]; }
 function puzzleLearnNote(id) { startLearnForWords(puzzleNoteWords(id)); }
 function puzzleCheckNote(id) { startSessionForWords(puzzleNoteWords(id)); }
 
@@ -1113,6 +1157,9 @@ async function aiPuzzleLessonNote(lesson, mats) {
     const lines = (m.c || []).map((p) => `${p[0]}${p[1] ? " — " + p[1] : ""}`).join("\n");
     return `### ${label}: ${m.t || it.title}\n${m.x ? m.x + "\n" : ""}${lines}`;
   }).join("\n\n").slice(0, 30000);
+  const mine = pzMine(lesson);
+  const qs = mine.flatMap((b) => b.q);
+  const notesText = mine.map((b) => [b.n, ...b.w.map((w) => w.join(" — "))].filter(Boolean).join("\n")).filter(Boolean).join("\n");
   const prompt = `Ты — мудрый и добрый учитель английского для русскоговорящей ученицы уровня ${PZ_LEVEL}.
 Она прошла урок в Puzzle English. Ниже — материалы урока: описание урока грамматики, субтитры видео, реплики диалога, текст подкаста (английский — русский).
 Составь конспект урока для её тетради. Бери только то, что есть в материалах, ничего не выдумывай:
@@ -1120,10 +1167,11 @@ async function aiPuzzleLessonNote(lesson, mats) {
 - rules: 2–6 правил (прежде всего из урока грамматики) — title (коротко, как правило-запоминалка), text (1–3 простых предложения по-русски: как и ПОЧЕМУ так), ex — 1–2 примера из материалов [английский, русский];
 - words: 12–25 слов и выражений уровня A2–B1, которые стоит выучить [английский, русский]; у неправильных глаголов — три формы через « — »;
 - phrases: 5–8 полезных готовых фраз из видео, диалога или подкаста [английский, русский];
-- remember: одна строка — самое главное из урока.
-Материалы:
+- remember: одна строка — самое главное из урока;
+- answers: ответ на каждый её вопрос ниже — q (вопрос как есть), a (2–4 простых предложения по-русски, с примером; по-доброму). Если вопросов нет — [].
+${qs.length ? `Её вопросы — что она не поняла:\n${qs.map((q) => "- " + q).join("\n")}\n` : ""}${notesText ? `Её записи в блокноте (учти, но не повторяй дословно):\n${notesText}\n` : ""}Материалы:
 ${body}
-Ответь СТРОГО JSON без markdown: {"summary":"","rules":[{"title":"","text":"","ex":[["",""]]}],"words":[["",""]],"phrases":[["",""]],"remember":""}`;
+Ответь СТРОГО JSON без markdown: {"summary":"","rules":[{"title":"","text":"","ex":[["",""]]}],"words":[["",""]],"phrases":[["",""]],"remember":"","answers":[{"q":"","a":""}]}`;
   const r = parseJsonLoose(await callGeminiRaw(prompt, true));
   const pairs = (a) => (Array.isArray(a) ? a : []).filter((x) => Array.isArray(x) && x[0]).map((x) => [String(x[0]), String(x[1] || "")]);
   return {
@@ -1133,6 +1181,7 @@ ${body}
     phrases: pairs(r.phrases),
     mistakes: [],
     remember: String(r.remember || ""),
+    answers: (Array.isArray(r.answers) ? r.answers : []).filter((x) => x && x.q && x.a).map((x) => ({ q: String(x.q), a: String(x.a) })),
   };
 }
 // вызывается из import.js, когда закладку нажали на puzzle-english.com
@@ -1211,7 +1260,8 @@ function renderPuzzleLessons() {
         const bd = b.items.filter(pzIsDone).length;
         return `${i ? `<div class="pz-break">${ico("bolt")} Перерыв ${PZ_BREAK_MIN} минут: встань, выпей воды, не листай ленту</div>` : ""}
         ${b.t ? `<div class="pz-block-head"><span>Блок ${i + 1}. ${b.t}</span><small>${bd}/${b.items.length} · ≈${bm} мин</small></div>` : ""}
-        <div class="pz-items">${b.items.map((p) => pzItemRow(p, cur)).join("")}</div>`;
+        <div class="pz-items">${b.items.map((p) => pzItemRow(p, cur)).join("")}</div>
+        ${pzBlockNotesHtml(cur, i)}`;
       }).join("")}
       <p class="block-note pz-howto">${ico("bookmark")} Прошла всё? Открой любую страницу puzzle-english.com и нажми закладку «Мой английский» — она отметит пройденное и сделает конспект в Нотатник.</p>
       <div class="cta-alt"><button class="link-btn" onclick="puzzleFinishLesson()">${ico("check")} ${left ? "Закончить урок" : "Урок пройден"}</button></div>
@@ -1233,10 +1283,10 @@ function renderPuzzleLessons() {
 
   const past = PUZZLE.lessons.filter((l) => l.finished).reverse();
   if (past.length) html += `<h2 class="section-title">Мои уроки</h2><div class="nb-index">${past.map((l) => {
-    const note = puzzleNote(l.id);
+    const note = puzzleNotePage(l.id);
     return `<button class="nb-entry" onclick="${note ? `openPuzzleNote('${l.id}')` : ""}"${note ? "" : " disabled"}>
       <span class="nb-entry-num">${l.n}</span>
-      <span class="nb-entry-text"><b>${escapeHtml(pzLessonTitle(l).replace(/^Урок \d+ · /, ""))}</b><small>${formatDateRu(l.finished)} · ${note ? "конспект готов" : "без конспекта"}</small></span>
+      <span class="nb-entry-text"><b>${escapeHtml(pzLessonTitle(l).replace(/^Урок \d+ · /, ""))}</b><small>${formatDateRu(l.finished)} · ${puzzleNote(l.id) ? "конспект готов" : note ? "мои записи" : "без конспекта"}</small></span>
       ${note ? ico("chevron-right") : ""}
     </button>`;
   }).join("")}</div>`;
@@ -1247,12 +1297,14 @@ function renderNotebookList() {
   if (!notes.length) return `<div class="empty-state">Нотатник пока пуст. Пройди урок — и здесь появится его конспект.</div>`;
   return `<div class="nb-index">${notes.map((x) => `<button class="nb-entry" onclick="openPuzzleNote('${x.id}')">
       <span class="nb-entry-num">${ico("book-2")}</span>
-      <span class="nb-entry-text"><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.kicker || "Puzzle English")} · ${(x.rules || []).length} ${plural((x.rules || []).length, "правило", "правила", "правил")} · ${(x.words || []).length} ${plural((x.words || []).length, "слово", "слова", "слов")}</small></span>
+      <span class="nb-entry-text"><b>${escapeHtml(x.title)}</b><small>${escapeHtml(x.kicker || "Puzzle English")} · ${(x.rules || []).length} ${plural((x.rules || []).length, "правило", "правила", "правил")} · ${(x.words || []).length + pzMineWords(x.id).length} ${plural((x.words || []).length + pzMineWords(x.id).length, "слово", "слова", "слов")}</small></span>
       ${ico("chevron-right")}
     </button>`).join("")}</div>`;
 }
 function renderNotePage(id) {
-  const x = puzzleNote(id);
+  const x = puzzleNotePage(id);
+  const mine = pzMine(pzLessonById(id));
+  const answer = (q) => (x.answers || []).find((a) => a.q.trim().toLowerCase() === q.trim().toLowerCase());
   const pair = (p) => `<div class="nb-pair"><span class="nb-en">${escapeHtml(p[0])}</span><span class="nb-ru">${escapeHtml(p[1])}</span></div>`;
   const ex = (e) => `<div class="nb-ex"><span class="nb-en">${escapeHtml(e[0])}</span><span class="nb-ru">${escapeHtml(e[1])}</span></div>`;
   const [num, ...rest] = String(x.title).split(" · ");
@@ -1281,8 +1333,15 @@ function renderNotePage(id) {
         <div class="nb-correct">${escapeHtml(m.correct)}</div>
         ${m.why ? `<p class="nb-why">${escapeHtml(m.why)}</p>` : ""}
       </section>`).join("")}` : ""}
+    ${mine.length ? `<h3 class="nb-h">Мои записи</h3>${mine.map((b) => `<section class="nb-mine">
+        <div class="nb-mine-t">${escapeHtml(b.t)}</div>
+        ${b.q.map((q) => { const a = answer(q); return `<div class="nb-q"><span class="nb-q-q">${ico("help-circle")} ${escapeHtml(q)}</span>${a ? `<p class="nb-q-a">${escapeHtml(a.a)}</p>` : `<p class="nb-q-a muted">Ответ появится в конспекте — или спроси Claude.</p>`}</div>`; }).join("")}
+        ${b.w.length ? `<div class="nb-words">${b.w.map((w) => pair([w[0], w[1] || "перевод?"])).join("")}</div>` : ""}
+        ${b.n ? `<p class="nb-mine-n">${escapeHtml(b.n).replace(/\n/g, "<br>")}</p>` : ""}
+      </section>`).join("")}
+      ${(x.words || []).length ? "" : `<div class="settings-row"><button class="small-btn learn-btn" onclick="puzzleLearnNote('${id}')">${ico("book-2")} Изучить мои слова</button></div>`}` : ""}
     ${x.remember ? `<aside class="nb-remember"><b>Запомни</b>${escapeHtml(x.remember)}</aside>` : ""}
-    <footer class="nb-foot">Конспект: ${escapeHtml(x.by || "Claude")}${(x.items || []).length ? " · " + x.items.map((p) => pzItem(p)).filter(Boolean).map((it) => `<a href="${pzHref(it.path)}" target="_blank" rel="noopener">${PZ_TYPE[it.type].label.toLowerCase()}</a>`).join(", ") : ""}</footer>
+    <footer class="nb-foot">${x.by === "ты" ? "Записи: ты" : "Конспект: " + escapeHtml(x.by || "Claude")}${(x.items || []).length ? " · " + x.items.map((p) => pzItem(p)).filter(Boolean).map((it) => `<a href="${pzHref(it.path)}" target="_blank" rel="noopener">${PZ_TYPE[it.type].label.toLowerCase()}</a>`).join(", ") : ""}</footer>
   </article>`;
 }
 function renderPuzzle() {
@@ -1291,7 +1350,7 @@ function renderPuzzle() {
   document.querySelectorAll("#puzzle-tabs .filter-chip").forEach((b) => b.classList.toggle("active", b.dataset.tab === puzzleTab));
   const nc = document.getElementById("puzzle-notes-count");
   if (nc) nc.textContent = `(${allPuzzleNotes().length})`;
-  if (puzzleTab === "notes") el.innerHTML = puzzleOpenNote && puzzleNote(puzzleOpenNote) ? renderNotePage(puzzleOpenNote) : renderNotebookList();
+  if (puzzleTab === "notes") el.innerHTML = puzzleOpenNote && puzzleNotePage(puzzleOpenNote) ? renderNotePage(puzzleOpenNote) : renderNotebookList();
   else el.innerHTML = renderPuzzleLessons();
 }
 document.addEventListener("DOMContentLoaded", () => {
